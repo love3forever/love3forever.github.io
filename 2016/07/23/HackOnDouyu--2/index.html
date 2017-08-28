@@ -29,13 +29,13 @@
 
 
 
-<link rel="canonical" href="http://yoursite.com/2016/07/23/HackOnDouyu--2/"/>
+<link rel="canonical" href="http://eclipsesv.com/2016/07/23/HackOnDouyu--2/"/>
 
 
 <meta name="description" content="在上一篇文章中，主要讲了我获取斗鱼弹幕和某些静态页面的方法，在数据获取到之后，如何有效的组织和存储数据直接关系到后续数据能否可以背有效使用。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hack On Douyu -- 2">
-<meta property="og:url" content="http://yoursite.com/2016/07/23/HackOnDouyu--2/index.html">
+<meta property="og:url" content="http://eclipsesv.com/2016/07/23/HackOnDouyu--2/index.html">
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="在上一篇文章中，主要讲了我获取斗鱼弹幕和某些静态页面的方法，在数据获取到之后，如何有效的组织和存储数据直接关系到后续数据能否可以背有效使用。">
 <meta property="og:locale" content="zh-cn">
@@ -227,9 +227,9 @@
 <h1 id="数据存储结构"><a href="#数据存储结构" class="headerlink" title="数据存储结构"></a>数据存储结构</h1><p>通过爬虫或是直接通过tcp通讯获取到的斗鱼静态页面数据和弹幕聊天内容数据组织形式如下图所示：<br><img src="https://o3sw4xojp.qnssl.com/myBlogDouyu_mongo.png" alt="mongodb数据组织结构"><br>我使用mongodb来存储和管理数据，把上述的数据存储在名为Douyu的数据库中，将数据分别存于Roominfo、chatmsg、rocket、rocketbyDay四个表中。</p>
 <h2 id="静态页面数据存储"><a href="#静态页面数据存储" class="headerlink" title="静态页面数据存储"></a>静态页面数据存储</h2><p>其中Roominfo库主要记录通过爬虫获取到的当前开播房间信息，字段主要包括用以纪录数据获取时间的date、开播房间人气audience、房间标题roomtitle、主播名anchor、房间标签tag、当前房间封面图片img、房间标识符roomid。<br>在实际使用中，可以隔时执行静态页面数据获取脚本从而获取这些数据，通过对audience进行排序可以轻易获取到人气最高的房间，并且能够将这些房间信息以json的格式传输到需要的地方。而audience和tag的组合也可以获取不同类型直播房间人气对比结果。<br>我在项目中通过服务器上的crontab每隔10分钟执行一次静态页面数据获取任务.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0,10,20,30,40,55 * * *  * python  /path/to/allRooms.py</div></pre></td></tr></table></figure>
-<p>反应给前端的结果可以通过<a href="http://eclipsesv.com:4321/chatmsg" target="_blank" rel="external">这个页面</a>看到。</p>
+<p>反应给前端的结果可以通过<a href="http://eclipsesv.com:4321/chatmsg">这个页面</a>看到。</p>
 <h2 id="弹幕聊天内容"><a href="#弹幕聊天内容" class="headerlink" title="弹幕聊天内容"></a>弹幕聊天内容</h2><p>上一篇说过，最初打算是想要对弹幕聊天内容进行自然语言分析的，但是由于一直没来得及搞，也就搁浅了，对与弹幕聊天内容，只是简要的纪录了包括发送者sender_id、发送时间date和弹幕内容content，由于每次获取的弹幕数据都是获取当时人气最高的房间弹幕，所以弹幕内容大都是什么“白银三杰”、“最强王者”之类的。。。</p>
-<h2 id="火箭纪录"><a href="#火箭纪录" class="headerlink" title="火箭纪录"></a>火箭纪录</h2><p>自然语言分析没搞成，所以现在的重点工作是纪录观众赠送火箭，通过这些数据做出一些图表。<br>对火箭信息纪录使用了两个表：rocket和rocketbyDay。<br>rocket主要是获取实时火箭信息，通过与斗鱼弹幕服务器建立连接，根据弹幕消息类型将赠送火箭的信息获取到，主要包括：赠送者sender_id、接受者recver_id、赠送时间date和礼物类型gift。<br>rocketbyDay则是通过每天0:05分统计前一天火箭随着时间的分布情况，以天为单位的date、每天火箭总数count和当天火箭具体数据data。<br>纪录这些内容主要是可以统计出每日逐时礼物赠送情况、每天赠送礼物的土豪排名、受到火箭主播排名等。大致结果可以点击<a href="http://eclipsesv.com:4321/" target="_blank" rel="external">当天火箭信息</a>和<a href="http://eclipsesv.com:4321/history" target="_blank" rel="external">火箭历史数据</a>查看具体内容。</p>
+<h2 id="火箭纪录"><a href="#火箭纪录" class="headerlink" title="火箭纪录"></a>火箭纪录</h2><p>自然语言分析没搞成，所以现在的重点工作是纪录观众赠送火箭，通过这些数据做出一些图表。<br>对火箭信息纪录使用了两个表：rocket和rocketbyDay。<br>rocket主要是获取实时火箭信息，通过与斗鱼弹幕服务器建立连接，根据弹幕消息类型将赠送火箭的信息获取到，主要包括：赠送者sender_id、接受者recver_id、赠送时间date和礼物类型gift。<br>rocketbyDay则是通过每天0:05分统计前一天火箭随着时间的分布情况，以天为单位的date、每天火箭总数count和当天火箭具体数据data。<br>纪录这些内容主要是可以统计出每日逐时礼物赠送情况、每天赠送礼物的土豪排名、受到火箭主播排名等。大致结果可以点击<a href="http://eclipsesv.com:4321/">当天火箭信息</a>和<a href="http://eclipsesv.com:4321/history">火箭历史数据</a>查看具体内容。</p>
 <h1 id="消息实时转发"><a href="#消息实时转发" class="headerlink" title="消息实时转发"></a>消息实时转发</h1><p>上述数据可以看作直播数据中的长时间数据，而其中的一些需要“保鲜”的数据例如在有土豪赠送给主播火箭之后，观众可以在两分钟内到该房间抢鱼丸礼物，对于这种需要“保鲜”的数据，我通过redis的pub／sub来接收和转发，并通过socke.io实时发送给当前打开页面的观众。大致过程如下图所示：<br><img src="https://o3sw4xojp.qnssl.com/myBlogRedis.png" alt=""></p>
 <h1 id="遇到的问题和下一步计划"><a href="#遇到的问题和下一步计划" class="headerlink" title="遇到的问题和下一步计划"></a>遇到的问题和下一步计划</h1><p>在实际项目运行中，有好几次出现mongodb莫名其妙挂掉的现象，由于项目运行在腾讯1核心1gb内存的云主机上（学生优惠一个月只要一块钱，23333333），这让我很快想到是不是在写入数据的时候，mongodb占用内存过高导致挂掉（之前在学校做项目的时候曾经见到过mongodb在大量写入数据的时候数据库挂掉的现象）。<br>于是，打开终端，连接到云主机上， 进入到mongodb目录：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./mongo</div><div class="line">use Douyu</div><div class="line">db.setProfilingLevel(1)</div></pre></td></tr></table></figure>
@@ -406,7 +406,7 @@ s.setAttribute('data-timestamp', +new Date());
   
   <script type="text/javascript">
     var disqus_config = function () {
-        this.page.url = 'http://yoursite.com/2016/07/23/HackOnDouyu--2/';
+        this.page.url = 'http://eclipsesv.com/2016/07/23/HackOnDouyu--2/';
         this.page.identifier = '2016/07/23/HackOnDouyu--2/';
         this.page.title = 'Hack On Douyu -- 2';
     };
