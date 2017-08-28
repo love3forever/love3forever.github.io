@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="Hyper Interface(1)"/>
+
+
+
+
+  <meta name="keywords" content="HTTP2," />
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/03/16/Hyper Interface1/"/>
+
+
+<meta name="description" content="在接下来的一段时间，我会在学习Hyper的过程中，翻译官方接口文档，目标是在仔细阅读文档的同时提高Python技艺，同时会做一些实验测试HTTP2在性能上的提升到底有多少。由于是第一次进行这样的翻译，有很多错误或者纰漏，我会在以后不断的更新。">
+<meta name="keywords" content="HTTP2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hyper Interface(1)">
+<meta property="og:url" content="http://yoursite.com/2016/03/16/Hyper Interface1/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="在接下来的一段时间，我会在学习Hyper的过程中，翻译官方接口文档，目标是在仔细阅读文档的同时提高Python技艺，同时会做一些实验测试HTTP2在性能上的提升到底有多少。由于是第一次进行这样的翻译，有很多错误或者纰漏，我会在以后不断的更新。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hyper Interface(1)">
+<meta name="twitter:description" content="在接下来的一段时间，我会在学习Hyper的过程中，翻译官方接口文档，目标是在仔细阅读文档的同时提高Python技艺，同时会做一些实验测试HTTP2在性能上的提升到底有多少。由于是第一次进行这样的翻译，有很多错误或者纰漏，我会在以后不断的更新。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Hyper Interface(1) · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Hyper Interface(1)
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年3月16日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP基础类"><span class="toc-text">HTTP基础类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPConnection"><span class="toc-text">HTTPConnection</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP-2"><span class="toc-text">HTTP/2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP20Connection"><span class="toc-text">HTTP20Connection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP20Response"><span class="toc-text">HTTP20Response</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP20Push"><span class="toc-text">HTTP20Push</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#To-be-continued"><span class="toc-text">To be continued</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新记录"><span class="toc-text">更新记录</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>在接下来的一段时间，我会在学习Hyper的过程中，翻译官方接口文档，目标是在仔细阅读文档的同时提高Python技艺，同时会做一些实验测试HTTP2在性能上的提升到底有多少。由于是第一次进行这样的翻译，有很多错误或者纰漏，我会在以后不断的更新。<br><a id="more"></a></p>
+<h1 id="HTTP基础类"><a href="#HTTP基础类" class="headerlink" title="HTTP基础类"></a>HTTP基础类</h1><h2 id="HTTPConnection"><a href="#HTTPConnection" class="headerlink" title="HTTPConnection"></a>HTTPConnection</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">class hyper.HTTPConnection(host,port=None,secure=Node,window_manager=Node,</div><div class="line">	enable_push=False,ssl_content=None,proxy_port=Node,**kwargs)</div></pre></td></tr></table></figure>
+<p>HTTPConnection作为一个连接到服务器的对象类似于Python标准库中HTTPConnection的作用，只不过有一些关键的不同之处。<br>Hyper并不支持大多数的标准库中HTTPConnection类构造函数的参数。大多数hyper.Connection类中的可选参数同时支持HTTP/1.1和HTTP/2。</p>
+<blockquote>
+<p>参数</p>
+<ul>
+<li>host-即所要连接的服务器，可以使一个IP地址或者是一个域名，并且可以包含一个端口号，比如说：’eclipsesv.com’,’eclipsesv.com:443’或者’121.42.219.216:44444’。</li>
+<li>port(可选参数)-即所要连接的端口号，如果在host中已经说明，port参数可以缺省，这里有个疑问，。Hyper官网上说的是如果host中不指名要访问的port，并且port参数也不设置的话，缺省是访问443端口，但是我自己在测试的过程中发现好像并不是这样的。<br>默认状态下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from hyper import HTTPConnection</div><div class="line">con = HTTPConnection(&apos;eclipsesv.com&apos;)</div><div class="line">Streamid = con.request(&apos;GET&apos;,&apos;/&apos;)</div><div class="line">print Streamid</div><div class="line">resp = con.get_response()</div><div class="line">print resp</div><div class="line">&apos;&apos;&apos;输出结果&apos;&apos;&apos;</div><div class="line">None</div><div class="line">&lt;hyper.http11.response.HTTP11Response object at 0x0000000002C722B0&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<p>指明使用443端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from hyper import HTTPConnection</div><div class="line">con = HTTPConnection(&apos;eclipsesv.com&apos;,443)</div><div class="line">Streamid = con.request(&apos;GET&apos;,&apos;/&apos;)</div><div class="line">print Streamid</div><div class="line">resp = con.get_response()</div><div class="line">print resp</div><div class="line">&apos;&apos;&apos;返回结果&apos;&apos;&apos;</div><div class="line">1</div><div class="line">&lt;hyper.http20.response.HTTP20Response object at 0x0000000002C5CDD8&gt;</div></pre></td></tr></table></figure></p>
+<p>默认情况下，Streamid为None,指明端口443之后，Streamid返回1，这样的结果说明，缺省情况下访问的是80端口，并不是443。<br>在Hyper源码common/connection.py中，HTTPConnection类中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">def __init__(self,</div><div class="line">                 host,</div><div class="line">                 port=None,</div><div class="line">                 secure=None,</div><div class="line">                 window_manager=None,</div><div class="line">                 enable_push=False,</div><div class="line">                 ssl_context=None,</div><div class="line">                 proxy_host=None,</div><div class="line">                 proxy_port=None,</div><div class="line">                 **kwargs):</div><div class="line">        self._host = host</div><div class="line">        self._port = port</div><div class="line">        self._h1_kwargs = &#123;</div><div class="line">            &apos;secure&apos;: secure, &apos;ssl_context&apos;: ssl_context, </div><div class="line">            &apos;proxy_host&apos;: proxy_host, &apos;proxy_port&apos;: proxy_port </div><div class="line">        &#125;</div><div class="line">        self._h2_kwargs = &#123;</div><div class="line">            &apos;window_manager&apos;: window_manager, &apos;enable_push&apos;: enable_push,</div><div class="line">            &apos;secure&apos;: secure, &apos;ssl_context&apos;: ssl_context, </div><div class="line">            &apos;proxy_host&apos;: proxy_host, &apos;proxy_port&apos;: proxy_port</div><div class="line">        &#125;</div><div class="line">        # Add any unexpected kwargs to both dictionaries.</div><div class="line">        self._h1_kwargs.update(kwargs)</div><div class="line">        self._h2_kwargs.update(kwargs)</div><div class="line">        &apos;&apos;&apos;可以看到，默认情况下使用的是HTTP11Connection，这里应该是文档中的碧油鸡&apos;&apos;&apos;</div><div class="line">        self._conn = HTTP11Connection(</div><div class="line">            self._host, self._port, **self._h1_kwargs</div><div class="line">        )</div></pre></td></tr></table></figure></p>
+<ul>
+<li>secure(可选参数)-用以指明请求是否基于TLS连接。大多数情况下缺省值为False，如果访问服务器443端口缺省则变为True。</li>
+<li>window_manager(可选参数)-这个参数可以是一个BaseFlowControlManager的子类，缺省情况下使用FlowControlManager。用以控制<a href="https://www.zhihu.com/question/32255109" target="_blank" rel="external">滑动窗口</a>。</li>
+<li>enable_push(可选参数)-确定服务器是否使用服务器推送（主动推送资源给客户端）。</li>
+<li>ssl_context(可选参数)-用以设置证书认证的选项，缺省情况下使用SSLContext替代。</li>
+<li>proxy_host(可选参数)-代理服务器，可以是一个IP地址或者域名，可以带有端口号。</li>
+<li>proxy_port（可选参数）-代理服务器端口，它和proxy_host的设置方法和host与port参数一致。<blockquote>
+<p>方法</p>
+</blockquote>
+</li>
+<li>request(method,url,body=Node,headers={})-使用method指定的方法，如’GET’或者’POST’和制定的URL来向服务器发送请求。<br>参数–method，指明请求的方法，如’GET’、’POST’等；url，指明要访问的路径，格式像这样：’/path/to/segement’；body（可选参数），必须是一个file-like对象（Python内置函数open()返回的有个read()方法的对象，除了file之外，还可以是内存的字节流、网络流、自定义流等）或者bytestring；headers(可选参数)-用以发送请求的headers。<br>返回值–返回一个StreamID，如果该条请求基于HTTP/1.1返回Node。</li>
+<li>get_response(<em>args,*</em>kwargs)-用以返回一个请求对象。</li>
+</ul>
+<h1 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h1><h2 id="HTTP20Connection"><a href="#HTTP20Connection" class="headerlink" title="HTTP20Connection"></a>HTTP20Connection</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">class hyper.HTTP20Connection(host,port=None,secure=None,window_manager=None,</div><div class="line">	enable_push=False,ssl_context=None,proxy_host=None,proxy_port=None,**kwargs)</div></pre></td></tr></table></figure>
+<p>这个类表示的是一个向服务器发起的HTTP2连接，它的参数与HTTPConnection一致，参数的设置也类似，这里不再多说。</p>
+<blockquote>
+<p>方法</p>
+<ul>
+<li>close(error_code=None)，用以关闭与服务器的连接。可选参数error_code用以重置连接，此方法没有返回值。</li>
+<li>connect()，当类HTTP20Connection创建好之后，用以连接制定的服务器，但是如果连接已经建立的话，此方法则变成空操作(no-op)，此方法没有返回值。</li>
+<li>endheaders(message_body=None,final=False,stream_id=None)，发送预先准备好的请求头给服务器。如果参数message_body不为空，它也会被发送到服务器，当做请求体，并且这个流会立即关闭。如果参数final设置为True，请求流也会立即停止，随后调用send()方法以关闭该请求流。此方法无返回值。</li>
+<li>get_pushes(stream_id=None,capture_all=False)，从服务器返回一个promise的生成器，需要注意的是，这个方法不是幂等的，promises在此方法一次调用之后，可能不会按照请求顺序返回。多个调用的返回值可能会引发未定义的行为。参数：stream_id(可选参数)-想要获取服务器推送的流ID；capture_all(可选参数)，如果设置为False，服务器推送的promise会以非阻塞的形式返回，而True则反之。此方法的返回值是一个服务器推送的HTTP20Push对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">def get_pushes(self,stream_id=None,capture_all=False):</div><div class="line">	stream = self._get_stream(stream_id)</div><div class="line">    for promised_stream_id, headers in stream.get_pushes(capture_all):</div><div class="line">        yield HTTP20Push(</div><div class="line">            HTTPHeaderMap(headers), self.streams[promised_stream_id]</div><div class="line">        )</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>get_response(stream_id=None)，此方法在使用request之后使用，request方法的返回值stream_id作为此方法的参数。此方法返回值为一个HTTP20Response对象。</li>
+<li>network_buffer_size，这是HTTP20Connection类默认的一个参数，它是一个内存缓冲区用以存储从网络中获取的数据。可以用来进行调优。</li>
+<li>putheader(header,argument,stream_id=None)，将一个HTTP的请求头发送到服务器，与httplib库中此方法不同的是，调用此方法实际上并不会发送数据到服务器，它仅仅是为endheaders()方法的headers进行排序，它会确保发送到服务器的请求头符合HTTP/2的标准，并且它会剔除一些HTTP/2中无用的参数。</li>
+<li>putrequest(method,selector,**kwargs)，这个方法是向服务器发送请求的第一步，返回一个streamid。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&apos;它在request方法中的使用&apos;</div><div class="line">def request(self, method, url, body=None, headers=&#123;&#125;):</div><div class="line">	stream_id = self.putrequest(method, url)</div><div class="line"></div><div class="line">    for name, value in headers.items():</div><div class="line">        self.putheader(name, value, stream_id)</div><div class="line"></div><div class="line">    # Convert the body to bytes if needed.</div><div class="line">    if isinstance(body, str):</div><div class="line">        body = body.encode(&apos;utf-8&apos;)</div><div class="line"></div><div class="line">    self.endheaders(message_body=body, final=True, stream_id****=stream_id)</div><div class="line">    return stream_id</div></pre></td></tr></table></figure>
+<ul>
+<li>receive_frame(frame)，用以接收构成stream的帧。</li>
+<li>request(method,url,body=None,headers={})，使用putrequest方法来向服务器发送请求。</li>
+<li>send(data,final=Flase,stream_id=None)，向服务器发送数据，这些数据会立即发送到服务器，如果这些数据是最后要发送的部分，参数final应该设置为True，这样请求流就会关闭。</li>
+</ul>
+<h2 id="HTTP20Response"><a href="#HTTP20Response" class="headerlink" title="HTTP20Response"></a>HTTP20Response</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">class hyper.HTTP20Response(headers,stream)</div></pre></td></tr></table></figure>
+<p>HTTP20Response用以代表从服务器上得到的HTTP2响应，它提供了获取响应头和响应实体的方法。响应是一个可迭代的对象也可用于声明对象。</p>
+<blockquote>
+<p>方法</p>
+<ul>
+<li>close()，关闭响应，实际上是关闭了后续的额HTTP2数据流。方法无返回值。</li>
+<li>fileno()，返回基础套接字的文件描述词，此方法当前不可用。</li>
+<li>read(amt=None,decode_content=True)，获取响应实体。参数：amt(可选参数)，设置要读取的数据量，缺省情况下会返回所有的响应实体；decode_content(可选参数)，缺省为True,将返回的数据解码。</li>
+<li>read_chunked(decode_content=True),返回经过编码的数据块。此方法返回一个迭代器，每次迭代都会返回一帧的数据。</li>
+<li>reason=None,返回服务器响应的原因短语。</li>
+<li>status=None,返回服务器响应的状态码。</li>
+</ul>
+</blockquote>
+<h2 id="HTTP20Push"><a href="#HTTP20Push" class="headerlink" title="HTTP20Push"></a>HTTP20Push</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">class hyper.HTTP20Push(request_headers,stream)</div></pre></td></tr></table></figure>
+<p>HTTP20Push代表通过服务器推送机制被发送出来的一个请求/响应。</p>
+<blockquote>
+<p>方法</p>
+<ul>
+<li>cancel()取消已经推送的数据并且关闭该数据流。此方法无返回值。</li>
+<li>get_response()获取服务器推送的数据。返回一个HTTP20Response对象。</li>
+</ul>
+</blockquote>
+<h1 id="To-be-continued"><a href="#To-be-continued" class="headerlink" title="To be continued"></a>To be continued</h1><ul>
+<li>HTTP/1.1</li>
+<li>Headers</li>
+<li>SSLContext</li>
+<li>Requests Transport Adapter</li>
+<li>Flow Control</li>
+<li>Exceptions</li>
+</ul>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<li>2016/3/21更新了HTTP/2</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/HTTP2/">HTTP2</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/03/17/0327/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Linux基础知识</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/03/15/0326/">
+        <span class="next-text nav-default">邮件传输协议笔记</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/03/16/Hyper Interface1/';
+        this.page.identifier = '2016/03/16/Hyper Interface1/';
+        this.page.title = 'Hyper Interface(1)';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

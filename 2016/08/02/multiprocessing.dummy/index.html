@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="最简便的爬虫效率提升方法"/>
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/08/02/multiprocessing.dummy/"/>
+
+
+<meta name="description" content="昨晚发现放在腾讯云主机上通过crontab定时执行用以爬去斗鱼分类页面数据的爬虫在执行的时候速度特别慢，于是想通过多线程来提高效率。打开浏览器，键入关键字“python 多线程”，发现大多数内容都是使用threading、Queue这些看起来很笨重的实例。不过直到multiprocessing.dummy出现在眼前之后，一切都变得辣么简单。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最简便的爬虫效率提升方法">
+<meta property="og:url" content="http://yoursite.com/2016/08/02/multiprocessing.dummy/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="昨晚发现放在腾讯云主机上通过crontab定时执行用以爬去斗鱼分类页面数据的爬虫在执行的时候速度特别慢，于是想通过多线程来提高效率。打开浏览器，键入关键字“python 多线程”，发现大多数内容都是使用threading、Queue这些看起来很笨重的实例。不过直到multiprocessing.dummy出现在眼前之后，一切都变得辣么简单。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最简便的爬虫效率提升方法">
+<meta name="twitter:description" content="昨晚发现放在腾讯云主机上通过crontab定时执行用以爬去斗鱼分类页面数据的爬虫在执行的时候速度特别慢，于是想通过多线程来提高效率。打开浏览器，键入关键字“python 多线程”，发现大多数内容都是使用threading、Queue这些看起来很笨重的实例。不过直到multiprocessing.dummy出现在眼前之后，一切都变得辣么简单。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> 最简便的爬虫效率提升方法 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          最简便的爬虫效率提升方法
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年8月2日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#multiprocessing-dummy-与多线程"><span class="toc-text">multiprocessing.dummy 与多线程</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>昨晚发现放在腾讯云主机上通过crontab定时执行用以爬去斗鱼分类页面数据的爬虫在执行的时候速度特别慢，于是想通过多线程来提高效率。<br>打开浏览器，键入关键字“python 多线程”，发现大多数内容都是使用threading、Queue这些看起来很笨重的实例。不过直到multiprocessing.dummy出现在眼前之后，一切都变得辣么简单。</p>
+<a id="more"></a>
+<h1 id="multiprocessing-dummy-与多线程"><a href="#multiprocessing-dummy-与多线程" class="headerlink" title="multiprocessing.dummy 与多线程"></a>multiprocessing.dummy 与多线程</h1><p>multiprocessing.dummy 是multiprocessing的一个子库，二者的不同之处就是前者应用于线程后者主要应用于进程，而它们实现并行化操作的关键则是map()函数。<br>以我的两段代码为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">def insert_info():</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    通过遍历游戏分类页面获取所有直播间</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    session = requests.session()</div><div class="line">    pagecontent = session.get(Directory_url).text</div><div class="line">    pagesoup = BeautifulSoup(pagecontent)</div><div class="line">    games = pagesoup.select(&apos;a&apos;)</div><div class="line">    col.drop()</div><div class="line">    for game in games:</div><div class="line">        links = game[&quot;href&quot;]</div><div class="line">        Qurystr = &quot;/?page=1&amp;isAjax=1&quot;</div><div class="line">        gameurl = HOST + links + Qurystr</div><div class="line">        gamedata = session.get(gameurl).text</div><div class="line">        flag = get_roominfo(gamedata)</div><div class="line">    aggregateData()</div></pre></td></tr></table></figure>
+<p>上边这段是之前运行在云主机速度真的跟爬似的代码，通过Directory_url这个地址，获取到页面中所有的<a></a>标签，并获取到它们的’href’，再逐条获取每个链接中的内容，获取想要的东西，最终完成入库工作。所有的一切都看似按部就班哈。在我的笔记本上做测试，完成所有2032条数据的爬取共耗时<strong>140.5s</strong>(好特么慢＝。＝)。</p>
+<p>但是在加入multiprocessing.dummy之后，真的是有飞一般的感觉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">from multiprocessing.dummy import Pool</div><div class="line"></div><div class="line">pool = Pool()</div><div class="line"></div><div class="line">def insert_info():</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    通过遍历游戏分类页面获取所有直播间</div><div class="line">    &apos;&apos;&apos;</div><div class="line">    session = requests.session()</div><div class="line">    pagecontent = session.get(Directory_url).text</div><div class="line">    pagesoup = BeautifulSoup(pagecontent)</div><div class="line">    games = pagesoup.select(&apos;a&apos;)</div><div class="line">    gameurl = [HOST + url[&quot;href&quot;] + &quot;/?page=1&amp;isAjax=1&quot; for url in games]</div><div class="line">    col.drop()</div><div class="line">    g = lambda link: session.get(link).text</div><div class="line">    gamedata = pool.map(g, gameurl)</div><div class="line">    ginfo = lambda data: get_roominfo(data)</div><div class="line">    pool.map(ginfo, gamedata)</div><div class="line">    aggregateData()</div></pre></td></tr></table></figure>
+<p>同样通过Directory_url这一地址获取页面中所有标签<a></a>，然后通过pool.map(g, gameurl)完成’href’值的获取，最后再用一次pool.map(ginfo,gamedata)完成所有页面内容的提取和入库。再一次测试，只需要<strong>33.1s</strong>即可完成。</p>
+<p>更多详细信息可以参考<a href="https://docs.python.org/2/library/multiprocessing.html" target="_blank" rel="external">官方文档</a>。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/08/08/redis设计与实现笔记/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Redis设计与实现笔记（复制）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/07/31/HackOnDouyu--4/">
+        <span class="next-text nav-default">Hack On Douyu -- 4</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/08/02/multiprocessing.dummy/';
+        this.page.identifier = '2016/08/02/multiprocessing.dummy/';
+        this.page.title = '最简便的爬虫效率提升方法';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="Hack On Douyu -- 4"/>
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/07/31/HackOnDouyu--4/"/>
+
+
+<meta name="description" content="原本打算使用selenium给这个小项目做自动化测试的，没成想selenium功能如此强大，那就顺势做个自动抢鱼丸的小工具吧。😊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hack On Douyu -- 4">
+<meta property="og:url" content="http://yoursite.com/2016/07/31/HackOnDouyu--4/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="原本打算使用selenium给这个小项目做自动化测试的，没成想selenium功能如此强大，那就顺势做个自动抢鱼丸的小工具吧。😊">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/%E6%96%97%E9%B1%BC%E5%BC%B9%E5%B9%95%E7%9B%91%E5%90%AC.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/selenium%20driver.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/danmu.gif">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hack On Douyu -- 4">
+<meta name="twitter:description" content="原本打算使用selenium给这个小项目做自动化测试的，没成想selenium功能如此强大，那就顺势做个自动抢鱼丸的小工具吧。😊">
+<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/%E6%96%97%E9%B1%BC%E5%BC%B9%E5%B9%95%E7%9B%91%E5%90%AC.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Hack On Douyu -- 4 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Hack On Douyu -- 4
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年7月31日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Selenium是什么"><span class="toc-text">Selenium是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Talk-is-cheap-Show-you-my-code"><span class="toc-text">Talk is cheap, Show you my code</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#老板，来份鱼丸"><span class="toc-text">老板，来份鱼丸</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>原本打算使用<a href="http://selenium-python.readthedocs.io/" target="_blank" rel="external">selenium</a>给这个小项目做自动化测试的，没成想selenium功能如此强大，那就顺势做个自动抢鱼丸的小工具吧。😊<br><a id="more"></a></p>
+<h1 id="Selenium是什么"><a href="#Selenium是什么" class="headerlink" title="Selenium是什么"></a>Selenium是什么</h1><p>Selenium是一款由ThoughtWorks公司开发的web自动化测试工具，它可以让测试人员编写的测试代码直接在浏览器中进行测试，并且它提供了当前绝大多数现代浏览器的驱动。同时Selenium也拥有很多开发语言版本的驱动。我使用的就是python版本的驱动。具体安装步骤可以参考<a href="http://selenium-python.readthedocs.io/" target="_blank" rel="external">这里</a>。<br>具体来说，Selenium可以模拟大多数的页面操作：填写表单、拖拽页面、页面切换、返回上一页面、前进到下一页面等。<br>告诉了Selenium网址之后，它可以自动打开指定的浏览器，并且待页面完全加载之后分别通过页面元素的id、name、XPath、Link Text、tag、class或者是css选择器完成元素的选择。<br>选定了页面元素之后可以按照预期完成一些列动作。</p>
+<h1 id="Talk-is-cheap-Show-you-my-code"><a href="#Talk-is-cheap-Show-you-my-code" class="headerlink" title="Talk is cheap, Show you my code"></a>Talk is cheap, Show you my code</h1><p>整个项目的代码在<a href="https://github.com/wangmengcn/DouyuFan" target="_blank" rel="external">github</a>上托管，感兴趣的同学可以前去浏览。整个抢鱼丸礼物的过程可以由这个图来说明：<br><img src="https://o3sw4xojp.qnssl.com/%E6%96%97%E9%B1%BC%E5%BC%B9%E5%B9%95%E7%9B%91%E5%90%AC.png" alt="自动抢鱼丸流程"></p>
+<p>具体步骤如下：</p>
+<ol>
+<li>与斗鱼弹幕服务器建立连接，监听当前最热门房间弹幕，由于火箭礼物消息会通过广播向所有直播间发送，所以只需要根据火箭消息的标识符来判定火箭消息即可；</li>
+<li>火箭消息接收之后可以将其转存到redis中，利用pub/sub完成火箭消息的广播和订阅；</li>
+<li>订阅redis火箭消息频道，获取当前可以抢鱼丸的房间完整url；</li>
+<li>利用selenium打开浏览器并访问指定直播间，自动发送弹幕消息，并且点击抢鱼丸的按钮，最终完成自动抢鱼丸礼物的整个流程。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"># 获取全频道播放的火箭信息</div><div class="line">def get_rocket(data):</div><div class="line">    try:</div><div class="line">        sender_id = re.search(&apos;\/sn@=(.+?)\/&apos;, data).group(1)</div><div class="line">        recver_id = re.search(&apos;\/dn@=(.+?)\/&apos;, data).group(1)</div><div class="line">        recver_room = re.search(&apos;\/drid@=(.+?)\/&apos;, data).group(1)</div><div class="line">        gift = re.search(&apos;\/gn@=(.+?)\/&apos;, data).group(1)</div><div class="line">        rocketmsg = &#123;&#125;</div><div class="line">        rocketmsg[&quot;sender_id&quot;] = sender_id</div><div class="line">        rocketmsg[&quot;recver_id&quot;] = recver_id</div><div class="line">        rocketmsg[&quot;recver_room&quot;] = recver_room</div><div class="line">        rocketmsg[&quot;gift&quot;] = gift</div><div class="line">        rocketmsg[&quot;date&quot;] = datetime.now()</div><div class="line">        col.insert_one(rocketmsg, bypass_document_validation=False)</div><div class="line">        publishvalue = &#123;&#125;</div><div class="line">        publishvalue[&quot;sender_id&quot;] = sender_id</div><div class="line">        publishvalue[&quot;recver_id&quot;] = recver_id</div><div class="line">        publishvalue[&quot;recver_room&quot;] = recver_room</div><div class="line">        publishvalue[&quot;gift&quot;] = gift</div><div class="line">        castRocket(publishvalue)</div><div class="line">        print sender_id, &quot;送给房间号为:&quot;, recver_room, &quot;的&quot;, recver_id, &quot;一个&quot;,\</div><div class="line">            gift, &quot;&lt;&quot;, datetime.now(), &quot;&gt;&quot;</div><div class="line">        # 在此处完成自动抢鱼丸流程</div><div class="line">        getGift(str(recver_room))</div><div class="line">    except Exception, e:</div><div class="line">        print &quot;error occur:&quot;, repr(data)</div><div class="line">    finally:</div><div class="line">        pass</div></pre></td></tr></table></figure>
+<p>在此过程中，起到关键作用的selenium主要扮演如下图所示的角色：</p>
+<p><img src="https://o3sw4xojp.qnssl.com/selenium%20driver.png" alt=""></p>
+<ol>
+<li>获取浏览器cookie，这样就免去了破解斗鱼帐号自动登录的麻烦；</li>
+<li>获取指定元素，比如找到弹幕发送窗口，输入弹幕信息，发送弹幕，点击抢鱼丸按钮；</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">from selenium import webdriver</div><div class="line">from selenium.webdriver.common.action_chains import ActionChains</div><div class="line">import time</div><div class="line"></div><div class="line"></div><div class="line">def getGift(roomid):</div><div class="line">	# 这里是指定firefox的cookie位置</div><div class="line">    fp = webdriver.FirefoxProfile(</div><div class="line">        r&apos;/Users/eclipse/Library/Application Support/Firefox/Profiles/tmsbsjpg.default&apos;)</div><div class="line">    browser = webdriver.Firefox(fp)</div><div class="line">    browser.implicitly_wait(15)  # seconds</div><div class="line">    browser.get(&quot;http://www.douyu.com/&quot; + roomid)</div><div class="line">    try:</div><div class="line">    	# 找到弹幕聊天窗口，输入聊天内容</div><div class="line">        indexvideo = browser.find_element_by_class_name(&apos;cs-textarea&apos;)</div><div class="line">        print type(indexvideo)</div><div class="line">        indexvideo.send_keys(&apos;2333333333333&apos;)</div><div class="line">        print indexvideo</div><div class="line">        time.sleep(7)</div><div class="line">        sendbut = browser.find_element_by_class_name(&apos;b-btn&apos;)</div><div class="line">        ActionChains(browser).move_to_element(</div><div class="line">            indexvideo).click(sendbut).perform()</div><div class="line">        gift = browser.find_element_by_class_name(&apos;peck-cdn&apos;)</div><div class="line">    except Exception, e:</div><div class="line">        print str(e)</div><div class="line">        browser.quit()</div><div class="line"></div><div class="line">    times = 0</div><div class="line">    while True:</div><div class="line">        try:</div><div class="line">        	# 点击抢鱼丸按钮，在完成之后，按钮消息，继续点击出现异常，自动关闭浏览器即可</div><div class="line">            ActionChains(browser).move_to_element(gift).click(gift).perform()</div><div class="line">            time.sleep(2)</div><div class="line">            print times</div><div class="line">            times += 1</div><div class="line">        except Exception, e:</div><div class="line">            print &apos;completed by an error&apos;</div><div class="line">            browser.quit()</div></pre></td></tr></table></figure>
+<h1 id="老板，来份鱼丸"><a href="#老板，来份鱼丸" class="headerlink" title="老板，来份鱼丸"></a>老板，来份鱼丸</h1><p>按照上述方法完成编码之后，我用自己的帐号测试了一下，效果是这样的：<br><img src="https://o3sw4xojp.qnssl.com/danmu.gif" alt=""></p>
+<p>发现斗鱼可能是做了限制，每个人大概一天只能抢到2000个左右的鱼丸(斗鱼：本来为代码写测试的，谁让你没事干抢我们鱼丸的？！，我：生无可恋.jpg)，娱乐而已，不过说句心里话，selenium可真的是个好东西。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/08/02/multiprocessing.dummy/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">最简便的爬虫效率提升方法</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/07/27/HackOnDouyu--3/">
+        <span class="next-text nav-default">Hack On Douyu -- 3</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/07/31/HackOnDouyu--4/';
+        this.page.identifier = '2016/07/31/HackOnDouyu--4/';
+        this.page.title = 'Hack On Douyu -- 4';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

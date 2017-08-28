@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="邮件传输协议笔记"/>
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/03/15/0326/"/>
+
+
+<meta name="description" content="网易春招，投了邮件事业部的运维工程师岗位，以前没怎么接触过邮件这块内容，特此记录学习内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="邮件传输协议笔记">
+<meta property="og:url" content="http://yoursite.com/2016/03/15/0326/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="网易春招，投了邮件事业部的运维工程师岗位，以前没怎么接触过邮件这块内容，特此记录学习内容。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="邮件传输协议笔记">
+<meta name="twitter:description" content="网易春招，投了邮件事业部的运维工程师岗位，以前没怎么接触过邮件这块内容，特此记录学习内容。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> 邮件传输协议笔记 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          邮件传输协议笔记
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年3月15日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#几个定义"><span class="toc-text">几个定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#邮件"><span class="toc-text">邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户代理"><span class="toc-text">用户代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#邮件服务器"><span class="toc-text">邮件服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SMTP协议"><span class="toc-text">SMTP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#通信过程"><span class="toc-text">通信过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Telnet测试SMTP"><span class="toc-text">Telnet测试SMTP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#POP3协议"><span class="toc-text">POP3协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#通信过程-1"><span class="toc-text">通信过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Telnet测试POP3"><span class="toc-text">Telnet测试POP3</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考来源"><span class="toc-text">参考来源</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>网易春招，投了邮件事业部的运维工程师岗位，以前没怎么接触过邮件这块内容，特此记录学习内容。<br><a id="more"></a></p>
+<h1 id="几个定义"><a href="#几个定义" class="headerlink" title="几个定义"></a>几个定义</h1><h2 id="邮件"><a href="#邮件" class="headerlink" title="邮件"></a>邮件</h2><p>邮件是一种消息的格式，由信封、首部和正文组成。信封上最重要的是收件人的地址，邮件服务器使用这个地址将邮件发送到受信人所在的邮件服务器上；首部是有用户代理或邮箱服务器添加的一些信息；正文则是发送用户发送给接收用户报文的内容。</p>
+<h2 id="用户代理"><a href="#用户代理" class="headerlink" title="用户代理"></a>用户代理</h2><p>用户代理是用户与电子邮件系统的交互接口，一般来说他就是我们PC上的一个程序，比如说Foxmail和Outlook等。</p>
+<h2 id="邮件服务器"><a href="#邮件服务器" class="headerlink" title="邮件服务器"></a>邮件服务器</h2><p>邮件服务器是电子邮件系统的核心，它用来发送和接收邮件，可以在任何时候为用户提供服务。比如说smtp.163.com。</p>
+<h1 id="SMTP协议"><a href="#SMTP协议" class="headerlink" title="SMTP协议"></a>SMTP协议</h1><p>SMTP，简单邮件传送协议，和http等多数应用层协议一样，它通过TCP连接实现邮件在网络中的传送。SMTP用来将客户机上的邮件传送到服务器上或者是从一个邮件服务器转发到另外一个邮件服务器。</p>
+<h2 id="通信过程"><a href="#通信过程" class="headerlink" title="通信过程"></a>通信过程</h2><p>一个SMTP通信过程如下：</p>
+<ul>
+<li>发送端邮件服务器与接收端邮件服务器25端口建立TCP连接</li>
+<li>客户端向服务器发送各种命令，请求各种服务，例如认证、指定发送人和接收人</li>
+<li>服务器解析用户命令，做出相应操作返回相应给客户端</li>
+<li>重复第二第三步，直至邮件发送完成或者连接中断。<h2 id="Telnet测试SMTP"><a href="#Telnet测试SMTP" class="headerlink" title="Telnet测试SMTP"></a>Telnet测试SMTP</h2>使用Telnet工具，使用SMTP模拟发送邮件过程：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">$ telnet smtp.163.com 25    //键入邮件服务器名以及端口号25 建立连接</div><div class="line">Trying 220.181.12.16...</div><div class="line">Connected to smtp.163.com.  //连接建立成功</div><div class="line">Escape character is &apos;^]&apos;.</div><div class="line">220 163.com Anti-spam GT for Coremail System (163com[20141201])</div><div class="line">HELO smtp.163.com          //HELO 用以和服务器完成握手</div><div class="line">250 OK</div><div class="line">AUTH LOGIN				   //AUTH LOGIN 开始认证登录</div><div class="line">334 dXNlcm5hbWU6</div><div class="line">ZWMZNsaXBzZV9zdg==		   //以Base64加密的邮箱用户名</div><div class="line">334 UGFzc3dvcmQ6</div><div class="line">d456xNjg5MTM=			   //以Base64加密的邮箱密码</div><div class="line">235 Authentication successful   //认证成功</div><div class="line">MAIL FROM:&lt;xxxx@163.com&gt;  //邮件发送方</div><div class="line">250 Mail OK</div><div class="line">RCPT TO:&lt;xxxx@qq.com&gt;		//邮件接收方</div><div class="line">250 Mail OK</div><div class="line">DATA Just a try for smtp</div><div class="line">500 Error: bad syntax</div><div class="line">DATA							//开始写入邮件内容</div><div class="line">354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;</div><div class="line">TO: xxxxx@qq.com			//接收方</div><div class="line">FROM: xxxxx@163.com			//发送方</div><div class="line">SUBJECT: Just a try for SMTP  //邮件主题</div><div class="line">							  //隔空一行</div><div class="line">This is a test,not for real.  //邮件内容</div><div class="line">.							  //邮件以.加回车键结尾</div><div class="line">250 Mail OK queued as smtp12,EMCowEAJp0UnlvZWz6MLAA--.4874S2 1459001194</div><div class="line">QUIT						  //结束通信</div><div class="line">221 Bye</div><div class="line">Connection closed by foreign host.</div></pre></td></tr></table></figure>
+<h1 id="POP3协议"><a href="#POP3协议" class="headerlink" title="POP3协议"></a>POP3协议</h1><p>POP3，邮局协议第三版。它被用户代理用来从邮件服务器去的邮件。与SMTP一样它也是一个应用层协议，端口110。POP3协议有三种状态，认证状态、处理状态和更新状态。客户端和服务器刚建立连接时处于认证状态；认证成功后进入处理状态；完成用户命令在用户使用QUIT命令之后进入更新状态。</p>
+<h2 id="通信过程-1"><a href="#通信过程-1" class="headerlink" title="通信过程"></a>通信过程</h2><p>用户代理从邮件服务器上接收邮件的过程如下：</p>
+<ul>
+<li>用户运行用户代理</li>
+<li>用户代理与邮件服务器110端口建立TCP连接</li>
+<li>客户端向服务器端发送各种命令，请求服务，例如查询邮箱信息、下载邮件等</li>
+<li>服务器解析用户命令，做出相应响应</li>
+<li>重复3、4步骤</li>
+<li>用户代理将获取到的数据呈现给用户</li>
+</ul>
+<h2 id="Telnet测试POP3"><a href="#Telnet测试POP3" class="headerlink" title="Telnet测试POP3"></a>Telnet测试POP3</h2><p>使用Telnet工具，测试POP3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">telnet pop.163.com 110 #telnet登录110端口</div><div class="line">Trying 202.108.5.104...</div><div class="line">Connected to pop.163.com.</div><div class="line">Escape character is &apos;^]&apos;.</div><div class="line">+OK Welcome to coremail Mail Pop3 Server (163com[20050206])</div><div class="line">USER xxxx # 用户名</div><div class="line">+OK core mail</div><div class="line">PASS xxxxx # 登录密码</div><div class="line">+OK 254 message(s) [27676669 byte(s)]</div><div class="line">STAT # 查看邮箱状态</div><div class="line">+OK 254 27676669</div><div class="line">LIST # 邮件列表</div><div class="line">+OK 354 27676669</div><div class="line">1 2468</div><div class="line">2 21945</div><div class="line">3 33136</div><div class="line">4 2071</div><div class="line">5 3364</div><div class="line">6 18906</div><div class="line">7 3136</div><div class="line">8 24764</div><div class="line">.................</div><div class="line"></div><div class="line">TOP 254 0 # 查看指定邮件的邮件头，0表示查看整个邮件头，其它正整数表示限制返回多少行。</div><div class="line">+OK core mail</div><div class="line">Received: from smtp.63.com (unknown [58.252.70.158])</div><div class="line">by smtp5 (Coremail) with SMTP id wKjREDrA9gIfFqlEjCnRAg==.29062S4;</div><div class="line">Mon, 03 Jul 2006 21:07:18 +0800 (CST)</div><div class="line">TO: crazywill@163.com</div><div class="line">FROM : cccc@163.com # 这里即前面发信时伪造的一个假发送人信息，平时正常操作只显示这个。</div><div class="line">SUBJECT: test by telnet/smtp # 邮件主题</div><div class="line">Message-Id: &lt;44A91687.0E6F6C.07562&gt;</div><div class="line">Date: Mon, 3 Jul 2006 21:07:19 +0800 (CST)</div><div class="line">Sender: crazywill@163.com # 这里是真正的发送人，不可伪造。</div><div class="line"></div><div class="line"></div><div class="line">.</div><div class="line">RETR 254 # 获取指定邮件</div><div class="line">+OK 354 octets</div><div class="line">Received: from smtp.63.com (unknown [58.252.70.158])</div><div class="line">by smtp5 (Coremail) with SMTP id wKjREDrA9gIfFqlEjCnRAg==.29062S4;</div><div class="line">Mon, 03 Jul 2006 21:07:18 +0800 (CST)</div><div class="line">TO: crazywill@163.com</div><div class="line">FROM : cccc@163.com</div><div class="line">SUBJECT: test by telnet/smtp</div><div class="line">Message-Id: &lt;44A91687.0E6F6C.07562&gt;</div><div class="line">Date: Mon, 3 Jul 2006 21:07:19 +0800 (CST)</div><div class="line">Sender: crazywill@163.com</div><div class="line"></div><div class="line">test, just a test.</div><div class="line">.</div><div class="line"></div><div class="line">DELE 254 # 删除第254封邮件</div><div class="line">+OK core mail</div><div class="line">STAT # 查看邮箱状态</div><div class="line">+OK 253 27676315</div><div class="line">QUIT # 退出</div><div class="line">+OK core mail</div><div class="line">Connection closed by foreign host.</div></pre></td></tr></table></figure></p>
+<h1 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h1><p><a href="http://363918.blog.51cto.com/353918/739650" target="_blank" rel="external">使用telnet测试smtp和pop3协议</a><br><a href="http://blog.csdn.net/bripengandre/article/details/2191048" target="_blank" rel="external">SMTP协议分析</a><br><a href="http://blog.csdn.net/bripengandre/article/details/2192111" target="_blank" rel="external">POP3协议分析</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/03/16/Hyper Interface1/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Hyper Interface(1)</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/03/14/Learning Hyper/">
+        <span class="next-text nav-default">Learning Hyper</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/03/15/0326/';
+        this.page.identifier = '2016/03/15/0326/';
+        this.page.title = '邮件传输协议笔记';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

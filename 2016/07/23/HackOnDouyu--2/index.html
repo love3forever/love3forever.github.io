@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="Hack On Douyu -- 2"/>
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/07/23/HackOnDouyu--2/"/>
+
+
+<meta name="description" content="在上一篇文章中，主要讲了我获取斗鱼弹幕和某些静态页面的方法，在数据获取到之后，如何有效的组织和存储数据直接关系到后续数据能否可以背有效使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hack On Douyu -- 2">
+<meta property="og:url" content="http://yoursite.com/2016/07/23/HackOnDouyu--2/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="在上一篇文章中，主要讲了我获取斗鱼弹幕和某些静态页面的方法，在数据获取到之后，如何有效的组织和存储数据直接关系到后续数据能否可以背有效使用。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myBlogDouyu_mongo.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myBlogRedis.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myBlog%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-07-23%20%E4%B8%8B%E5%8D%8811.15.41.png">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hack On Douyu -- 2">
+<meta name="twitter:description" content="在上一篇文章中，主要讲了我获取斗鱼弹幕和某些静态页面的方法，在数据获取到之后，如何有效的组织和存储数据直接关系到后续数据能否可以背有效使用。">
+<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/myBlogDouyu_mongo.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Hack On Douyu -- 2 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Hack On Douyu -- 2
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年7月23日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据存储结构"><span class="toc-text">数据存储结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态页面数据存储"><span class="toc-text">静态页面数据存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#弹幕聊天内容"><span class="toc-text">弹幕聊天内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#火箭纪录"><span class="toc-text">火箭纪录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消息实时转发"><span class="toc-text">消息实时转发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#遇到的问题和下一步计划"><span class="toc-text">遇到的问题和下一步计划</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>在上一篇文章中，主要讲了我获取斗鱼弹幕和某些静态页面的方法，在数据获取到之后，如何有效的组织和存储数据直接关系到后续数据能否可以背有效使用。<br><a id="more"></a><br>为了更直观的说明获取到的这些数据如何组织和使用，我大致花了两张图来说明。</p>
+<h1 id="数据存储结构"><a href="#数据存储结构" class="headerlink" title="数据存储结构"></a>数据存储结构</h1><p>通过爬虫或是直接通过tcp通讯获取到的斗鱼静态页面数据和弹幕聊天内容数据组织形式如下图所示：<br><img src="https://o3sw4xojp.qnssl.com/myBlogDouyu_mongo.png" alt="mongodb数据组织结构"><br>我使用mongodb来存储和管理数据，把上述的数据存储在名为Douyu的数据库中，将数据分别存于Roominfo、chatmsg、rocket、rocketbyDay四个表中。</p>
+<h2 id="静态页面数据存储"><a href="#静态页面数据存储" class="headerlink" title="静态页面数据存储"></a>静态页面数据存储</h2><p>其中Roominfo库主要记录通过爬虫获取到的当前开播房间信息，字段主要包括用以纪录数据获取时间的date、开播房间人气audience、房间标题roomtitle、主播名anchor、房间标签tag、当前房间封面图片img、房间标识符roomid。<br>在实际使用中，可以隔时执行静态页面数据获取脚本从而获取这些数据，通过对audience进行排序可以轻易获取到人气最高的房间，并且能够将这些房间信息以json的格式传输到需要的地方。而audience和tag的组合也可以获取不同类型直播房间人气对比结果。<br>我在项目中通过服务器上的crontab每隔10分钟执行一次静态页面数据获取任务.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0,10,20,30,40,55 * * *  * python  /path/to/allRooms.py</div></pre></td></tr></table></figure>
+<p>反应给前端的结果可以通过<a href="http://eclipsesv.com:4321/chatmsg" target="_blank" rel="external">这个页面</a>看到。</p>
+<h2 id="弹幕聊天内容"><a href="#弹幕聊天内容" class="headerlink" title="弹幕聊天内容"></a>弹幕聊天内容</h2><p>上一篇说过，最初打算是想要对弹幕聊天内容进行自然语言分析的，但是由于一直没来得及搞，也就搁浅了，对与弹幕聊天内容，只是简要的纪录了包括发送者sender_id、发送时间date和弹幕内容content，由于每次获取的弹幕数据都是获取当时人气最高的房间弹幕，所以弹幕内容大都是什么“白银三杰”、“最强王者”之类的。。。</p>
+<h2 id="火箭纪录"><a href="#火箭纪录" class="headerlink" title="火箭纪录"></a>火箭纪录</h2><p>自然语言分析没搞成，所以现在的重点工作是纪录观众赠送火箭，通过这些数据做出一些图表。<br>对火箭信息纪录使用了两个表：rocket和rocketbyDay。<br>rocket主要是获取实时火箭信息，通过与斗鱼弹幕服务器建立连接，根据弹幕消息类型将赠送火箭的信息获取到，主要包括：赠送者sender_id、接受者recver_id、赠送时间date和礼物类型gift。<br>rocketbyDay则是通过每天0:05分统计前一天火箭随着时间的分布情况，以天为单位的date、每天火箭总数count和当天火箭具体数据data。<br>纪录这些内容主要是可以统计出每日逐时礼物赠送情况、每天赠送礼物的土豪排名、受到火箭主播排名等。大致结果可以点击<a href="http://eclipsesv.com:4321/" target="_blank" rel="external">当天火箭信息</a>和<a href="http://eclipsesv.com:4321/history" target="_blank" rel="external">火箭历史数据</a>查看具体内容。</p>
+<h1 id="消息实时转发"><a href="#消息实时转发" class="headerlink" title="消息实时转发"></a>消息实时转发</h1><p>上述数据可以看作直播数据中的长时间数据，而其中的一些需要“保鲜”的数据例如在有土豪赠送给主播火箭之后，观众可以在两分钟内到该房间抢鱼丸礼物，对于这种需要“保鲜”的数据，我通过redis的pub／sub来接收和转发，并通过socke.io实时发送给当前打开页面的观众。大致过程如下图所示：<br><img src="https://o3sw4xojp.qnssl.com/myBlogRedis.png" alt=""></p>
+<h1 id="遇到的问题和下一步计划"><a href="#遇到的问题和下一步计划" class="headerlink" title="遇到的问题和下一步计划"></a>遇到的问题和下一步计划</h1><p>在实际项目运行中，有好几次出现mongodb莫名其妙挂掉的现象，由于项目运行在腾讯1核心1gb内存的云主机上（学生优惠一个月只要一块钱，23333333），这让我很快想到是不是在写入数据的时候，mongodb占用内存过高导致挂掉（之前在学校做项目的时候曾经见到过mongodb在大量写入数据的时候数据库挂掉的现象）。<br>于是，打开终端，连接到云主机上， 进入到mongodb目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./mongo</div><div class="line">use Douyu</div><div class="line">db.setProfilingLevel(1)</div></pre></td></tr></table></figure>
+<p>然后静待下次数据库挂掉。果然在某个整10分钟的时候，数据又数不出来了，重启数据库，打开mongodb客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.system.profile.find().limit(2)</div></pre></td></tr></table></figure>
+<p>出现的内容：<br><img src="https://o3sw4xojp.qnssl.com/myBlog%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-07-23%20%E4%B8%8B%E5%8D%8811.15.41.png" alt=""></p>
+<p>正如猜想的那样，果然是由于写入的时候造成了数据库的问题。<br>这时，机智的我想到了师妹那里还有个闲置的云主机，征用过来做个读写分离试下吧（当然我也想搞个副本集，好多主、好多从、好多分片。。。关键不是没条件嘛）。减轻了服务器负载之后，数据库挂掉的现象没有再出现啦。</p>
+<p>到目前为止，项目基本上可以正常运行，在数据操作这方面，打算在增加一些内容，比如分析某个游戏在每天随时间观众人数变化、某个主播直播时段、某个游戏人气变化情况等等。<br>下一篇内容主要讲后端flask的一些情况以及前后端数据传输方式等。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/07/27/HackOnDouyu--3/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Hack On Douyu -- 3</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/07/20/HackOnDouyu--1/">
+        <span class="next-text nav-default">Hack On Douyu -- 1</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/07/23/HackOnDouyu--2/';
+        this.page.identifier = '2016/07/23/HackOnDouyu--2/';
+        this.page.title = 'Hack On Douyu -- 2';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

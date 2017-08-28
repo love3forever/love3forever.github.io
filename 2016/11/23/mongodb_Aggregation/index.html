@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="Mongodb Aggregation Pipleline"/>
+
+
+
+
+  <meta name="keywords" content="mongodb,aggregation," />
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/11/23/mongodb_Aggregation/"/>
+
+
+<meta name="description" content="Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。">
+<meta name="keywords" content="mongodb,aggregation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb Aggregation Pipleline">
+<meta property="og:url" content="http://yoursite.com/2016/11/23/mongodb_Aggregation/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb Aggregation Pipleline">
+<meta name="twitter:description" content="Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Mongodb Aggregation Pipleline · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Mongodb Aggregation Pipleline
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年11月23日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#管道（Aggregation-Pipeline）"><span class="toc-text">管道（Aggregation Pipeline）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管道操作符"><span class="toc-text">管道操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#project"><span class="toc-text">$project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#match"><span class="toc-text">$match</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#limit"><span class="toc-text">$limit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skip"><span class="toc-text">$skip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lookup"><span class="toc-text">$lookup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#group"><span class="toc-text">$group</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他的操作符"><span class="toc-text">其他的操作符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管道表达式"><span class="toc-text">管道表达式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mongodb-campass"><span class="toc-text">mongodb campass</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。<br><a id="more"></a></p>
+<h1 id="管道（Aggregation-Pipeline）"><a href="#管道（Aggregation-Pipeline）" class="headerlink" title="管道（Aggregation Pipeline）"></a>管道（Aggregation Pipeline）</h1><p>在mongodb中，Aggregation的操作方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.collection.aggregate( [ &#123; &lt;stage&gt; &#125;, ... ] )</div></pre></td></tr></table></figure></p>
+<p>而其中的stage则是构成管道的每个部分，可以由一个或者多个stage来构成。管道是mongodb数据聚合的一个新框架，类似于数据处理的管道，或者说是像*nix系统中的管道。对于collection，由多个stage构成的管道能够实现分组、过滤等功能，文档每经过一个stage就过进行对应的操作并把操作结果输出给下一个stage。因此，构成管道的stage则至关重要，它能直接决定最终的处理结果。<br>每个stage由<strong>Stage Operators</strong>（管道操作符）和<strong>Expression Operators</strong>（管道表达式）构成。</p>
+<h1 id="管道操作符"><a href="#管道操作符" class="headerlink" title="管道操作符"></a>管道操作符</h1><p>管道操作符，可以理解为每个stage你要对目标数据进行的操作，目前主要包括以下几种操作符：</p>
+<h2 id="project"><a href="#project" class="headerlink" title="$project"></a>$project</h2><p>对于$project操作符来说，官方的解释是这样的：</p>
+<blockquote>
+<p>Reshapes each document in the stream, such as by adding new fields or removing existing fields. For each input document, outputs one document.</p>
+</blockquote>
+<p>也就是说，$project操作符能够完成增加、删除、重命名字段，控制流向下一个stage的数据组织形式。<br>以我抓去的拉勾网招聘数据为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># 原始数据</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Java&quot;</div><div class="line">&#125;</div><div class="line"># 聚合方法</div><div class="line">db.Category.aggregate(&#123;$project:&#123;category:1,链接:&quot;$url&quot;,分类:&#123;tag:&quot;$tag&quot;,name:&quot;$name&quot;&#125;&#125;&#125;)</div><div class="line"># 输出结果</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;链接&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">	&quot;分类&quot; : &#123;</div><div class="line">		&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">		&quot;name&quot; : &quot;Java&quot;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="match"><a href="#match" class="headerlink" title="$match"></a>$match</h2><blockquote>
+<p>Filters the document stream to allow only matching documents to pass unmodified into the next pipeline stage. $match uses standard MongoDB queries. For each input document, outputs either one document (a match) or zero documents (no match).</p>
+</blockquote>
+<p>$match运算符，用于筛选出符合目标条件的数据传给下一个stage。它的用法和普通的find()类似，以下例来说：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># find()查询</div><div class="line">db.Category.find(&#123;category:&quot;技术&quot;&#125;).pretty()</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Java&quot;</div><div class="line">&#125;</div><div class="line"># 聚合方法</div><div class="line">db.Category.aggregate(&#123;$match:&#123;category:&quot;技术&quot;&#125;&#125;)</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Java&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="limit"><a href="#limit" class="headerlink" title="$limit"></a>$limit</h2><blockquote>
+<p>Passes the first n documents unmodified to the pipeline where n is the specified limit. For each input document, outputs either one document (for the first n documents) or zero documents (after the first n documents).</p>
+</blockquote>
+<p>与普通查询类似，limit用以限制输出文档数量，在aggregtion中的使用方式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"># 常规查询</div><div class="line">&gt; db.Category.find(&#123;category:&quot;技术&quot;&#125;).limit(3).pretty()</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Java&quot;</div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b4&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Python/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Python&quot;</div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b5&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/PHP/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;PHP&quot;</div><div class="line">&#125;</div><div class="line"># aggregation</div><div class="line">&gt; db.Category.aggregate(&#123;$limit:3&#125;).pretty()</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Java&quot;</div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b4&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Python/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;Python&quot;</div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b5&quot;),</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/PHP/&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;name&quot; : &quot;PHP&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="skip"><a href="#skip" class="headerlink" title="$skip"></a>$skip</h2><blockquote>
+<p>Skips the first n documents where n is the specified skip number and passes the remaining documents unmodified to the pipeline. For each input document, outputs either zero documents (for the first n documents) or one document (if after the first n documents).</p>
+</blockquote>
+<p>skip也是一个很常用的操作，用以跳过输入文档前n个文档之后进行下一步操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 常规全表扫描</div><div class="line">&gt; db.Category.find().skip(1).limit(1)</div><div class="line">&#123; &quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b4&quot;), &quot;category&quot; : &quot;技术&quot;, &quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Python/&quot;, &quot;tag&quot; : &quot;后端开发&quot;, &quot;name&quot; : &quot;Python&quot; &#125;</div><div class="line">&gt; db.Category.find().limit(1)</div><div class="line">&#123; &quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;), &quot;category&quot; : &quot;技术&quot;, &quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;, &quot;tag&quot; : &quot;后端开发&quot;, &quot;name&quot; : &quot;Java&quot; &#125;</div><div class="line"># aggregation操作</div><div class="line">&gt; db.Category.aggregate(&#123;$limit:1&#125;)</div><div class="line">&#123; &quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;), &quot;category&quot; : &quot;技术&quot;, &quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;, &quot;tag&quot; : &quot;后端开发&quot;, &quot;name&quot; : &quot;Java&quot; &#125;</div><div class="line">&gt; db.Category.aggregate(&#123;$skip:1&#125;,&#123;$limit:1&#125;)</div><div class="line">&#123; &quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b4&quot;), &quot;category&quot; : &quot;技术&quot;, &quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Python/&quot;, &quot;tag&quot; : &quot;后端开发&quot;, &quot;name&quot; : &quot;Python&quot; &#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，同样是limit(1)，在增加了skip操作之后，返回的结果是不相同的。</p>
+<h2 id="lookup"><a href="#lookup" class="headerlink" title="$lookup"></a>$lookup</h2><blockquote>
+<p>Performs a left outer join to another collection in the same database to filter in documents from the “joined” collection for processing.</p>
+</blockquote>
+<p>可以看到，$lookup的作用就是进行一个类似sql中left join的操作，而每个lookup操作需要有四个参数传入：</p>
+<ul>
+<li>from 确定要进行lookup的集合名，该集合必须与当前进行aggregate操作的集合在同一个库中，并且不能分片</li>
+<li>localField 制定要进行操作的列名，用以和下边通过from确定的集合中foreignField指定的列名进行匹配</li>
+<li>foreignField 指定由from确定的集合要进行lookup操作的列名</li>
+<li>as 两个集合匹配完成之后，在当前结合中添加的一列</li>
+</ul>
+<p>通过下例来说：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&gt; db.Position.aggregate(&#123;$lookup:&#123;from:&quot;Category&quot;,localField:&quot;name&quot;,foreignField:&quot;name&quot;,as:&quot;jobInfo&quot;&#125;&#125;,&#123;$skip:1&#125;,&#123;$limit:1&#125;).pretty()</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;582ee2b6b7f3d15abcf7174c&quot;),</div><div class="line">	&quot;positionid&quot; : 2342819,</div><div class="line">	&quot;salary&quot; : &quot;8k-15k&quot;,</div><div class="line">	&quot;name&quot; : &quot;Java&quot;,</div><div class="line">	&quot;detailUR&quot; : &quot;https://www.lagou.com/jobs/2342819.html&quot;,</div><div class="line">	&quot;companyid&quot; : 25439,</div><div class="line">	&quot;company&quot; : &quot;Udesk－企业级智能客服平台&quot;,</div><div class="line">	&quot;experience&quot; : &quot;经验1-3年&quot;,</div><div class="line">	&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">	&quot;address&quot; : &quot;西直门南大街2号成铭大厦C座16层（西直门地铁站C口）&quot;,</div><div class="line">	&quot;category&quot; : &quot;技术&quot;,</div><div class="line">	&quot;loc&quot; : &#123;</div><div class="line">		&quot;type&quot; : &quot;Point&quot;,</div><div class="line">		&quot;coordinates&quot; : [</div><div class="line">			116.35735297,</div><div class="line">			39.93921106</div><div class="line">		]</div><div class="line">	&#125;,</div><div class="line">	&quot;jobInfo&quot; : [</div><div class="line">		&#123;</div><div class="line">			&quot;_id&quot; : ObjectId(&quot;582ee2a0b7f3d15aaebf35b3&quot;),</div><div class="line">			&quot;category&quot; : &quot;技术&quot;,</div><div class="line">			&quot;url&quot; : &quot;https://www.lagou.com/zhaopin/Java/&quot;,</div><div class="line">			&quot;tag&quot; : &quot;后端开发&quot;,</div><div class="line">			&quot;name&quot; : &quot;Java&quot;</div><div class="line">		&#125;</div><div class="line">	]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，通过name字段将Category和Position两个集合关联起来，并且Category中对应的数据在输出中以jobInfo表示。</p>
+<h2 id="group"><a href="#group" class="headerlink" title="$group"></a>$group</h2><blockquote>
+<p>Groups input documents by a specified identifier expression and applies the accumulator expression(s), if specified, to each group. Consumes all input documents and outputs one document per each distinct group. The output documents only contain the identifier field and, if specified, accumulated fields.</p>
+</blockquote>
+<p>$group也是一个sql中常用的操作符，它可以很方便的按照字段来进行一些统计工作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&gt; db.Position.aggregate(&#123;$group:&#123;_id:&quot;$name&quot;,count:&#123;$sum:1&#125;&#125;&#125;)</div><div class="line">&#123; &quot;_id&quot; : &quot;游戏制作人&quot;, &quot;count&quot; : 343 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;产品总监&quot;, &quot;count&quot; : 90 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;产品部经理&quot;, &quot;count&quot; : 53 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;网页产品设计师&quot;, &quot;count&quot; : 4 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;产品实习生&quot;, &quot;count&quot; : 13 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;游戏策划&quot;, &quot;count&quot; : 291 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;电商产品经理&quot;, &quot;count&quot; : 301 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;数据产品经理&quot;, &quot;count&quot; : 450 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;产品助理&quot;, &quot;count&quot; : 65 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;移动产品经理&quot;, &quot;count&quot; : 18 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;BI工程师&quot;, &quot;count&quot; : 9 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;售前工程师&quot;, &quot;count&quot; : 9 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;硬件开发其它&quot;, &quot;count&quot; : 450 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;射频工程师&quot;, &quot;count&quot; : 60 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;热传导&quot;, &quot;count&quot; : 2 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;模具设计&quot;, &quot;count&quot; : 11 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;DSP开发&quot;, &quot;count&quot; : 6 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;企业软件其它&quot;, &quot;count&quot; : 21 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;系统集成&quot;, &quot;count&quot; : 110 &#125;</div><div class="line">&#123; &quot;_id&quot; : &quot;驱动开发&quot;, &quot;count&quot; : 129 &#125;</div></pre></td></tr></table></figure></p>
+<p>需要注意的是，在进行$group操作的时候，必须要指定一个_id的字段名，并且这个操作都是在内存中进行，如果数据量很大的时候需要额外的参数（将会在以后的文章中提到）。</p>
+<h2 id="其他的操作符"><a href="#其他的操作符" class="headerlink" title="其他的操作符"></a>其他的操作符</h2><p>上述几个是用的比较多的几个。其他的操作符还有$unwind、$sample、$sort、$indexStats、$out等。在以后使用中如果遇到的话在来这更新。</p>
+<h1 id="管道表达式"><a href="#管道表达式" class="headerlink" title="管道表达式"></a>管道表达式</h1><p>上边的几个例子已经有所体现，就是说，在进行aggreagtion的时候，每个stage都是由一个管道表达式作为动词，按照对应的限制进行操作，而管道表达式则可以构成丰富的操作限制，从而得到想要的结果，其中$group操作符中的$sum则是众多管道表达式中的一个。<br>而跟多的管道表达式可以参考<a href="https://docs.mongodb.com/v3.2/reference/operator/aggregation/" target="_blank" rel="external">这里</a>了解。</p>
+<h1 id="mongodb-campass"><a href="#mongodb-campass" class="headerlink" title="mongodb campass"></a>mongodb campass</h1><p>通过mongodb自身的aggregation操作，合理使用管道表达式和管道操作符可以完成大量的分析统计工作，这里不得不得说一下mongodb官方提供的数据库可视化工具<strong><a href="https://www.mongodb.com/download-center?jmp=docs#compass" target="_blank" rel="external">mongodb compass</a></strong>。有了这个工具（有windows和mac版本），感觉其他的可视化工具都弱爆了，强烈推荐！</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/mongodb/">mongodb</a>
+            
+              <a href="/tags/aggregation/">aggregation</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/11/25/读Mongodb权威指南有感/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">读Mongodb权威指南有感</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/11/16/python基础/">
+        <span class="next-text nav-default">Python基础知识</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/11/23/mongodb_Aggregation/';
+        this.page.identifier = '2016/11/23/mongodb_Aggregation/';
+        this.page.title = 'Mongodb Aggregation Pipleline';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

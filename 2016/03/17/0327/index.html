@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="Linux基础知识"/>
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2016/03/17/0327/"/>
+
+
+<meta name="description" content="总结一下常用的Linux系统基础知识点。">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础知识">
+<meta property="og:url" content="http://yoursite.com/2016/03/17/0327/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="总结一下常用的Linux系统基础知识点。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux基础知识">
+<meta name="twitter:description" content="总结一下常用的Linux系统基础知识点。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Linux基础知识 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Linux基础知识
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2016年3月17日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-启动大致过程"><span class="toc-text">Linux 启动大致过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-系统组成"><span class="toc-text">Linux 系统组成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-系统小知识点"><span class="toc-text">Linux 系统小知识点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-中软件安装方法"><span class="toc-text">Linux 中软件安装方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-运维过程中常用命令及其用法"><span class="toc-text">Linux 运维过程中常用命令及其用法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分析Web服务器日志-（分析日志中排名靠前的ip、计数统计等）"><span class="toc-text">分析Web服务器日志 （分析日志中排名靠前的ip、计数统计等）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#子网划分方法-（十进制二进制转换，网络地址，主机地址，广播，网关等）"><span class="toc-text">子网划分方法 （十进制二进制转换，网络地址，主机地址，广播，网关等）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用正则表达式-（ip地址、电话号码、以及基础语法）"><span class="toc-text">常用正则表达式 （ip地址、电话号码、以及基础语法）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP协议细节（分组、重传、滑动窗口、握手分手、各阶段连接状态）"><span class="toc-text">TCP协议细节（分组、重传、滑动窗口、握手分手、各阶段连接状态）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP协议细节（请求-响应报文，状态码，HTTP2-0特性"><span class="toc-text">HTTP协议细节（请求/响应报文，状态码，HTTP2.0特性)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SMTP-POP3协议细节-（base64编码原理）"><span class="toc-text">SMTP/POP3协议细节 （base64编码原理）</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>总结一下常用的Linux系统基础知识点。<br><a id="more"></a></p>
+<h1 id="Linux-启动大致过程"><a href="#Linux-启动大致过程" class="headerlink" title="Linux 启动大致过程"></a>Linux 启动大致过程</h1><ol>
+<li>计算机通电之后，进入BIOS阶段，之后操作系统接管硬件，首先读入/boot目录下的内核文件。</li>
+<li>内核文件加载之后，开始运行第一个程序/sbin/init，进行初始换系统环境，由于init是第一个程序，它的进程编号为1，其他所有进程都从它衍生，都是它的子进程。</li>
+<li>init根据“运行级别”确定要运行哪些程序，Linux预置其中运行级别（0-6）。一般来说，0是关机，1是单用户模式，6是重启，根据发行版不同2-5对应的运行级别也有所不同。init进程首先读取文件/etc/inittab，它是运行级别的设置文件。而每个运行级别对应的程序在/etc目录下，指定要加载的程序。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">l0:0:wait:/etc/rc.d/rc 0</div><div class="line">l1:1:wait:/etc/rc.d/rc 1</div><div class="line">l2:2:wait:/etc/rc.d/rc 2</div><div class="line">l3:3:wait:/etc/rc.d/rc 3</div><div class="line">l4:4:wait:/etc/rc.d/rc 4</div><div class="line">l5:5:wait:/etc/rc.d/rc 5</div><div class="line">l6:6:wait:/etc/rc.d/rc 6</div></pre></td></tr></table></figure>
+<p>例如打开rc3.d文件夹，看看里边都有些什么<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">lrwxrwxrwx 1 root root 22 Dec  9  2013 K02avahi-daemon -&gt; ../init.d/avahi-daemon</div><div class="line">lrwxrwxrwx 1 root root 24 Dec  9  2013 K02avahi-dnsconfd -&gt; ../init.d/avahi-dnsconfd</div><div class="line">lrwxrwxrwx 1 root root 19 Dec  8 11:25 K05saslauthd -&gt; ../init.d/saslauthd</div><div class="line">lrwxrwxrwx 1 root root 13 Dec  9  2013 K15gpm -&gt; ../init.d/gpm</div><div class="line">lrwxrwxrwx 1 root root 18 Dec  3 11:19 K15svnserve -&gt; ../init.d/svnserve</div><div class="line">......</div><div class="line">lrwxrwxrwx 1 root root 17 Dec  9  2013 S03sysstat -&gt; ../init.d/sysstat</div><div class="line">lrwxrwxrwx 1 root root 17 Dec  9  2013 S10network -&gt; ../init.d/network</div><div class="line">lrwxrwxrwx 1 root root 16 Dec  9  2013 S12syslog -&gt; ../init.d/syslog</div><div class="line">lrwxrwxrwx 1 root root 19 Dec  3 11:19 S26haldaemon -&gt; ../init.d/haldaemon</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<p>可以看到，这里边都是一些程序的连接，K开头的代表KILL（关闭），S开头代表Start，第一个字母之后的数字代表程序执行顺序，数字越小表示执行优先级较高。</p>
+<ol>
+<li>加载开机启动程序，上边rc.d文件夹中的链接文件指向另外一个目录/etc/init.d，这里边则是真正启动的脚本，init进程逐一加载开机启动程序，其实就是运行这个目录中的启动脚本。</li>
+<li>用户登录，开机启动程序加载完成之后，就要让用户登录了。一般来说登录方式有三种：命令行登录，ssh登录，图形界面登录。</li>
+<li>进入login shell，用户登录时代开的shell就叫做login shell。完成Linux启动过程。</li>
+</ol>
+<h1 id="Linux-系统组成"><a href="#Linux-系统组成" class="headerlink" title="Linux 系统组成"></a>Linux 系统组成</h1><p>Linux操作系统由Linux内核和各种外围程序组成。Linux内核是一个特殊的软件程序，用于实现CPU和内存分配、进程调节、设备驱动等核心操作，以面向硬件为主。外围程序包括用户指定的解析器、网络服务程序、图形桌面程序等各种应用型软件程序，以面向用户为主。<br>Linux内核是操作系统的核心，主要分为几部分组成：内存管理、进程管理、设备驱动程序、文件系统和网络管理等。<br>这里不得不提一下Linux系统的发行版本，由于Linux系统内核是个开源软件，任何公司或者个人都可以将Linux内核和自由软件打包成一个完整的Linux操作系统。主流的Linux分支有：Red Hat系列（Red Hat企业版、Fedora社区版、CentOS社区版），Suse系列，Debian系列（以Ubuntu为代表）</p>
+<h1 id="Linux-系统小知识点"><a href="#Linux-系统小知识点" class="headerlink" title="Linux 系统小知识点"></a>Linux 系统小知识点</h1><ul>
+<li><p>软硬链接<br>在Linux系统中使用ln命令可以对一个已经存在的文件建立一个新的链接，而不复制文件的内容。链接有软链接和硬链接之分，软链接又叫做符号链接。他们的主要区别是：硬链接，是给文件一个副本，源文件名和链接文件名都指向相同的物理地址。目录不能有硬链接，硬链接不能够跨越文件系统，修改原文件或者硬链接都会影响到对方，如果删除其中一个，另一个不会受到影响，可以防止不必要的误删；软链接，用ln -s命令建立文件的软链接，它是linux系统特殊文件的一种，作为一个文件，它的数据是它所连接文件的路径名，类似于windows中的快捷方式，删除软链接是不会影响到原文件的。</p>
+</li>
+<li><p>僵尸进程<br>在Linux系统中，一个进程结束了，但是他的父进程没有等待（调用wait/waitpid），那么它将变成为一个僵尸进程。通过命令来查看系统中存在的僵尸进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">通过top可以看出当前系统中是否存在僵尸进程</div><div class="line">top - 23:12:22 up 28 min,  4 users,  load average: 0.02, 0.07, 0.11</div><div class="line">Tasks: 414 total,   2 running, 412 sleeping,   0 stopped,   0 zombie</div><div class="line">%Cpu(s):  0.0 us,  0.3 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem :  1003164 total,   256540 free,   568848 used,   177776 buff/cache</div><div class="line">KiB Swap:  2097148 total,  1978136 free,   119012 used.   262808 avail Mem</div><div class="line">其中zombie前的数字，如果大于0则表明系统存在僵尸进程</div><div class="line">//-------分割线--------\\</div><div class="line">通过ps命令把僵尸揪出来</div><div class="line">ps -ef | grep defunct    或者</div><div class="line">ps -A -ostat,ppid,pid,cmd | grep  -e &apos;^[Zz]’</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在找到僵尸进程之后，通过其pid使用kill命令将其杀死，如果杀不死，可以先将其父进程杀死，父进程死后僵尸进程变为“孤儿进程”，过继给init进程，init负责处理僵尸进程，并且它产生的所有僵尸进程也会随着消失。</p>
+<ul>
+<li>文件权限<br>1). 在说道文件权限之前，不得不提Linux中用户与用户组的概念。Linux是一个多用户多任务操作系统，即系统上可以建立多个用户，并且多个用户可以在同一时间登录同一个系统执行各自不同的任务而互不影响。Linux正是通过用户和用户组权限的划分和管理来实现多用户多任务的运行机制。<br>Linux下用户时根据角色定义的，具体分为三种角色：超级用户，拥有对系统的最高管理权限，默认root用户；普通用户，只能对自己目录下的文件进行访问和修改，具有登录系统的权限；虚拟用户：此类用户特点是不能进行系统登录，主要是为了方便系统管理，比如nobody用户。<br>用户组是具有相同特征用户的逻辑集合，它能够将需要相同操作权限的用户放在一个组里，从而很大程度上简化管理工作。<br>用户和用户组之间的关系可能是：一对一、一对多、多对多、多对一。<br>用户和用户组相关配置文件有这些：/etc/passwd文件，它记录了Linux系统中每个用户的一些基本属性，并且对所有用户可读。其格式是这样的：用户名：口令：用户标识号：组标识号：注释行描述：主目录：默认shell；/etc/shadow文件，用于存放用户密码，只有root用户有用读权限；/etc/group文件，用户组配置文件，存放用户组相关信息。<br>与用户和用户组相关操作的命令主要有这些：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">创建组</div><div class="line">groupadd test  //增加一个test组</div><div class="line">修改组</div><div class="line">groupmod -n test1 test //将组test改名为test1</div><div class="line">删除组</div><div class="line">groupdel test1	//将test1组删除</div><div class="line">//-----------------------------------------//</div><div class="line">增加用户</div><div class="line">useradd test 	//增加用户test</div><div class="line">passwd test 	//在使用useradd之后需要对增加的用户指明其登录密码</div><div class="line">修改用户</div><div class="line">usermod -d /home/test -G test1 test 	//将用户test的登录目录改为/home/test，并使其加入用户组test1</div><div class="line">gpasswd -a test test2	//将用户test加入test2组</div><div class="line">gpasswd -d test test2  	//将用户test从test2组中删除</div><div class="line">删除用户</div><div class="line">userdel test 			//删除用户test</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2). 介绍完用户和用户组，接下来说一下Linux中文件权限。在Linux中每个文件都具有User，Group和Others三种身份的区别。要想了解文件权限相关的内容，需要知道Linux文件属性，通过ls命令可以看到文件属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">total 88</div><div class="line">drwxr-xr-x  3 root root  4096 Mar 21 09:11 .</div><div class="line">drwxr-xr-x 12 root root  4096 Mar  5 20:56 ..</div><div class="line">-rw-r--r--  1 root root  1077 Dec  3 11:27 fastcgi.conf</div><div class="line">-rw-r--r--  1 root root  1077 Mar 10 00:58 fastcgi.conf.default</div><div class="line">-rw-r--r--  1 root root  1007 Dec  3 11:27 fastcgi_params</div><div class="line">-rw-r--r--  1 root root  1007 Mar 10 00:58 fastcgi_params.default</div><div class="line">-rw-r--r--  1 root root  2837 Mar 10 00:58 koi-utf</div><div class="line">-rw-r--r--  1 root root  2223 Mar 10 00:58 koi-win</div><div class="line">-rw-r--r--  1 root root  3957 Dec  3 11:27 mime.types</div><div class="line">-rw-r--r--  1 root root  3957 Mar 10 00:58 mime.types.default</div><div class="line">-rw-rw-rw-  1 root root  4037 Mar 10 10:44 nginx.conf</div><div class="line">-rw-r--r--  1 root root  3110 Jan 23 15:35 nginx.conf.bak</div><div class="line">-rw-r--r--  1 root root  2656 Mar 10 00:58 nginx.conf.default</div><div class="line">-rw-r--r--  1 root root 12288 Dec  3 21:00 .nginx.conf.swp</div><div class="line">-rw-r--r--  1 root root   636 Dec  3 11:27 scgi_params</div><div class="line">-rw-r--r--  1 root root   636 Mar 10 00:58 scgi_params.default</div><div class="line">drwxr-xr-x  2 root root  4096 Mar  6 13:39 ssl</div><div class="line">-rw-r--r--  1 root root   664 Dec  3 11:27 uwsgi_params</div><div class="line">-rw-r--r--  1 root root   664 Mar 10 00:58 uwsgi_params.default</div><div class="line">-rw-r--r--  1 root root  3610 Mar 10 00:58 win-utf</div><div class="line">[权限] [连接] [owner] [group] [size] [修改日期] [文件名]</div></pre></td></tr></table></figure></p>
+<p>由ls命令返回的内容看，第一组由10个字符构成，用以表示其对应文件的文件类型和权限。其中第一个字符代表这个文件是目录（d）、文件（-）、链接文件（l）、可供存储的接口设备（b）等。接下来的9个字符，每三个构成一组，分别代表“文件拥有者的权限”、“同群组的权限”、“其他非本群组的权限”。而每个组由rwx三个参数来构成，分别代表可读（r）、可写（w）和可执行（x）。对于文件来说，r表示具有读取文件内容的权限，w权限表示可写入，表示具有编辑、新增或是修改文件内容（不包括删除），x表示可以执行此文件；对于目录来说，r表示可以读取目录结构列表，查询目录下的文件名数据，通过ls显示目录中的内容，w表示可以改动目录结构列表（建立新的文件和目录，删除已经存在的文件与目录，重命名文件或目录，或者使用mv进行文件的移动）<br>第二组表示有多少文档名连接到此节点；<br>第三组表示这个文件或者目录的拥有者；<br>第四组表示这个文件的所属族群；<br>第五组表示文件的大小，默认单位是bytes；<br>第六组为此文件或者目录建档日期或者最近修改日期；<br>第七栏为文件名。<br>3). 改变文件属性与权限<br>通过chgrp命令改变文件所属群组，chown命令改变文件拥有者，chmod命令改变文件的权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chgrp [-R] GROUP FILE	//-R表示递归，将目录下的所有文件都修改其组别 GROUP 表示要改变的目标 FILE是文件或者目录</div><div class="line">chown [OPTION] OWNER:GROUP FILE		//改变文件所有者</div></pre></td></tr></table></figure></p>
+<p>文件权限的改变使用chmod命令，但是权限的设置方式有两种，分别可以使用数字或者符号来进行权限的变更。可以使用数字来代表各个权限，r:4，w:2，x:1。权限的修改按照这些数字即可完成，例如要把nginx.conf文件权限修改为[-rwxr–r–]可以使用下面的命令完成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 744 nginx.conf		//rwx==&gt;4+2+1=7 r--==&gt;4 r--==&gt;4</div></pre></td></tr></table></figure></p>
+<p>或者是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod u=rwx,go=r nginx.conf		//u==&gt;user go==&gt;group/others</div></pre></td></tr></table></figure></p>
+<h1 id="Linux-中软件安装方法"><a href="#Linux-中软件安装方法" class="headerlink" title="Linux 中软件安装方法"></a>Linux 中软件安装方法</h1><ul>
+<li><p>YUM</p>
+</li>
+<li><p>RPM</p>
+</li>
+<li><p>源码编译，系统环境变量</p>
+</li>
+</ul>
+<h1 id="Linux-运维过程中常用命令及其用法"><a href="#Linux-运维过程中常用命令及其用法" class="headerlink" title="Linux 运维过程中常用命令及其用法"></a>Linux 运维过程中常用命令及其用法</h1><ul>
+<li>网络相关命令<br>Linux系统中有相关的文件专门配置系统网络，以redhat发行版为例：<br>ip配置文件：对应网卡的ip地址配置文件在/etc/sysconfig/network-script/ifcfg-<interface-name>文件中。ifcfg-eth0代表第一块网卡，ifcfg-eth1代表第二块网卡，以此类推。此文件中可能存在的字段：</interface-name></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DEVICE=&#123;name&#125;  						#&#123;name&#125;表示网卡对应物理设备的名字</div><div class="line">TYPE=Ethernet 						#网络类型，Ethernet代表以太网</div><div class="line">ONBOOT=yes/no 						#yes/no代表是否激活该网络接口</div><div class="line">BOOTPROTO=none/static/bootp/dhcp    #设置网卡获取ip的方式</div><div class="line">IPADDR=&#123;address&#125;					#如果BOOTPROTO设置为static,&#123;address&#125;代表赋予网卡的ip地址</div><div class="line">NETMASK=&#123;mask&#125;						#&#123;mask&#125;代表网卡对应的子网掩码</div><div class="line">GATEWAY=&#123;gateway&#125;					#&#123;gateway&#125;代表默认网关</div><div class="line">DNS=&#123;dns&#125;							#&#123;dns&#125;代表DNS服务配置</div><div class="line">MACADDR=&#123;macaddr&#125;					#&#123;macaddr&#125;表示制定一个mac地址</div><div class="line">HWADDR=&#123;addr&#125;						#&#123;addr&#125;代表mac地址</div></pre></td></tr></table></figure>
+<p>通过/etc/sysconfig/network文件可以修改主机名，也可以通过hostname {name}来临时修改主机名；<br>网关的配置文件/etc/sysconfig/network文件，网关的修改也可以通过上述的ip配置文件来修改，network文件中可以修改的配置项有这些：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NETWORK=yes #表示系统是否使用网络，一般设置为yes，如果设置为no，则不能使用网络，而且很多系统服务程序将无法启动</div><div class="line">RORWARD_IPV4=yes</div><div class="line">HOSTNAME=&#123;hostname&#125;  #&#123;hostname&#125;表示服务器的主机名，这里的主机名要和/etc/hosts中设置的主机名对应</div><div class="line">GAREWAY=&#123;address&#125;  #&#123;address&#125;设置本机连接的网关的IP地址，例如，网关10.0.0.2</div><div class="line">GATEWAYDEV=&#123;device&#125;  #&#123;device&#125;表示网关的设备名，如：eth0</div><div class="line">NETWORK=yes/no　　　　 #网络是否被配置</div><div class="line">FORWARD_IPV4=yes/no　　　　 #是否开启IP转发功能</div></pre></td></tr></table></figure></p>
+<p>DNS配置文件为/etc/resolv.conf文件，同样的DNS信息也可以在ip配置文件中修改，通过resolv.conf文件配置DNS客户端，目前最多支持三个DNS服务器，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nameserver 8.8.8.8 #google域名服务器</div><div class="line">nameserver 8.8.8.4 #google域名服务器</div></pre></td></tr></table></figure></p>
+<p>在没有配置域名服务器的时候，系统上所有的网络程序都通过/etc/hosts文件查询一些主机名对应的IP地址，他们是按照键值对的方式进行配置的，例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">eclipsesv.com 121.42.219.216</div><div class="line">localhost 127.0.0.1</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Shell/Python系统管理脚本（CPU、内存、磁盘）、邮件收发脚本、文本处理、随机码生成、Nginx作为系统服务的脚本</li>
+<li>sed\akw\grep 使用 附带常用正则表达式</li>
+<li>数据库 MySQL基础命令、Redis和MongoDB要深入，体现优势</li>
+<li>监控工具 nagios</li>
+<li>用户和组管理</li>
+<li>文件操作权限以及find命令</li>
+<li>crontab命令的使用方法</li>
+<li>磁盘挂载方法</li>
+</ul>
+<h1 id="分析Web服务器日志-（分析日志中排名靠前的ip、计数统计等）"><a href="#分析Web服务器日志-（分析日志中排名靠前的ip、计数统计等）" class="headerlink" title="分析Web服务器日志 （分析日志中排名靠前的ip、计数统计等）"></a>分析Web服务器日志 （分析日志中排名靠前的ip、计数统计等）</h1><ul>
+<li>查看排名前10的IP地址： awk ‘{print $1}’ access.log | sort | uniq -c | sort -nr | head -n 10</li>
+<li>查看某一天的ip地址： cat access.log | grep “01/Nov/2016” | awk ‘{print $1}’ | uniq -c | sort -nr | head -n 10</li>
+<li>查看请求最多的URL：  awk ‘{print $11}’ access.log | sort | uniq -c | sort -nr | head -n 10<h1 id="子网划分方法-（十进制二进制转换，网络地址，主机地址，广播，网关等）"><a href="#子网划分方法-（十进制二进制转换，网络地址，主机地址，广播，网关等）" class="headerlink" title="子网划分方法 （十进制二进制转换，网络地址，主机地址，广播，网关等）"></a>子网划分方法 （十进制二进制转换，网络地址，主机地址，广播，网关等）</h1><h1 id="常用正则表达式-（ip地址、电话号码、以及基础语法）"><a href="#常用正则表达式-（ip地址、电话号码、以及基础语法）" class="headerlink" title="常用正则表达式 （ip地址、电话号码、以及基础语法）"></a>常用正则表达式 （ip地址、电话号码、以及基础语法）</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">数字：^[0-9]*$</div><div class="line">n位数字: ^\d&#123;n&#125;$</div><div class="line">至少n位数字： ^\d&#123;n,&#125;$</div><div class="line">m-n位数字： ^\d&#123;m,n&#125;$</div><div class="line">零和非零开头的数字： ^(0|[1-9][0-9]*)$</div><div class="line">非零开头最多带有两位小数的数字： ^([1-9][0-9]*)+(.[0-9]&#123;1,2&#125;)?$</div><div class="line">带有1-2位小数的正数或者负数： ^(\-)?\d+(\.\d&#123;1,2&#125;)?$</div><div class="line">正数、负数和小数： ^(\-|\+)?\d+(\.\d+)?$</div><div class="line">Email地址： ^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</div><div class="line">域名：[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(/.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+/.?</div><div class="line">InternetURL：[a-zA-z]+://[^\s]* 或 ^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</div><div class="line">手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</div><div class="line">身份证号(15位、18位数字)：^\d&#123;15&#125;|\d&#123;18&#125;$</div><div class="line">ip地址： ((2[0-4]\d|25[0-5]|[01]?\d\d?)\.)&#123;3&#125;(2[0-4]\d|25[0-5]|[01]?\d\d?)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="TCP协议细节（分组、重传、滑动窗口、握手分手、各阶段连接状态）"><a href="#TCP协议细节（分组、重传、滑动窗口、握手分手、各阶段连接状态）" class="headerlink" title="TCP协议细节（分组、重传、滑动窗口、握手分手、各阶段连接状态）"></a>TCP协议细节（分组、重传、滑动窗口、握手分手、各阶段连接状态）</h1><h1 id="HTTP协议细节（请求-响应报文，状态码，HTTP2-0特性"><a href="#HTTP协议细节（请求-响应报文，状态码，HTTP2-0特性" class="headerlink" title="HTTP协议细节（请求/响应报文，状态码，HTTP2.0特性)"></a>HTTP协议细节（请求/响应报文，状态码，HTTP2.0特性)</h1><h1 id="SMTP-POP3协议细节-（base64编码原理）"><a href="#SMTP-POP3协议细节-（base64编码原理）" class="headerlink" title="SMTP/POP3协议细节 （base64编码原理）"></a>SMTP/POP3协议细节 （base64编码原理）</h1>
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Linux/">Linux</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/03/25/0325/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">213</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/03/16/Hyper Interface1/">
+        <span class="next-text nav-default">Hyper Interface(1)</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2016/03/17/0327/';
+        this.page.identifier = '2016/03/17/0327/';
+        this.page.title = 'Linux基础知识';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

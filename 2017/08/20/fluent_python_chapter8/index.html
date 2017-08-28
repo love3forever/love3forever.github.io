@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="对象引用、可变性[流畅的Python]"/>
+
+
+
+
+  <meta name="keywords" content="python,读书,可变类型,深浅拷贝," />
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://yoursite.com/2017/08/20/fluent_python_chapter8/"/>
+
+
+<meta name="description" content="记录一下在读《流程的python》时对自己有用的知识点。">
+<meta name="keywords" content="python,读书,可变类型,深浅拷贝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对象引用、可变性[流畅的Python]">
+<meta property="og:url" content="http://yoursite.com/2017/08/20/fluent_python_chapter8/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="记录一下在读《流程的python》时对自己有用的知识点。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-08-20T15:32:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对象引用、可变性[流畅的Python]">
+<meta name="twitter:description" content="记录一下在读《流程的python》时对自己有用的知识点。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> 对象引用、可变性[流畅的Python] · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          对象引用、可变性[流畅的Python]
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017年8月20日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-变量不是盒子"><span class="toc-text">1. 变量不是盒子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-标识、相等性和别名"><span class="toc-text">2. 标识、相等性和别名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-运算符is和"><span class="toc-text">3. 运算符is和==</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-元组的相对不可变性"><span class="toc-text">4. 元组的相对不可变性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-copy和deepcopy"><span class="toc-text">5. copy和deepcopy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-不要使用可变类型作为参数的默认值"><span class="toc-text">6. 不要使用可变类型作为参数的默认值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-防御可变参数"><span class="toc-text">7. 防御可变参数</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>记录一下在读《流程的python》时对自己有用的知识点。<br><a id="more"></a></p>
+<h1 id="1-变量不是盒子"><a href="#1-变量不是盒子" class="headerlink" title="1. 变量不是盒子"></a>1. 变量不是盒子</h1><p>进行赋值操作的时候，并不是将一个对象放在变量构成的<code>盒子</code>中。实际上，在进行赋值操作的时候，等号右边的对象是在它被创建之后才把等号左边的变量分配给它，相当于给这个对象贴上了一个标签🏷️。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">In [1]: class Gizmo:</div><div class="line">   ...:     def __init__(self):</div><div class="line">   ...:         print(id(self))</div><div class="line">   ...:</div><div class="line"></div><div class="line">In [2]: x = Gizmo()</div><div class="line">4418370088</div><div class="line"></div><div class="line">In [3]: y = Gizmo()[0]</div><div class="line">4418271496</div><div class="line">---------------------------------------------------------------------------</div><div class="line">AttributeError                            Traceback (most recent call last)</div><div class="line">&lt;ipython-input-3-81d29164ac5d&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 y = Gizmo()[0]</div><div class="line"></div><div class="line">AttributeError: Gizmo instance has no attribute &apos;__getitem__&apos;</div></pre></td></tr></table></figure></p>
+<p>可以看到，在将变量x分配给类Gizmo的一个实例之前，Gizmo的实例已经被创建。</p>
+<h1 id="2-标识、相等性和别名"><a href="#2-标识、相等性和别名" class="headerlink" title="2. 标识、相等性和别名"></a>2. 标识、相等性和别名</h1><p>正如上边所说，变量相当于是一个对象的标签，当然，一个对象可以被贴上许多标签，即多个变量绑定同一个对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">In [4]: list1 = [0,1,2,3,4,5]</div><div class="line"></div><div class="line">In [5]: list2 = list1</div><div class="line"></div><div class="line">In [6]: list2</div><div class="line">Out[6]: [0, 1, 2, 3, 4, 5]</div><div class="line"></div><div class="line">In [7]: list2.append(6)</div><div class="line"></div><div class="line">In [8]: list1</div><div class="line">Out[8]: [0, 1, 2, 3, 4, 5, 6]</div></pre></td></tr></table></figure></p>
+<p>可以看到list1和list2是同一个对象的不同标签。<br>但是，如何才能判断两个变量是否绑定的是同一个对象？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">In [9]: list3 = [0,1,2,3,4,5,6]</div><div class="line"></div><div class="line">In [10]: list3 == list1 == list2</div><div class="line">Out[10]: True</div></pre></td></tr></table></figure></p>
+<p>接着上边的例子，我们现在有一个叫做list3的变量，它和list1、list2是相等的，但是它们三个绑定的是同一个对象吗？python官方文档中有这样的描述：</p>
+<blockquote>
+<p>每个变量都有标识、类型和值。对象一旦创建，它的标识绝对不会变化；你可以把标识当作该对象在内存中的地址。is运算符用以比较两个对象的标识，内建函数<code>id()</code>返回对象标识的整数表示。</p>
+</blockquote>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">In [12]: list1 is list2</div><div class="line">Out[12]: True</div><div class="line"></div><div class="line">In [13]: list3 is list1</div><div class="line">Out[13]: False</div><div class="line"></div><div class="line">In [14]: id(list1)</div><div class="line">Out[14]: 4418368144</div><div class="line"></div><div class="line">In [15]: id(list2)</div><div class="line">Out[15]: 4418368144</div><div class="line"></div><div class="line">In [16]: id(list3)</div><div class="line">Out[16]: 4418128064</div></pre></td></tr></table></figure>
+
+可以看到`list1 is list2`并且`id(list1) == id(list2)`,这说明list1和list2绑定的是同一个对象，list3则和list1或者list2绑定的是不同的对象，即使是`list3 == list1 == list2`
+</code></pre><h1 id="3-运算符is和"><a href="#3-运算符is和" class="headerlink" title="3. 运算符is和=="></a>3. 运算符<code>is</code>和<code>==</code></h1><p>通过上边的例子，有个直观的印象就是</p>
+<blockquote>
+<p><code>is</code>用于比较对象的标识，<code>==</code>用于比较对象的值</p>
+</blockquote>
+<pre><code>通常情况下，我们会更多的使用`==`进行对象间的值的比较，但是在&lt;strong&gt;变量和单例值之间的比较，更应该使用`is`&lt;/strong&gt;。这是因为: &lt;strong&gt;`is`运算符比`==`更快，因为它不能重载，这样python不用寻找并调用特殊方法，而是直接比较两个整数ID。`a == b`是语法糖，等同于执行`a.__eq__(b)`。继承自object的`__eq__`方法比较的是两个对象的ID，结果和`is`一样，但是多数内置类型都定义了更有意义的方式，覆盖了`__eq__`，这样就可能会给相等性测试带来更多复杂的处理工作。&lt;/strong&gt;
+</code></pre><h1 id="4-元组的相对不可变性"><a href="#4-元组的相对不可变性" class="headerlink" title="4. 元组的相对不可变性"></a>4. 元组的相对不可变性</h1><p>元组与多数python的集合类型一样（这里的一样指的是：列表、字典、集等而不包括像是str，bytes和array.array这样的单一类型序列，它们保存的不是引用，而是在连续内存中保存的数据本身），保存的是对象的引用。所以，如果引用的元素是可变的，即使元组本身不变，它其中的元素也是可变的。<strong>元组的不可变性，指的是它其中保存的引用不变（数据结构和物理内容），与引用的对象无关</strong></p>
+<h1 id="5-copy和deepcopy"><a href="#5-copy和deepcopy" class="headerlink" title="5. copy和deepcopy"></a>5. copy和deepcopy</h1><p>由上边的例子可以看到，像列表、字典等集合类型，它们内部保存的是对象的引用，所以就会出现这样的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">In [33]: l1 = [3,[4,5,6],(7,8,9)]</div><div class="line"></div><div class="line">In [34]: l2 = list(l1)</div><div class="line"></div><div class="line">In [35]: l2</div><div class="line">Out[35]: [3, [4, 5, 6], (7, 8, 9)]</div><div class="line"></div><div class="line">In [36]: l1.append(0)</div><div class="line"></div><div class="line">In [37]: l1[1].append(&apos;x&apos;)</div><div class="line"></div><div class="line">In [38]: print(l1)</div><div class="line">[3, [4, 5, 6, &apos;x&apos;], (7, 8, 9), 0]</div><div class="line"></div><div class="line">In [39]: print(l2)</div><div class="line">[3, [4, 5, 6, &apos;x&apos;], (7, 8, 9)]</div><div class="line"></div><div class="line">In [40]: l2[1] += [&apos;y&apos;,&apos;z&apos;]</div><div class="line"></div><div class="line">In [41]: l2[2] += (&apos;x&apos;,&apos;y&apos;,&apos;z&apos;)</div><div class="line"></div><div class="line">In [42]: l1</div><div class="line">Out[42]: [3, [4, 5, 6, &apos;x&apos;, &apos;y&apos;, &apos;z&apos;], (7, 8, 9), 0]</div><div class="line"></div><div class="line">In [43]: l2</div><div class="line">Out[43]: [3, [4, 5, 6, &apos;x&apos;, &apos;y&apos;, &apos;z&apos;], (7, 8, 9, &apos;x&apos;, &apos;y&apos;, &apos;z&apos;)]</div></pre></td></tr></table></figure></p>
+<p>In [33]和In [34]进行了简单的列表复制，通过内置的构造函数来完成赋值。这个时候<code>l1 == l2</code>并且<code>l1 is not l2</code>它们绑定了不同的对象。所以In [36]中l1.append(0)并不会对l2造成影响。<br>但是由于列表内部保存的是对象的引用，所以<code>l1[1] == [4,5,6]</code>，如果对l1[1]进行操作，l2自然会收到影响。<br>In [40]和In [41]分别对l2[1]和l2[2]进行操作，列表在进行<code>+=</code>操作之后，会就地修改列表，但对于元组来说<code>+=</code>操作会创建一个新的元组然后重新绑定给变量<strong>l2[2]</strong>，这样<code>l1[2]</code>和<code>l2[2]</code>就不是同一个对象。（个人觉得，上边的这个过程可以当作一道优秀的面试题目😊）</p>
+<blockquote>
+<p>对<code>+=</code>或者<code>*=</code>所做的增量复制操作来说，如果操作符左侧绑定的是不可变对象，会创建一个新的对象，如果是可变对象，会就地修改</p>
+</blockquote>
+<pre><code>默认情况下，python进行的复制都是浅复制（副本共享内部对象的引用）,通过copy模块提供的deepcopy和copy可以为任何对象做深复制或者浅复制。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">In [55]: class Bus:</div><div class="line">    ...:     def __init__(self,passengers=None):</div><div class="line">    ...:         if passengers is None:</div><div class="line">    ...:             self.passengers = []</div><div class="line">    ...:         else:</div><div class="line">    ...:             self.passengers = passengers</div><div class="line">    ...:     def pick(self,name):</div><div class="line">    ...:         self.passengers.append(name)</div><div class="line">    ...:     def drop(self,name):</div><div class="line">    ...:         self.passengers.remove(name)</div><div class="line">    ...:</div><div class="line"></div><div class="line">In [56]: import copy</div><div class="line"></div><div class="line">In [57]: bus1 = Bus([&apos;wm&apos;,&apos;ws&apos;,&apos;ls&apos;,&apos;gjy&apos;])</div><div class="line"></div><div class="line">In [58]: bus2 = copy.copy(bus1)</div><div class="line"></div><div class="line">In [59]: bus3 = copy.deepcopy(bus1)</div><div class="line"></div><div class="line">In [60]: map(id,[bus1,bus2,bus3])</div><div class="line">Out[60]: [4418132448, 4416805992, 4416805920]</div><div class="line"></div><div class="line">In [61]: bus1.drop(&apos;wm&apos;)</div><div class="line"></div><div class="line">In [62]: bus2.passengers</div><div class="line">Out[62]: [&apos;ws&apos;, &apos;ls&apos;, &apos;gjy&apos;]</div><div class="line"></div><div class="line">In [63]: bus3.passengers</div><div class="line">Out[63]: [&apos;wm&apos;, &apos;ws&apos;, &apos;ls&apos;, &apos;gjy&apos;]</div><div class="line"></div><div class="line">In [64]: map(id,[bus1.passengers,bus2.passengers,bus3.passengers])</div><div class="line">Out[64]: [4419499288, 4419499288, 4418048440]</div></pre></td></tr></table></figure>
+
+可以看到，通过deepcopy，bus3和bus1之间并没有共享内部对象的引用，而通过copy生成的bus2的`passengers`和bus1是相同的对象。
+</code></pre><h1 id="6-不要使用可变类型作为参数的默认值"><a href="#6-不要使用可变类型作为参数的默认值" class="headerlink" title="6. 不要使用可变类型作为参数的默认值"></a>6. 不要使用可变类型作为参数的默认值</h1><p>通过下边的例子可以证明上边的这条忠告：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">In [67]: class HauntedBus:</div><div class="line">    ...:     def __init__(self,passengers=[]):</div><div class="line">    ...:         self.passengers = passengers</div><div class="line">    ...:     def pick(self,name):</div><div class="line">    ...:         self.passengers.append(name)</div><div class="line">    ...:     def drop(self,name):</div><div class="line">    ...:         self.passengers.remove(name)</div><div class="line">    ...:</div><div class="line"></div><div class="line">In [68]: bus1 = HauntedBus([&apos;wm&apos;,&apos;ws&apos;,&apos;ls&apos;])</div><div class="line"></div><div class="line">In [69]: bus1.passengers</div><div class="line">Out[69]: [&apos;wm&apos;, &apos;ws&apos;, &apos;ls&apos;]</div><div class="line"></div><div class="line">In [70]: bus1.pick(&apos;gjy&apos;)</div><div class="line"></div><div class="line">In [71]: bus1.drop(&apos;ws&apos;)</div><div class="line"></div><div class="line">In [72]: bus1.passengers</div><div class="line">Out[72]: [&apos;wm&apos;, &apos;ls&apos;, &apos;gjy&apos;]</div><div class="line"></div><div class="line">In [73]: bus2 = HauntedBus()</div><div class="line"></div><div class="line">In [74]: bus2.pick(&apos;wm&apos;)</div><div class="line"></div><div class="line">In [76]: bus2.passengers</div><div class="line">Out[76]: [&apos;wm&apos;]</div><div class="line"></div><div class="line">In [77]: bus3 = HauntedBus()</div><div class="line"></div><div class="line">In [78]: bus3.pick(&apos;ws&apos;)</div><div class="line"></div><div class="line">In [79]: bus3.passengers</div><div class="line">Out[79]: [&apos;wm&apos;, &apos;ws&apos;]</div></pre></td></tr></table></figure></p>
+<p>可以看到，在没有定义初始乘客的HauntedBus实例会共享同一个乘客列表，这是因为<code>self.passengers</code>变成了<code>passengers</code>参数默认值的别名，默认值在定义函数时计算，因此默认值变成了函数对象的属性，因此，如果默认值是可变对象，并且修改了它的值，那么后续的函数调用都会收到影响。</p>
+<h1 id="7-防御可变参数"><a href="#7-防御可变参数" class="headerlink" title="7. 防御可变参数"></a>7. 防御可变参数</h1><p>如果一个函数接受的是可变参数，那么应该谨慎的考虑是否想要修改传入的参数，是否想要将对这个可变对象的修改作用到函数体之外？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">In [81]: overwatch_team = [&apos;wm&apos;,&apos;ws&apos;,&apos;ls&apos;,&apos;gjy&apos;,&apos;ll&apos;]</div><div class="line"></div><div class="line">In [82]: class Twilightbus:</div><div class="line">    ...:     def __init__(self,passengers=None):</div><div class="line">    ...:         if passengers is None:</div><div class="line">    ...:             self.passengers = []</div><div class="line">    ...:         else:</div><div class="line">    ...:             self.passengers = passengers</div><div class="line">    ...:     def pick(self,name):</div><div class="line">    ...:         self.passengers.append(name)</div><div class="line">    ...:     def drop(self,name):</div><div class="line">    ...:         self.passengers.remove(name)</div><div class="line">    ...:</div><div class="line"></div><div class="line">In [83]: bus = Twilightbus(overwatch_team)</div><div class="line"></div><div class="line">In [84]: bus.drop(&apos;wm&apos;)</div><div class="line"></div><div class="line">In [85]: bus.drop(&apos;ws&apos;)</div><div class="line"></div><div class="line">In [86]: overwatch_team</div><div class="line">Out[86]: [&apos;ls&apos;, &apos;gjy&apos;, &apos;ll&apos;]</div></pre></td></tr></table></figure></p>
+<p>可以看到Twilightbus可以让乘客莫名其妙的销声匿迹😨。这是因为，在将参数passenger传给Twilightbus的时候，实际上是将<code>self.passengers</code>变成了passengers的别名，所以每当乘客下车执行<code>drop()</code>的时候，直接将乘客从列表中抹去。<br>如果想要避免这种状况，可以在初始化函数中做一些修改:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def __init__(self,passengers):</div><div class="line">    if passengers is None:</div><div class="line">        self.passengers = []</div><div class="line">    else:</div><div class="line">        self.passengers = list(passengers)</div></pre></td></tr></table></figure></p>
+<p>经过上边这样的内部处理，就不会发生上边的幽灵巴士案件。所以，在类中直接把参数复制给实例变量以前一定要考虑清楚。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/python/">python</a>
+            
+              <a href="/tags/读书/">读书</a>
+            
+              <a href="/tags/可变类型/">可变类型</a>
+            
+              <a href="/tags/深浅拷贝/">深浅拷贝</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/08/22/python魔术方法指南/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">python魔术方法指南[转]</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/08/10/Iterables,Iterators和Generators/">
+        <span class="next-text nav-default">Iterables,Iterators和Generators</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2017/08/20/fluent_python_chapter8/';
+        this.page.identifier = '2017/08/20/fluent_python_chapter8/';
+        this.page.title = '对象引用、可变性[流畅的Python]';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>
