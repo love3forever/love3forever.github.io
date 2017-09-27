@@ -192,6 +192,48 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/09/26/一次异步任务的执行过程/">一次异步任务的执行过程</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017年9月26日
+        </span>
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+          
+        
+
+        
+          <p>最近在做一个小型的mongodb运维工具，在开发的过程中想要实现mongodb数据库备份的功能：前端页面提供一个按钮，用户点击之后向后端post想要备份哪个数据库，后端接到请求之后将这个任务发给异步任务队列，在数据库完成备份之后，后端推送一个包含此次备份详情的消息给前端页面，并且提供一个能够下载此备份文件的链接。<br>我的实现方法可以用下边这个图来表达：<br><img src="https://o3sw4xojp.qnssl.com/task-flow.png" alt="task-flow.png"><br>
+          <div class="read-more">
+            <a href="/2017/09/26/一次异步任务的执行过程/" class="read-more-link">阅读更多</a>
+          </div>
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/09/18/mongodb使用总结/">mongodb使用总结</a>
         
       </h1>
@@ -554,48 +596,6 @@
 <li><a href="https://docs.mongodb.com/manual/core/views/" target="_blank" rel="external">mongodb3.4 read-only view</a></li>
 </ul>
 
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/07/19/celery和fabric的简单使用/">celery和fabric的使用</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017年7月19日
-        </span>
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-          
-        
-
-        
-          <p>很早就听说<a href="http://www.celeryproject.org/" target="_blank" rel="external">celery</a>和<a href="http://www.fabfile.org/" target="_blank" rel="external">fabric</a>这两个神器,最近同时在做两个自己的小项目，更新比较频繁，一遍一遍手动部署太过僵硬，所以才真正用到了这俩好东西。<br>
-          <div class="read-more">
-            <a href="/2017/07/19/celery和fabric的简单使用/" class="read-more-link">阅读更多</a>
-          </div>
         
       
     </div>
