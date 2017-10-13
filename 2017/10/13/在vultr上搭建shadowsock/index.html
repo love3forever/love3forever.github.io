@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="在vultr上搭建shadowsocks"/>
+
+
+
+
+  <meta name="keywords" content="vultr,shadowsock," />
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2017/10/13/在vultr上搭建shadowsock/"/>
+
+
+<meta name="description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
+<meta name="keywords" content="vultr,shadowsock">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在vultr上搭建shadowsocks">
+<meta property="og:url" content="http://eclipsesv.com/2017/10/13/在vultr上搭建shadowsock/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/lantern.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/conf.png">
+<meta property="og:updated_time" content="2017-10-13T08:00:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在vultr上搭建shadowsocks">
+<meta name="twitter:description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
+<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/lantern.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> 在vultr上搭建shadowsocks · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          在vultr上搭建shadowsocks
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017年10月13日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#shadowsocks服务安装"><span class="toc-text">shadowsocks服务安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shadowsocks客户端配置"><span class="toc-text">shadowsocks客户端配置</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：<a href="https://github.com/getlantern/forum" target="_blank" rel="external">蓝灯</a>这个项目在<a href="https://github.com/trending" target="_blank" rel="external">git trending</a>上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的<a href="https://netfits.net.cn/" target="_blank" rel="external">netfits</a>，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点事情，搭一个自己的ss服务器。<br><img src="https://o3sw4xojp.qnssl.com/lantern.png" alt="lantern.png"><br><a id="more"></a><br>经过一番对比，我最终选择使用<a href="https://www.vultr.com/" target="_blank" rel="external">vultr</a>的主机(主要是因为价格不贵还可以用支付宝支付😂)，本来想用日本的节点，搭完之后发现ping不到主机，最终选择了新加坡的节点，搭配1000GB/5$/月的套餐(一个月30多块，netfits怕是只有10GB吧)。<br><img src="https://o3sw4xojp.qnssl.com/conf.png" alt="conf.png"></p>
+<h1 id="shadowsocks服务安装"><a href="#shadowsocks服务安装" class="headerlink" title="shadowsocks服务安装"></a>shadowsocks服务安装</h1><p>安装过程十分简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</div><div class="line">&gt; chmod +x shadowsocks.sh</div><div class="line">&gt; ./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</div></pre></td></tr></table></figure></p>
+<p>三条命令，外加配置密码、开放端口、加密方式这些就行。<br>如果后期需要修改配置，去修改<code>/etc/shadowsocks.json</code>这个文件即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</div><div class="line">    &quot;server_port&quot;:33333,</div><div class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</div><div class="line">    &quot;local_port&quot;:1080,</div><div class="line">    &quot;password&quot;:&quot;abc@123&quot;,</div><div class="line">    &quot;timeout&quot;:300,</div><div class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</div><div class="line">    &quot;fast_open&quot;:true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="shadowsocks客户端配置"><a href="#shadowsocks客户端配置" class="headerlink" title="shadowsocks客户端配置"></a>shadowsocks客户端配置</h1><p>服务配好之后，下载自己需要的客户端就行：<a href="https://github.com/shadowsocks/shadowsocks-windows" target="_blank" rel="external">windows版本</a>、<a href="https://github.com/shadowsocks/ShadowsocksX-NG" target="_blank" rel="external">mac版本</a>。<br>手机的话，我在app store里边找了个一个18块钱的shadoWingy应用，也是需要简单的配置一下就行了。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/vultr/">vultr</a>
+            
+              <a href="/tags/shadowsock/">shadowsock</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2017/09/26/一次异步任务的执行过程/">
+        <span class="next-text nav-default">一次异步任务的执行过程</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2017/10/13/在vultr上搭建shadowsock/';
+        this.page.identifier = '2017/10/13/在vultr上搭建shadowsock/';
+        this.page.title = '在vultr上搭建shadowsocks';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

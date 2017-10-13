@@ -3,6 +3,32 @@
   
     
     <entry>
+      <title><![CDATA[在vultr上搭建shadowsocks]]></title>
+      <url>/2017/10/13/%E5%9C%A8vultr%E4%B8%8A%E6%90%AD%E5%BB%BAshadowsock/</url>
+      <content type="html"><![CDATA[<p>为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：<a href="https://github.com/getlantern/forum" target="_blank" rel="external">蓝灯</a>这个项目在<a href="https://github.com/trending" target="_blank" rel="external">git trending</a>上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的<a href="https://netfits.net.cn/" target="_blank" rel="external">netfits</a>，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点事情，搭一个自己的ss服务器。<br><img src="https://o3sw4xojp.qnssl.com/lantern.png" alt="lantern.png"><br><a id="more"></a><br>经过一番对比，我最终选择使用<a href="https://www.vultr.com/" target="_blank" rel="external">vultr</a>的主机(主要是因为价格不贵还可以用支付宝支付😂)，本来想用日本的节点，搭完之后发现ping不到主机，最终选择了新加坡的节点，搭配1000GB/5$/月的套餐(一个月30多块，netfits怕是只有10GB吧)。<br><img src="https://o3sw4xojp.qnssl.com/conf.png" alt="conf.png"></p>
+<h1 id="shadowsocks服务安装"><a href="#shadowsocks服务安装" class="headerlink" title="shadowsocks服务安装"></a>shadowsocks服务安装</h1><p>安装过程十分简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</div><div class="line">&gt; chmod +x shadowsocks.sh</div><div class="line">&gt; ./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</div></pre></td></tr></table></figure></p>
+<p>三条命令，外加配置密码、开放端口、加密方式这些就行。<br>如果后期需要修改配置，去修改<code>/etc/shadowsocks.json</code>这个文件即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</div><div class="line">    &quot;server_port&quot;:33333,</div><div class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</div><div class="line">    &quot;local_port&quot;:1080,</div><div class="line">    &quot;password&quot;:&quot;abc@123&quot;,</div><div class="line">    &quot;timeout&quot;:300,</div><div class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</div><div class="line">    &quot;fast_open&quot;:true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="shadowsocks客户端配置"><a href="#shadowsocks客户端配置" class="headerlink" title="shadowsocks客户端配置"></a>shadowsocks客户端配置</h1><p>服务配好之后，下载自己需要的客户端就行：<a href="https://github.com/shadowsocks/shadowsocks-windows" target="_blank" rel="external">windows版本</a>、<a href="https://github.com/shadowsocks/ShadowsocksX-NG" target="_blank" rel="external">mac版本</a>。<br>手机的话，我在app store里边找了个一个18块钱的shadoWingy应用，也是需要简单的配置一下就行了。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 瞎搞 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> vultr </tag>
+            
+            <tag> shadowsock </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[一次异步任务的执行过程]]></title>
       <url>/2017/09/26/%E4%B8%80%E6%AC%A1%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/</url>
       <content type="html"><![CDATA[<p>最近在做一个小型的mongodb运维工具，在开发的过程中想要实现mongodb数据库备份的功能：前端页面提供一个按钮，用户点击之后向后端post想要备份哪个数据库，后端接到请求之后将这个任务发给异步任务队列，在数据库完成备份之后，后端推送一个包含此次备份详情的消息给前端页面，并且提供一个能够下载此备份文件的链接。<br>我的实现方法可以用下边这个图来表达：<br><img src="https://o3sw4xojp.qnssl.com/task-flow.png" alt="task-flow.png"><br><a id="more"></a></p>
