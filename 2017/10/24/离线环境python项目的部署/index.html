@@ -12,12 +12,12 @@
 
 
 
-  <meta name="description" content="在vultr上搭建shadowsocks"/>
+  <meta name="description" content="离线环境python项目的部署"/>
 
 
 
 
-  <meta name="keywords" content="vultr,shadowsock," />
+  <meta name="keywords" content="python,离线环境,pip2pi," />
 
 
 
@@ -31,24 +31,21 @@
 
 
 
-<link rel="canonical" href="http://eclipsesv.com/2017/10/13/在vultr上搭建shadowsock/"/>
+<link rel="canonical" href="http://eclipsesv.com/2017/10/24/离线环境python项目的部署/"/>
 
 
-<meta name="description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
-<meta name="keywords" content="vultr,shadowsock">
+<meta name="description" content="最近自己参与的一个项目接近尾声，需要把代码部署到甲方提供的服务器。本来想着没有什么困难，谁知道甲方提供的服务器需要连接到vpn堡垒机之后才能连接，并且服务器是不能与外网直接连接的。知道真相的我眼泪掉下来。">
+<meta name="keywords" content="python,离线环境,pip2pi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在vultr上搭建shadowsocks">
-<meta property="og:url" content="http://eclipsesv.com/2017/10/13/在vultr上搭建shadowsock/index.html">
+<meta property="og:title" content="离线环境python项目的部署">
+<meta property="og:url" content="http://eclipsesv.com/2017/10/24/离线环境python项目的部署/index.html">
 <meta property="og:site_name" content="搬砖工的日常">
-<meta property="og:description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
+<meta property="og:description" content="最近自己参与的一个项目接近尾声，需要把代码部署到甲方提供的服务器。本来想着没有什么困难，谁知道甲方提供的服务器需要连接到vpn堡垒机之后才能连接，并且服务器是不能与外网直接连接的。知道真相的我眼泪掉下来。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/lantern.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/conf.png">
-<meta property="og:updated_time" content="2017-10-13T08:00:43.000Z">
+<meta property="og:updated_time" content="2017-10-24T07:58:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在vultr上搭建shadowsocks">
-<meta name="twitter:description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/lantern.png">
+<meta name="twitter:title" content="离线环境python项目的部署">
+<meta name="twitter:description" content="最近自己参与的一个项目接近尾声，需要把代码部署到甲方提供的服务器。本来想着没有什么困难，谁知道甲方提供的服务器需要连接到vpn堡垒机之后才能连接，并且服务器是不能与外网直接连接的。知道真相的我眼泪掉下来。">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
@@ -77,7 +74,7 @@
 
 
 
-    <title> 在vultr上搭建shadowsocks · 搬砖工的日常 </title>
+    <title> 离线环境python项目的部署 · 搬砖工的日常 </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -202,13 +199,13 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          在vultr上搭建shadowsocks
+          离线环境python项目的部署
         
       </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2017年10月13日
+          2017年10月24日
         </span>
       </div>
     </header>
@@ -218,17 +215,24 @@
   <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">文章目录</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#shadowsocks服务安装"><span class="toc-text">shadowsocks服务安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shadowsocks客户端配置"><span class="toc-text">shadowsocks客户端配置</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#具体用法"><span class="toc-text">具体用法</span></a></li></ol>
     </div>
   </div>
 
 
     <div class="post-content">
       
-        <p>为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：<a href="https://github.com/getlantern/forum" target="_blank" rel="external">蓝灯</a>这个项目在<a href="https://github.com/trending" target="_blank" rel="external">git trending</a>上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的<a href="https://netfits.net.cn/" target="_blank" rel="external">netfits</a>，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点事情，搭一个自己的ss服务器。<br><img src="https://o3sw4xojp.qnssl.com/lantern.png" alt="lantern.png"><br><a id="more"></a><br>经过一番对比，我最终选择使用<a href="https://www.vultr.com/" target="_blank" rel="external">vultr</a>的主机(主要是因为价格不贵还可以用支付宝支付😂)，本来想用日本的节点，搭完之后发现ping不到主机，最终选择了新加坡的节点，搭配1000GB/5$/月的套餐(一个月30多块，netfits怕是只有10GB吧)。<br><img src="https://o3sw4xojp.qnssl.com/conf.png" alt="conf.png"></p>
-<h1 id="shadowsocks服务安装"><a href="#shadowsocks服务安装" class="headerlink" title="shadowsocks服务安装"></a>shadowsocks服务安装</h1><p>安装过程十分简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</div><div class="line">&gt; chmod +x shadowsocks.sh</div><div class="line">&gt; ./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</div></pre></td></tr></table></figure></p>
-<p>三条命令，外加配置密码、开放端口、加密方式这些就行。<br>如果后期需要修改配置，去修改<code>/etc/shadowsocks.json</code>这个文件即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</div><div class="line">    &quot;server_port&quot;:33333,</div><div class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</div><div class="line">    &quot;local_port&quot;:1080,</div><div class="line">    &quot;password&quot;:&quot;abc@123&quot;,</div><div class="line">    &quot;timeout&quot;:300,</div><div class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</div><div class="line">    &quot;fast_open&quot;:true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="shadowsocks客户端配置"><a href="#shadowsocks客户端配置" class="headerlink" title="shadowsocks客户端配置"></a>shadowsocks客户端配置</h1><p>服务配好之后，下载自己需要的客户端就行：<a href="https://github.com/shadowsocks/shadowsocks-windows" target="_blank" rel="external">windows版本</a>、<a href="https://github.com/shadowsocks/ShadowsocksX-NG" target="_blank" rel="external">mac版本</a>。<br>手机的话，我在app store里边找了个一个18块钱的shadoWingy应用，也是需要简单的配置一下就行了。</p>
+        <p>最近自己参与的一个项目接近尾声，需要把代码部署到甲方提供的服务器。本来想着没有什么困难，谁知道甲方提供的服务器需要连接到vpn堡垒机之后才能连接，并且服务器是不能与外网直接连接的。知道真相的我眼泪掉下来。<br><a id="more"></a><br>平常的开发中，用惯了<code>pip install xxxx</code>或者是<code>pip install -r requirements.txt</code>，没怎么考虑过如何在与外网隔离并且是一个裸机的服务器上部署python项目(当然，如果项目依赖比较少，可以直接下载源码安装，如果依赖比较多就会比较麻烦)。<br>经过一番搜索发现了一款神器：<a href="https://github.com/wolever/pip2pi" target="_blank" rel="external">pip2pi</a>，它能够把当前项目的依赖项放置在一个目录中，然后把这些依赖放到服务器上再使用<code>pip</code>安装。</p>
+<h1 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h1><p>在使用<code>pip2pi</code>打包项目依赖之前，需要找一个和服务器环境相同的虚拟机：比如说服务器操作系统是centos6.5、python版本是2.7，那就需要自己弄个虚拟机把环境搞一致再下载依赖项。<br>详细步骤如下：</p>
+<ol>
+<li>为了避免多余依赖的引入，最好是用<code>virtualenv</code>创建一个隔离环境：<code>virtualenv packages</code></li>
+<li><p>获取当前项目的所有依赖，进入隔离环境，将项目的依赖项完整下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cd /path/to/project</div><div class="line">pip freeze &gt; requirements.txt</div><div class="line">cp requirements.txt /path/to/packages/</div><div class="line"></div><div class="line">cd /path/to/packages</div><div class="line">source bin/active</div><div class="line">pip install pip2pi</div><div class="line">mkdir dependences</div><div class="line">pip2pi /path/to/packages/dependences --no-use-wheel -r requirements.txt</div></pre></td></tr></table></figure>
+</li>
+<li><p>将下载好的依赖项放在服务器，执行命令安装依赖，第一遍安装可能跳过某些依赖项，可以多次执行这个命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install --no-index --find-links=file:///path_to/packages/dependences -r requirements.txt</div></pre></td></tr></table></figure>
+</li>
+</ol>
 
       
     </div>
@@ -266,9 +270,11 @@
         
           <div class="post-tags">
             
-              <a href="/tags/vultr/">vultr</a>
+              <a href="/tags/python/">python</a>
             
-              <a href="/tags/shadowsock/">shadowsock</a>
+              <a href="/tags/离线环境/">离线环境</a>
+            
+              <a href="/tags/pip2pi/">pip2pi</a>
             
           </div>
         
@@ -276,15 +282,9 @@
         
   <nav class="post-nav">
     
-      <a class="prev" href="/2017/10/24/离线环境python项目的部署/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">离线环境python项目的部署</span>
-        <span class="prev-text nav-mobile">上一篇</span>
-      </a>
     
-    
-      <a class="next" href="/2017/09/26/一次异步任务的执行过程/">
-        <span class="next-text nav-default">一次异步任务的执行过程</span>
+      <a class="next" href="/2017/10/13/在vultr上搭建shadowsock/">
+        <span class="next-text nav-default">在vultr上搭建shadowsocks</span>
         <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
       </a>
@@ -405,9 +405,9 @@ s.setAttribute('data-timestamp', +new Date());
   
   <script type="text/javascript">
     var disqus_config = function () {
-        this.page.url = 'http://eclipsesv.com/2017/10/13/在vultr上搭建shadowsock/';
-        this.page.identifier = '2017/10/13/在vultr上搭建shadowsock/';
-        this.page.title = '在vultr上搭建shadowsocks';
+        this.page.url = 'http://eclipsesv.com/2017/10/24/离线环境python项目的部署/';
+        this.page.identifier = '2017/10/24/离线环境python项目的部署/';
+        this.page.title = '离线环境python项目的部署';
     };
     (function() {
     var d = document, s = d.createElement('script');
