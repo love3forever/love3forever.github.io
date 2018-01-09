@@ -226,14 +226,14 @@
 <h1 id="所需软件"><a href="#所需软件" class="headerlink" title="所需软件"></a>所需软件</h1><p>要完成博客的搭建，大致需要这些内容：</p>
 <ul>
 <li>已完成邮件激活的github账号（如果未激活无法使用github的pages，也就无法让github托管）</li>
-<li><a href="https://git-scm.com/downloads/" target="_blank" rel="external">git客户端</a></li>
-<li><a href="https://nodejs.org/en/" target="_blank" rel="external">nodejs</a>（因为hexo是由node驱动的）</li>
-<li><a href="http://pad.haroopress.com/" target="_blank" rel="external">Haroopad</a>，各个操作系统都有对应的版本</li>
+<li><a href="https://git-scm.com/downloads/" target="_blank" rel="noopener">git客户端</a></li>
+<li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">nodejs</a>（因为hexo是由node驱动的）</li>
+<li><a href="http://pad.haroopress.com/" target="_blank" rel="noopener">Haroopad</a>，各个操作系统都有对应的版本</li>
 </ul>
 <h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><h2 id="github的相关配置"><a href="#github的相关配置" class="headerlink" title="github的相关配置"></a>github的相关配置</h2><ol>
 <li>你要申请一个github账号，并且用邮箱激活；</li>
 <li>创建一个repo，名称<strong>必须</strong>按照这样的格式：username.github.io，也就是说，如果你的用户名是wangerdan，那创建的项目名称就必须是wangerdan.github.io；</li>
-<li>把你电脑的公钥上传到github的ssh key列表中，具体操作可参考<a href="http://blog.csdn.net/houyp520/article/details/9401745" target="_blank" rel="external">这篇</a>，这样做的原因是等下hexo推送需要使用ssh模式连接github；</li>
+<li>把你电脑的公钥上传到github的ssh key列表中，具体操作可参考<a href="http://blog.csdn.net/houyp520/article/details/9401745" target="_blank" rel="noopener">这篇</a>，这样做的原因是等下hexo推送需要使用ssh模式连接github；</li>
 </ol>
 <h2 id="其他软件安装"><a href="#其他软件安装" class="headerlink" title="其他软件安装"></a>其他软件安装</h2><p>包括git客户端，nodejs还有Haroopad这三个，都是一路next就可以了。</p>
 <h2 id="hexo安装和配置以及推送"><a href="#hexo安装和配置以及推送" class="headerlink" title="hexo安装和配置以及推送"></a>hexo安装和配置以及推送</h2><ol>
@@ -246,12 +246,12 @@
 <li><p>如果上述步骤都正常完成，现在需要做的就是把博客内容推送到github上，键入<code>npm install hexo-deployer-git --save</code>，安装deploy组件；</p>
 </li>
 <li><p>安装完成后，修改刚才blog文件夹里边的_config.yml文件，把下边一段改成你自己的即可；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:username/username.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:username/username.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>推送博客：完成上述内容之后，通过命令<code>hexo deploy</code>就可以把当前的内容推送到github上，通过<a href="https://username.github.io/" target="_blank" rel="external">https://username.github.io/</a> 这个链接就可以访问了。</p>
+<li><p>推送博客：完成上述内容之后，通过命令<code>hexo deploy</code>就可以把当前的内容推送到github上，通过<a href="https://username.github.io/" target="_blank" rel="noopener">https://username.github.io/</a> 这个链接就可以访问了。</p>
 </li>
 </ol>
-<h1 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h1><p><a href="http://www.tuicool.com/articles/ueI7naV" target="_blank" rel="external">hexo的操作方法</a><br><a href="https://git-scm.com/book/zh/v1/%E8%B5%B7%E6%AD%A5" target="_blank" rel="external">git学习</a><br><a href="https://segmentfault.com/markdown" target="_blank" rel="external">markdown语法</a></p>
+<h1 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h1><p><a href="http://www.tuicool.com/articles/ueI7naV" target="_blank" rel="noopener">hexo的操作方法</a><br><a href="https://git-scm.com/book/zh/v1/%E8%B5%B7%E6%AD%A5" target="_blank" rel="noopener">git学习</a><br><a href="https://segmentfault.com/markdown" target="_blank" rel="noopener">markdown语法</a></p>
 
       
     </div>
@@ -407,7 +407,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

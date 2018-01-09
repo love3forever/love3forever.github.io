@@ -220,7 +220,7 @@
     <div class="post-content">
       
         <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><p>使用命令slaveof <host> <port> 来实现一个redis-server复制另一个redis-server，其中发出此命令的server为从服务器另一个成为主服务器。<br>另外，可以通过配置文件redis.conf来实现上述命令的功能：</port></host></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># slaveof &lt;masterip&gt; &lt;masterport&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure>
 <h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><p>在redis中，复制的实现主要通过两个步骤：同步和命令传播。</p>
 <ol>
 <li><p>同步(sync)</p>
@@ -247,7 +247,7 @@
 </code></pre><ol>
 <li><p>复制积压缓冲区(replication backlog)</p>
 <p> 复制积压缓冲区是master维护的一个定长的先进先出队列，默认大小为1mb，可以通过配置文件中repl-backlog-size来修改。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># Set the replication backlog size. The backlog is a buffer that accumulates</div><div class="line"># slave data when slaves are disconnected for some time, so that when a slave</div><div class="line"># wants to reconnect again, often a full resync is not needed, but a partial</div><div class="line"># resync is enough, just passing the portion of data the slave missed while</div><div class="line"># disconnected.</div><div class="line">#</div><div class="line"># The bigger the replication backlog, the longer the time the slave can be</div><div class="line"># disconnected and later be able to perform a partial resynchronization.</div><div class="line">#</div><div class="line"># The backlog is only allocated once there is at least a slave connected.</div><div class="line">#</div><div class="line"># repl-backlog-size 1mb</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Set the replication backlog size. The backlog is a buffer that accumulates</span><br><span class="line"># slave data when slaves are disconnected for some time, so that when a slave</span><br><span class="line"># wants to reconnect again, often a full resync is not needed, but a partial</span><br><span class="line"># resync is enough, just passing the portion of data the slave missed while</span><br><span class="line"># disconnected.</span><br><span class="line">#</span><br><span class="line"># The bigger the replication backlog, the longer the time the slave can be</span><br><span class="line"># disconnected and later be able to perform a partial resynchronization.</span><br><span class="line">#</span><br><span class="line"># The backlog is only allocated once there is at least a slave connected.</span><br><span class="line">#</span><br><span class="line"># repl-backlog-size 1mb</span><br></pre></td></tr></table></figure>
 <p> 复制积压缓冲区的运行机理是这样的：</p>
 <p> master在将命令传播给slave的时候，也会将这些命令写入到复制积压缓冲区中，并记录每个字节在复制偏移量，在断线重连的slave向master发出PSYNC进行同步的时候，slave会将自身的复制偏移量offset一并发出，master则将slave的offset在复制积压缓冲区中查找，看看它是否存在，如果存在的话则执行部分同步，否则执行完全同步。</p>
 </li>
@@ -259,12 +259,12 @@
 <h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><p>以host同为127.0.0.1端口号分别为6379、6380的两个Redis实例的复制过程为例：<br>其中6379为master、6380为slave。</p>
 <ol>
 <li><p>使用redis-cli连接slave：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-cli -p 6380</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-cli -p 6380</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <ol>
 <li><p>在slave的客户端上执行命令：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLAVEOF 127.0.0.1 6379</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SLAVEOF 127.0.0.1 6379</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <ol>
@@ -290,7 +290,7 @@
 <li><p>命令传播：完成同步之后，进入命令传播的阶段，这时候master在执行写操作以后，都会将其传给slave，slave接收之后执行命令达到和master一致的状态</p>
 </li>
 <li><p>心跳检测：在命令传播的过程中，slave默认会每秒向master发送命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">REPLCONF ACK &lt;replication offset&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REPLCONF ACK &lt;replication offset&gt;</span><br></pre></td></tr></table></figure>
 <p>发送此命令有三个作用：</p>
 <ul>
 <li>检测主从服务器的网络连接状态</li>
@@ -446,7 +446,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

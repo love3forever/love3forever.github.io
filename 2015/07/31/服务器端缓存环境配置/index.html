@@ -224,25 +224,25 @@
       
         <h1 id="原材料"><a href="#原材料" class="headerlink" title="原材料"></a><strong>原材料</strong></h1><p>正所谓“巧妇难为无米之炊”，在进行服务器端缓存搭建之前，需要将整个流程所需的元素准备好。</p>
 <ul>
-<li><a href="http://nginx.org/" title="作为Web服务器的存在" target="_blank" rel="external">Nginx</a>作为Web服务器的存在</li>
-<li><a href="https://www.mongodb.org/" title="磁盘数据库" target="_blank" rel="external">Mongodb</a>磁盘数据库</li>
-<li><a href="http://www.lua.org/" title="与Nginx结合，进行服务器端的逻辑控制" target="_blank" rel="external">Lua</a>与Nginx结合，进行服务器端的逻辑控制</li>
-<li><a href="http://redis.io/" title="高速缓存" target="_blank" rel="external">Redis</a>内存数据库，高速缓存</li>
-<li><a href="http://www.php.net/" title="返回数据库信息给客户端" target="_blank" rel="external">PHP</a>读取磁盘数据库信息，返回给客户端</li>
+<li><a href="http://nginx.org/" title="作为Web服务器的存在" target="_blank" rel="noopener">Nginx</a>作为Web服务器的存在</li>
+<li><a href="https://www.mongodb.org/" title="磁盘数据库" target="_blank" rel="noopener">Mongodb</a>磁盘数据库</li>
+<li><a href="http://www.lua.org/" title="与Nginx结合，进行服务器端的逻辑控制" target="_blank" rel="noopener">Lua</a>与Nginx结合，进行服务器端的逻辑控制</li>
+<li><a href="http://redis.io/" title="高速缓存" target="_blank" rel="noopener">Redis</a>内存数据库，高速缓存</li>
+<li><a href="http://www.php.net/" title="返回数据库信息给客户端" target="_blank" rel="noopener">PHP</a>读取磁盘数据库信息，返回给客户端</li>
 </ul>
 <a id="more"></a>
 <h1 id="调料包"><a href="#调料包" class="headerlink" title="调料包"></a><strong>调料包</strong></h1><p>有了原材料，当然需要将它们融合在一起，才能烹调出美味，下面这些内容则可以称之为调料包：</p>
 <ul>
-<li><strong>Nginx的Lua扩展</strong><br><a href="http://luajit.org" target="_blank" rel="external">LuaJit</a><br><a href="https://github.com/simpl/ngx_devel_kit" target="_blank" rel="external">ngx_devel_kit</a><br><a href="https://github.com/chaoslawful/lua-nginx-module" target="_blank" rel="external">lua-nginx-module</a></li>
-<li><strong>Nginx的Mongodb扩展</strong><br><a href="https://github.com/mdirolf/nginx-gridfs" target="_blank" rel="external">Nginx-gridfs</a></li>
-<li><strong>PHP的Mongodb扩展</strong><br><a href="https://github.com/mongodb/mongo-php-driver" target="_blank" rel="external">Mongo-php-driver</a></li>
-<li><a href="https://github.com/h4lflife/lua-resty-redis" target="_blank" rel="external"><strong>Lua的Redis扩展</strong></a></li>
+<li><strong>Nginx的Lua扩展</strong><br><a href="http://luajit.org" target="_blank" rel="noopener">LuaJit</a><br><a href="https://github.com/simpl/ngx_devel_kit" target="_blank" rel="noopener">ngx_devel_kit</a><br><a href="https://github.com/chaoslawful/lua-nginx-module" target="_blank" rel="noopener">lua-nginx-module</a></li>
+<li><strong>Nginx的Mongodb扩展</strong><br><a href="https://github.com/mdirolf/nginx-gridfs" target="_blank" rel="noopener">Nginx-gridfs</a></li>
+<li><strong>PHP的Mongodb扩展</strong><br><a href="https://github.com/mongodb/mongo-php-driver" target="_blank" rel="noopener">Mongo-php-driver</a></li>
+<li><a href="https://github.com/h4lflife/lua-resty-redis" target="_blank" rel="noopener"><strong>Lua的Redis扩展</strong></a></li>
 </ul>
 <h1 id="Mongodb的安装配置"><a href="#Mongodb的安装配置" class="headerlink" title="Mongodb的安装配置"></a><strong>Mongodb的安装配置</strong></h1><p>柿子先挑软的捏，整个流程中需要安装和配置的内容比较多，相比来说，Mongodb算是最简单的一个了。</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>在写这篇博客的时候，最新的Mongodb版本是<a href="https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.0.5.tgz" target="_blank" rel="external">3.0.5</a>，下载的方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ cd /usr/local</div><div class="line">$ su</div><div class="line">Password: </div><div class="line"># wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.0.5.tgz</div><div class="line">	--2015-08-01 11:06:41--  https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.0.5.tgz</div><div class="line">	Resolving fastdl.mongodb.org (fastdl.mongodb.org)... 54.230.156.11, 54.230.156.102, 54.230.156.123, ...</div><div class="line">	Connecting to fastdl.mongodb.org (fastdl.mongodb.org)|54.230.156.11|:443... connected.</div><div class="line">	HTTP request sent, awaiting response... 200 OK</div><div class="line">	Length: 50203367 (48M) [application/x-gzip]</div><div class="line">	Saving to: ‘mongodb-linux-x86_64-rhel70-3.0.5.tgz’</div><div class="line"></div><div class="line">100%[======================================&gt;] 50,203,367   582KB/s   in 4m 40s </div><div class="line"></div><div class="line">	2015-08-01 11:11:31 (175 KB/s) - ‘mongodb-linux-x86_64-rhel70-3.0.5.tgz’ saved [50203367/50203367]</div></pre></td></tr></table></figure>
-<p>首先进入/usr/local目录，下载这个文件需要root权限，输入su之后，输入自己的root密码，使用wget命令，下载MongoDB到/usr/local目录下；<br>有的时候官网上资源不容易下载，提供下载地址<a href="http://yunpan.cn/cdARXPYP7FRPT" target="_blank" rel="external">MongoDB3.0.5点击下载，访问密码0cdf</a>。</p>
-<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># tar zxvf mongodb-linux-x86_64-rhel70-3.0.5.tgz </div><div class="line"># mv ./mongodb-linux-x86_64-rhel70-3.0.5 /usr/local/Mongodb3.0</div></pre></td></tr></table></figure>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>在写这篇博客的时候，最新的Mongodb版本是<a href="https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.0.5.tgz" target="_blank" rel="noopener">3.0.5</a>，下载的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ cd /usr/local</span><br><span class="line">$ su</span><br><span class="line">Password: </span><br><span class="line"># wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.0.5.tgz</span><br><span class="line">	--2015-08-01 11:06:41--  https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.0.5.tgz</span><br><span class="line">	Resolving fastdl.mongodb.org (fastdl.mongodb.org)... 54.230.156.11, 54.230.156.102, 54.230.156.123, ...</span><br><span class="line">	Connecting to fastdl.mongodb.org (fastdl.mongodb.org)|54.230.156.11|:443... connected.</span><br><span class="line">	HTTP request sent, awaiting response... 200 OK</span><br><span class="line">	Length: 50203367 (48M) [application/x-gzip]</span><br><span class="line">	Saving to: ‘mongodb-linux-x86_64-rhel70-3.0.5.tgz’</span><br><span class="line"></span><br><span class="line">100%[======================================&gt;] 50,203,367   582KB/s   in 4m 40s </span><br><span class="line"></span><br><span class="line">	2015-08-01 11:11:31 (175 KB/s) - ‘mongodb-linux-x86_64-rhel70-3.0.5.tgz’ saved [50203367/50203367]</span><br></pre></td></tr></table></figure>
+<p>首先进入/usr/local目录，下载这个文件需要root权限，输入su之后，输入自己的root密码，使用wget命令，下载MongoDB到/usr/local目录下；<br>有的时候官网上资源不容易下载，提供下载地址<a href="http://yunpan.cn/cdARXPYP7FRPT" target="_blank" rel="noopener">MongoDB3.0.5点击下载，访问密码0cdf</a>。</p>
+<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># tar zxvf mongodb-linux-x86_64-rhel70-3.0.5.tgz </span><br><span class="line"># mv ./mongodb-linux-x86_64-rhel70-3.0.5 /usr/local/Mongodb3.0</span><br></pre></td></tr></table></figure>
 <p>使用tar zxvf 解压缩*.tgz文件，mv 命令将解压缩后的文件夹重命名为Mongodb3.0；</p>
 <h2 id="运行起来"><a href="#运行起来" class="headerlink" title="运行起来"></a>运行起来</h2><p>在运行之前，需要建立两个文件夹：</p>
 <pre><code>[root@localhost local]# cd Mongodb3.0/
@@ -281,7 +281,7 @@ Saving to: ‘redis-3.0.3.tar.gz.1’
 100%[======================================&gt;] 1,360,959    149KB/s   in 1m 41s 
 
 2015-08-01 13:04:20 (13.2 KB/s) - ‘redis-3.0.3.tar.gz.1’ saved [1360959/1360959]
-</code></pre><p>相比Mongodb，Redis文件还是很小的。<br>同样，在下载失败的时候，可以<a href="http://yunpan.cn/cdABZJ4uNn7vQ" target="_blank" rel="external">点击下载Redis3.0.3 访问密码dc5a</a>。</p>
+</code></pre><p>相比Mongodb，Redis文件还是很小的。<br>同样，在下载失败的时候，可以<a href="http://yunpan.cn/cdABZJ4uNn7vQ" target="_blank" rel="noopener">点击下载Redis3.0.3 访问密码dc5a</a>。</p>
 <h2 id="解压缩-1"><a href="#解压缩-1" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>[root@localhost local]# tar -zxvf redis-3.0.3.tar.gz.1 
 </code></pre><p>将文件解压缩到/usr/local文件夹下。</p>
 <h2 id="单独实例先Run起来"><a href="#单独实例先Run起来" class="headerlink" title="单独实例先Run起来"></a>单独实例先Run起来</h2><p>这里与Mongodb不太一样，运行之前需要编译一下：</p>
@@ -307,7 +307,7 @@ make[1]: Leaving directory `/usr/local/redis-3.0.3/src&apos;
 <h3 id="集群搭建准备工作"><a href="#集群搭建准备工作" class="headerlink" title="集群搭建准备工作"></a>集群搭建准备工作</h3><p>集群的搭建需要使用Redis下src文件夹中redis-trib.rb，这是一个ruby程序，因此需要系统中有ruby环境。</p>
 <pre><code>root@localhost src]# yum install ruby 
 [root@localhost src]# gem install redis
-</code></pre><p>键入上边的命令，安装ruby 和 ruby 的redis 扩展。在安装扩展的时候，很有可能不能安装，可能是资源被墙了。可以使用我自己下载到的资源<a href="http://yunpan.cn/cdABc69IzjVvG" target="_blank" rel="external">redis.gem 访问密码9727</a>进行本地安装。</p>
+</code></pre><p>键入上边的命令，安装ruby 和 ruby 的redis 扩展。在安装扩展的时候，很有可能不能安装，可能是资源被墙了。可以使用我自己下载到的资源<a href="http://yunpan.cn/cdABc69IzjVvG" target="_blank" rel="noopener">redis.gem 访问密码9727</a>进行本地安装。</p>
 <pre><code>[root@localhost src]# gem install --local /usr/local/redis-3.0.0.gem 
 </code></pre><p>将下载到的gem文件放到/usr/local目录下，使用上边的命令进行安装。这样，Redis集群的运行环境就搭建完毕。</p>
 <p>要做redis集群，至少需要3个Master实例。<br>先把redis的配置文件redis.conf和redis-server文件放到一个文件夹中：</p>
@@ -530,7 +530,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

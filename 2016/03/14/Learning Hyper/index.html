@@ -223,16 +223,16 @@
     <div class="post-content">
       
         <p>16年3月12日早晨九点半，离开北京，结束了读研生涯的出差之路。在未来两个月将把精力集中放在毕业论文上。由于毕设大量内容与HTTP2.0相关（这不，现在博客已经在Nginx的支持下转为HTTP2.0了，绿色的小锁看起来很顺眼呢），同时自己也在学习Python，特此记录学习过程。<br><a id="more"></a></p>
-<h1 id="毕设内容"><a href="#毕设内容" class="headerlink" title="毕设内容"></a>毕设内容</h1><p>读研期间，做的内容主要是关于实时可视化中所用到的海量瓦片数据，包括瓦片数据切分、瓦片数据库构建、瓦片服务器端高速缓存等等内容。现在回头看看以前耗费了大量时间精力做出来的东西可能仅仅就是个玩具，在实际应用中很可能会崩崩崩，但是我这个人就是喜欢鼓捣些新鲜的东西。去年敲定的HTTP2.0协议，我也是一直关注了很久，<a href="https://imququ.com/" target="_blank" rel="external">屈大神的博客</a>相关资料也挺多，其中推荐的几本书也都十分不错。我觉得HTTP2.0的新特性头部压缩、多路复用以及服务器推送都可以在海量小数据传输中发挥很好的效果。</p>
+<h1 id="毕设内容"><a href="#毕设内容" class="headerlink" title="毕设内容"></a>毕设内容</h1><p>读研期间，做的内容主要是关于实时可视化中所用到的海量瓦片数据，包括瓦片数据切分、瓦片数据库构建、瓦片服务器端高速缓存等等内容。现在回头看看以前耗费了大量时间精力做出来的东西可能仅仅就是个玩具，在实际应用中很可能会崩崩崩，但是我这个人就是喜欢鼓捣些新鲜的东西。去年敲定的HTTP2.0协议，我也是一直关注了很久，<a href="https://imququ.com/" target="_blank" rel="noopener">屈大神的博客</a>相关资料也挺多，其中推荐的几本书也都十分不错。我觉得HTTP2.0的新特性头部压缩、多路复用以及服务器推送都可以在海量小数据传输中发挥很好的效果。</p>
 <blockquote>
 <p>##头部压缩###<br>通过头部压缩，可以有效的降低海量瓦片数据在传输过程中相似请求头部所消耗不必要的流量，通过减少总体数据流量来提高数据传输效率是一个不错的方法。</p>
 <p>##多路复用##<br>通过客户端向瓦片服务器简历的一条HTTP2连接，可以获取多个瓦片数据，有效降低由于TCP建立连接握手分手所占的时间消耗，瓦片服务器也可以按照优先级顺序传送瓦片数据到客户端。</p>
 <p>##服务器推送##<br>这个是我认为对瓦片数据传输效率提升最大的地方，以往的数据传输，即使服务器知道下一步客户端将要请求的数据，它也没法主动将数据推送给客户端，但是HTTP2.0可以实现这点，我们可以在服务器端通过解析当前数据请求的特点推测下一步可能要被请求的数据，提前将数据推送给客户端，有效的提升可视化效果。</p>
 </blockquote>
-<h1 id="Hyper"><a href="#Hyper" class="headerlink" title="Hyper"></a>Hyper</h1><p><a href="https://hyper.readthedocs.org/en/latest/" target="_blank" rel="external">Hyper</a>是Python版本的HTTP2.0客户端，其他的开发语诸如Javascript、Go、Java等都有对应的协议实现，可以在<a href="https://github.com/search?utf8=%E2%9C%93&amp;q=http2" target="_blank" rel="external">这里</a>找到你想要的客户端。<br>Hyper是一个使用纯粹Python编写的库，它可以在Python3.4或者Python2.7.9或者更高的版本上运行，除了HTTP2.0它也完成了HTTP1.1的实现。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>想要使用Hyper之前，当然要把它安装在你的开发环境。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install hyper</div></pre></td></tr></table></figure></p>
+<h1 id="Hyper"><a href="#Hyper" class="headerlink" title="Hyper"></a>Hyper</h1><p><a href="https://hyper.readthedocs.org/en/latest/" target="_blank" rel="noopener">Hyper</a>是Python版本的HTTP2.0客户端，其他的开发语诸如Javascript、Go、Java等都有对应的协议实现，可以在<a href="https://github.com/search?utf8=%E2%9C%93&amp;q=http2" target="_blank" rel="noopener">这里</a>找到你想要的客户端。<br>Hyper是一个使用纯粹Python编写的库，它可以在Python3.4或者Python2.7.9或者更高的版本上运行，除了HTTP2.0它也完成了HTTP1.1的实现。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>想要使用Hyper之前，当然要把它安装在你的开发环境。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hyper</span><br></pre></td></tr></table></figure></p>
 <p>简单一句话即可搞定。<br>需要注意的是，HTTP2.0需要建立在TLS（安全传输层协议）之上。如果使用的是Python3.4或者更高的版本就不需要担心这些，如果是较早的版本则需要使用PyOpenSSL来提供TLS的支持。</p>
-<h2 id="走起"><a href="#走起" class="headerlink" title="走起"></a>走起</h2><p>在安装了Hyper之后，可以通过下面简单的代码进行HTTP请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from hyper import HTTPConnection</div><div class="line">con = HTTPConnection(&apos;eclipsesv.com&apos;)</div><div class="line">con.request(&apos;GET&apos;,&apos;/&apos;)</div><div class="line">resp = con.get_response()</div><div class="line">print resp.headers</div><div class="line"></div><div class="line">&apos;&apos;&apos;输出内容&apos;&apos;&apos;</div><div class="line">HTTPHeaderMap([(&apos;Server&apos;, &apos;nginx/1.9.7&apos;), (&apos;Date&apos;, &apos;Mon, 14 Mar 2016 14:41:08 GMT&apos;), (&apos;Content-Type&apos;, &apos;text/html&apos;), (&apos;Content-Length&apos;, &apos;184&apos;), (&apos;Connection&apos;, &apos;keep-alive&apos;), (&apos;Location&apos;, &apos;https://eclipsesv.com/&apos;)])</div></pre></td></tr></table></figure></p>
+<h2 id="走起"><a href="#走起" class="headerlink" title="走起"></a>走起</h2><p>在安装了Hyper之后，可以通过下面简单的代码进行HTTP请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from hyper import HTTPConnection</span><br><span class="line">con = HTTPConnection(&apos;eclipsesv.com&apos;)</span><br><span class="line">con.request(&apos;GET&apos;,&apos;/&apos;)</span><br><span class="line">resp = con.get_response()</span><br><span class="line">print resp.headers</span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;输出内容&apos;&apos;&apos;</span><br><span class="line">HTTPHeaderMap([(&apos;Server&apos;, &apos;nginx/1.9.7&apos;), (&apos;Date&apos;, &apos;Mon, 14 Mar 2016 14:41:08 GMT&apos;), (&apos;Content-Type&apos;, &apos;text/html&apos;), (&apos;Content-Length&apos;, &apos;184&apos;), (&apos;Connection&apos;, &apos;keep-alive&apos;), (&apos;Location&apos;, &apos;https://eclipsesv.com/&apos;)])</span><br></pre></td></tr></table></figure></p>
 <h1 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h1><p>今天就先到这里，接下来的几篇内容会按照Hyper官网提供的API进行一些简单的试验，为论文试验做好准备。</p>
 
       
@@ -387,7 +387,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

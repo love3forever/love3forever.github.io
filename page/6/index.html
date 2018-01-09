@@ -192,6 +192,44 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2015/09/09/学习资料/">学习资料</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2015年9月9日
+        </span>
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>前些天在图书馆借的几本书，最近看了，发现都还不错，一本是<a href="http://book.douban.com/subject/6889456/" target="_blank" rel="noopener">Linux shell脚本攻略</a>另外一本<a href="http://book.douban.com/subject/25856314/" target="_blank" rel="noopener">Web性能权威指南</a>。<br>第一本书，是印度一个在校大学生写的，里边的内容都比较具有实战型，可以在日常工作中提供不同的解决问题的思路。而第二本书则是非常系统性的提供了不同角度的优化web应用的方法，我自己比较感兴趣的是其中对与HTTP/2的讲解。<br>下一步打算更新nginx开始使用HTTP/2，考虑现在的缓存流程，改变服务器端和客户端的架构。</p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2015/08/27/最近的一些想法/">最近的一些想法</a>
         
       </h1>
@@ -256,7 +294,7 @@
         
 
         
-          <p><a href="https://www.mongodb.org/" target="_blank" rel="external">Mongodb</a>作为一款非常流行的NOSQL数据库，应用范围非常广泛，它和<a href="https://github.com/mdirolf/nginx-gridfs" target="_blank" rel="external">Nginx-gridfs</a>组合可以构建性能非常出色的应用。下边简单介绍一下如何搭建这套应用。<br>
+          <p><a href="https://www.mongodb.org/" target="_blank" rel="noopener">Mongodb</a>作为一款非常流行的NOSQL数据库，应用范围非常广泛，它和<a href="https://github.com/mdirolf/nginx-gridfs" target="_blank" rel="noopener">Nginx-gridfs</a>组合可以构建性能非常出色的应用。下边简单介绍一下如何搭建这套应用。<br>
           <div class="read-more">
             <a href="/2015/08/17/Mongodb副本集在nginx-gridfs中的使用/" class="read-more-link">阅读更多</a>
           </div>
@@ -426,9 +464,9 @@
         
           <h1 id="nginx的Lua扩展"><a href="#nginx的Lua扩展" class="headerlink" title="nginx的Lua扩展"></a><strong>nginx的Lua扩展</strong></h1><p>接着上两篇博客，现在开始搭建nginx的LUA和mongodb扩展，完成整个流程的最后一步配置。<br>Lua是一个可以嵌入到nginx配置文件的动态脚本语言，这样就可以在nginx请求处理的各个阶段执行各种进行逻辑控制的Lua代码。<br>想要在nginx里边增加lua扩展，需要的模块如下：</p>
 <ul>
-<li><a href="http://luajit.org" target="_blank" rel="external">luajit</a></li>
-<li><a href="https://github.com/simpl/ngx_devel_kit" target="_blank" rel="external">ngx_devel_kit</a></li>
-<li><a href="https://github.com/chaoslawful/lua-nginx-module" target="_blank" rel="external">lua_nginx_module</a></li>
+<li><a href="http://luajit.org" target="_blank" rel="noopener">luajit</a></li>
+<li><a href="https://github.com/simpl/ngx_devel_kit" target="_blank" rel="noopener">ngx_devel_kit</a></li>
+<li><a href="https://github.com/chaoslawful/lua-nginx-module" target="_blank" rel="noopener">lua_nginx_module</a></li>
 </ul>
           <div class="read-more">
             <a href="/2015/08/04/服务器端缓存环境配置-三/" class="read-more-link">阅读更多</a>
@@ -515,11 +553,11 @@
         
           <h1 id="原材料"><a href="#原材料" class="headerlink" title="原材料"></a><strong>原材料</strong></h1><p>正所谓“巧妇难为无米之炊”，在进行服务器端缓存搭建之前，需要将整个流程所需的元素准备好。</p>
 <ul>
-<li><a href="http://nginx.org/" title="作为Web服务器的存在" target="_blank" rel="external">Nginx</a>作为Web服务器的存在</li>
-<li><a href="https://www.mongodb.org/" title="磁盘数据库" target="_blank" rel="external">Mongodb</a>磁盘数据库</li>
-<li><a href="http://www.lua.org/" title="与Nginx结合，进行服务器端的逻辑控制" target="_blank" rel="external">Lua</a>与Nginx结合，进行服务器端的逻辑控制</li>
-<li><a href="http://redis.io/" title="高速缓存" target="_blank" rel="external">Redis</a>内存数据库，高速缓存</li>
-<li><a href="http://www.php.net/" title="返回数据库信息给客户端" target="_blank" rel="external">PHP</a>读取磁盘数据库信息，返回给客户端</li>
+<li><a href="http://nginx.org/" title="作为Web服务器的存在" target="_blank" rel="noopener">Nginx</a>作为Web服务器的存在</li>
+<li><a href="https://www.mongodb.org/" title="磁盘数据库" target="_blank" rel="noopener">Mongodb</a>磁盘数据库</li>
+<li><a href="http://www.lua.org/" title="与Nginx结合，进行服务器端的逻辑控制" target="_blank" rel="noopener">Lua</a>与Nginx结合，进行服务器端的逻辑控制</li>
+<li><a href="http://redis.io/" title="高速缓存" target="_blank" rel="noopener">Redis</a>内存数据库，高速缓存</li>
+<li><a href="http://www.php.net/" title="返回数据库信息给客户端" target="_blank" rel="noopener">PHP</a>读取磁盘数据库信息，返回给客户端</li>
 </ul>
           <div class="read-more">
             <a href="/2015/07/31/服务器端缓存环境配置/" class="read-more-link">阅读更多</a>
@@ -652,7 +690,7 @@
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

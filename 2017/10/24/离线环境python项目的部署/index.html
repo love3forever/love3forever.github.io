@@ -222,15 +222,15 @@
 
     <div class="post-content">
       
-        <p>最近自己参与的一个项目接近尾声，需要把代码部署到甲方提供的服务器。本来想着没有什么困难，谁知道甲方提供的服务器需要连接到vpn堡垒机之后才能连接，并且服务器是不能与外网直接连接的。知道真相的我眼泪掉下来。<br><a id="more"></a><br>平常的开发中，用惯了<code>pip install xxxx</code>或者是<code>pip install -r requirements.txt</code>，没怎么考虑过如何在与外网隔离并且是一个裸机的服务器上部署python项目(当然，如果项目依赖比较少，可以直接下载源码安装，如果依赖比较多就会比较麻烦)。<br>经过一番搜索发现了一款神器：<a href="https://github.com/wolever/pip2pi" target="_blank" rel="external">pip2pi</a>，它能够把当前项目的依赖项放置在一个目录中，然后把这些依赖放到服务器上再使用<code>pip</code>安装。</p>
+        <p>最近自己参与的一个项目接近尾声，需要把代码部署到甲方提供的服务器。本来想着没有什么困难，谁知道甲方提供的服务器需要连接到vpn堡垒机之后才能连接，并且服务器是不能与外网直接连接的。知道真相的我眼泪掉下来。<br><a id="more"></a><br>平常的开发中，用惯了<code>pip install xxxx</code>或者是<code>pip install -r requirements.txt</code>，没怎么考虑过如何在与外网隔离并且是一个裸机的服务器上部署python项目(当然，如果项目依赖比较少，可以直接下载源码安装，如果依赖比较多就会比较麻烦)。<br>经过一番搜索发现了一款神器：<a href="https://github.com/wolever/pip2pi" target="_blank" rel="noopener">pip2pi</a>，它能够把当前项目的依赖项放置在一个目录中，然后把这些依赖放到服务器上再使用<code>pip</code>安装。</p>
 <h1 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h1><p>在使用<code>pip2pi</code>打包项目依赖之前，需要找一个和服务器环境相同的虚拟机：比如说服务器操作系统是centos6.5、python版本是2.7，那就需要自己弄个虚拟机把环境搞一致再下载依赖项。<br>详细步骤如下：</p>
 <ol>
 <li>为了避免多余依赖的引入，最好是用<code>virtualenv</code>创建一个隔离环境：<code>virtualenv packages</code></li>
 <li><p>获取当前项目的所有依赖，进入隔离环境，将项目的依赖项完整下载：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cd /path/to/project</div><div class="line">pip freeze &gt; requirements.txt</div><div class="line">cp requirements.txt /path/to/packages/</div><div class="line"></div><div class="line">cd /path/to/packages</div><div class="line">source bin/active</div><div class="line">pip install pip2pi</div><div class="line">mkdir dependences</div><div class="line">pip2pi /path/to/packages/dependences --no-use-wheel -r requirements.txt</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cd /path/to/project</span><br><span class="line">pip freeze &gt; requirements.txt</span><br><span class="line">cp requirements.txt /path/to/packages/</span><br><span class="line"></span><br><span class="line">cd /path/to/packages</span><br><span class="line">source bin/active</span><br><span class="line">pip install pip2pi</span><br><span class="line">mkdir dependences</span><br><span class="line">pip2pi /path/to/packages/dependences --no-use-wheel -r requirements.txt</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>将下载好的依赖项放在服务器，执行命令安装依赖，第一遍安装可能跳过某些依赖项，可以多次执行这个命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install --no-index --find-links=file:///path_to/packages/dependences -r requirements.txt</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --no-index --find-links=file:///path_to/packages/dependences -r requirements.txt</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 
@@ -281,6 +281,12 @@
         
         
   <nav class="post-nav">
+    
+      <a class="prev" href="/2018/01/09/2017技术成长小结/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">2017小结</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
     
     
       <a class="next" href="/2017/10/13/在vultr上搭建shadowsock/">
@@ -384,7 +390,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

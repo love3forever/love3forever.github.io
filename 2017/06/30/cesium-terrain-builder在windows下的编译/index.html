@@ -230,13 +230,13 @@
 
     <div class="post-content">
       
-        <p>最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用<a href="https://github.com/AnalyticalGraphicsInc/quantized-mesh" target="_blank" rel="external">quantized-mesh</a>这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="external">cesium-terrain-builder</a>，不过该项目在windows下编译让人比较难受，所以纪录一下整个过程。<br><a id="more"></a></p>
+        <p>最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用<a href="https://github.com/AnalyticalGraphicsInc/quantized-mesh" target="_blank" rel="noopener">quantized-mesh</a>这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">cesium-terrain-builder</a>，不过该项目在windows下编译让人比较难受，所以纪录一下整个过程。<br><a id="more"></a></p>
 <h1 id="源码和工具下载"><a href="#源码和工具下载" class="headerlink" title="源码和工具下载"></a>源码和工具下载</h1><p>虽然作者在github上说这个项目只依赖gdal，不过在windows上发现它还依赖zlib（并且对这两个库的版本也有所要求），所以要想完整的编译整个项目需要分别下载这些源码：</p>
 <ol>
-<li><a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="external">cesium-terrain-builder</a></li>
-<li><a href="http://download.osgeo.org/gdal/2.0.2/gdal202.zip" target="_blank" rel="external">gdal-2.0.2</a></li>
-<li><a href="https://zlib.net/zlib-1.2.11.tar.gz" target="_blank" rel="external">zlib-1.2.11</a></li>
-<li><a href="https://cmake.org/files/v3.9/cmake-3.9.0-rc5-win64-x64.msi" target="_blank" rel="external">cmake-3.9.0</a></li>
+<li><a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">cesium-terrain-builder</a></li>
+<li><a href="http://download.osgeo.org/gdal/2.0.2/gdal202.zip" target="_blank" rel="noopener">gdal-2.0.2</a></li>
+<li><a href="https://zlib.net/zlib-1.2.11.tar.gz" target="_blank" rel="noopener">zlib-1.2.11</a></li>
+<li><a href="https://cmake.org/files/v3.9/cmake-3.9.0-rc5-win64-x64.msi" target="_blank" rel="noopener">cmake-3.9.0</a></li>
 <li><a href="">vs2017</a>(这个就看自己需求了，使用cmake生成自己对应的vs版本工程文件即可)</li>
 </ol>
 <h1 id="zlib编译生成"><a href="#zlib编译生成" class="headerlink" title="zlib编译生成"></a>zlib编译生成</h1><p>在完成zlib解压之后，使用cmake配置，生成vs工程：</p>
@@ -246,11 +246,11 @@
 <li>zlib 工程编译<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_make.png" alt="zlib_build"></li>
 <li>生成结果<br>在完成debug和release之后，生成内容如下如所示：<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_result.png" alt="zlib_result">，其中include和lib文件夹在后边会有用到。</li>
 </ol>
-<h1 id="gdal编译生成"><a href="#gdal编译生成" class="headerlink" title="gdal编译生成"></a>gdal编译生成</h1><p>gdal通过<a href="">x64 Native Tools Command Prompt for VS 2017</a>工具进行编译：<br>打开这个命令行工具之后，cd进入到gdal源码目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cd G:\gdal-2.0.2</div><div class="line">g:</div><div class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES</div><div class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES install</div><div class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES devinstall</div></pre></td></tr></table></figure></p>
-<p>其中MSVC_VER代表的是VS的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># 1910 = 15.0(2017)</div><div class="line"># 1900 = 14.0(2015)</div><div class="line"># 1800 = 12.0(2013)</div><div class="line"># 1700 = 11.0(2012)</div><div class="line"># 1600 = 10.0(2010)</div><div class="line"># 1500 = 9.0 (2008)</div><div class="line"># 1400 = 8.0 (2005) - specific compilation flags, different from older VC++</div><div class="line"># 1310 = 7.1 (2003) # is it still supported ?</div><div class="line"># 1300 = 7.0 (2002) # is it still supported ?</div></pre></td></tr></table></figure></p>
+<h1 id="gdal编译生成"><a href="#gdal编译生成" class="headerlink" title="gdal编译生成"></a>gdal编译生成</h1><p>gdal通过<a href="">x64 Native Tools Command Prompt for VS 2017</a>工具进行编译：<br>打开这个命令行工具之后，cd进入到gdal源码目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd G:\gdal-2.0.2</span><br><span class="line">g:</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES install</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES devinstall</span><br></pre></td></tr></table></figure></p>
+<p>其中MSVC_VER代表的是VS的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 1910 = 15.0(2017)</span><br><span class="line"># 1900 = 14.0(2015)</span><br><span class="line"># 1800 = 12.0(2013)</span><br><span class="line"># 1700 = 11.0(2012)</span><br><span class="line"># 1600 = 10.0(2010)</span><br><span class="line"># 1500 = 9.0 (2008)</span><br><span class="line"># 1400 = 8.0 (2005) - specific compilation flags, different from older VC++</span><br><span class="line"># 1310 = 7.1 (2003) # is it still supported ?</span><br><span class="line"># 1300 = 7.0 (2002) # is it still supported ?</span><br></pre></td></tr></table></figure></p>
 <p>完成上述操作之后会默认在C盘生成gdal编译好的结果：<br><img src="https://o3sw4xojp.qnssl.com/mybloggdal_result.png" alt=""></p>
 <h1 id="cesium-terrain-builder编译生成"><a href="#cesium-terrain-builder编译生成" class="headerlink" title="cesium-terrain-builder编译生成"></a>cesium-terrain-builder编译生成</h1><p>首先打开cesium-terrain-builder源码文件夹，将CMakeLists.txt拖入cmake，主要配置gdal和zlib的路径：<br><img src="https://o3sw4xojp.qnssl.com/cesium_tool.png" alt=""><br>完成配置之后，生成vs工程，直接编译即可。</p>
-<h1 id="生成结果"><a href="#生成结果" class="headerlink" title="生成结果"></a>生成结果</h1><p>经过上边一番折腾之后，最终生成这些东西：<br><img src="https://o3sw4xojp.qnssl.com/ctb-tools.png" alt=""><br>他们的具体用法可以参考这里：<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="external">使用方法</a>。</p>
+<h1 id="生成结果"><a href="#生成结果" class="headerlink" title="生成结果"></a>生成结果</h1><p>经过上边一番折腾之后，最终生成这些东西：<br><img src="https://o3sw4xojp.qnssl.com/ctb-tools.png" alt=""><br>他们的具体用法可以参考这里：<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">使用方法</a>。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>经过这次折腾学会了使用vs的Native Tools，也知道使用cmake生成vs工程并不是什么复杂的事情，而最终目的就是参考这个开源工具的思路实现要python的切片工具。</p>
 
       
@@ -413,7 +413,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

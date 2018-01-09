@@ -215,9 +215,9 @@
 
     <div class="post-content">
       
-        <p>在日常工作中，随着服务器上部署的服务的增多，每次服务器重启之后，都需要逐一将服务启动，这个过程耗时而且麻烦。于是，将一些服务在服务器启动之后自动启动变得很方便。<br><a id="more"></a><br>在Linux下设置开机自启动程序，通常的做法是修改/etc/rc.d/rc.local文件，过程十分简单，只需要在这个文件追加你需要的命令就可以了。<br>比如说，我现在需要开机自启动Mongodb,php-fpm,nginx，简要做法如下：<br>将mongodb启动的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/Mongodb3.0/bin/mongod --dbpath=/usr/local/Mongodb3.0/db --logpath=/usr/local/Mongodb3.0/log/mongodb.log --fork --pidfilepath=/usr/local/Mongodb3.0/log/mongo.pid</div></pre></td></tr></table></figure></p>
-<p>php-fpm启动的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/php/sbin/php-fpm -c /usr/local/php/etc/php.ini -y /usr/local/php/etc/php-fpm.conf</div></pre></td></tr></table></figure></p>
-<p>以及nginx启动的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/nginx/sbin/nginx</div></pre></td></tr></table></figure></p>
+        <p>在日常工作中，随着服务器上部署的服务的增多，每次服务器重启之后，都需要逐一将服务启动，这个过程耗时而且麻烦。于是，将一些服务在服务器启动之后自动启动变得很方便。<br><a id="more"></a><br>在Linux下设置开机自启动程序，通常的做法是修改/etc/rc.d/rc.local文件，过程十分简单，只需要在这个文件追加你需要的命令就可以了。<br>比如说，我现在需要开机自启动Mongodb,php-fpm,nginx，简要做法如下：<br>将mongodb启动的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/Mongodb3.0/bin/mongod --dbpath=/usr/local/Mongodb3.0/db --logpath=/usr/local/Mongodb3.0/log/mongodb.log --fork --pidfilepath=/usr/local/Mongodb3.0/log/mongo.pid</span><br></pre></td></tr></table></figure></p>
+<p>php-fpm启动的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/php/sbin/php-fpm -c /usr/local/php/etc/php.ini -y /usr/local/php/etc/php-fpm.conf</span><br></pre></td></tr></table></figure></p>
+<p>以及nginx启动的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure></p>
 <p>放在/etc/rc.d/rc.local文件末尾。<br>还有一步十分重要，就是修改rc.local文件的操作权限，chmod a+w /etc/rc.d/rc.loacl，赋予所有用户操作rc.local文件的权限。这样在重启系统之后，这些程序都会如愿自动启动。</p>
 
       
@@ -372,7 +372,7 @@ s.setAttribute('data-timestamp', +new Date());
      
       2015 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>
