@@ -1469,9 +1469,9 @@
             
             <tag> python </tag>
             
-            <tag> 总结 </tag>
-            
             <tag> 读书 </tag>
+            
+            <tag> 总结 </tag>
             
         </tags>
         
@@ -1563,11 +1563,11 @@
         
         <tags>
             
+            <tag> ubuntu </tag>
+            
             <tag> nginx </tag>
             
             <tag> http2.0 </tag>
-            
-            <tag> ubuntu </tag>
             
         </tags>
         
@@ -1849,9 +1849,9 @@
         
         <tags>
             
-            <tag> mongodb </tag>
-            
             <tag> 读书 </tag>
+            
+            <tag> mongodb </tag>
             
         </tags>
         
@@ -1913,9 +1913,9 @@
         
         <tags>
             
-            <tag> aggregation </tag>
-            
             <tag> mongodb </tag>
+            
+            <tag> aggregation </tag>
             
         </tags>
         
