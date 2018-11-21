@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="cesium-terrain-builder在windows下的编译">
+
+
+
+
+  <meta name="keywords" content="C++,vs2017,gdal,zlib,cesium,">
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2017/06/30/cesium-terrain-builder╘┌windows╧┬╡─▒р╥ы/">
+
+
+<meta name="description" content="最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用quantized-mesh这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:cesium-terrain-builder，不过该项目在windows下编译让人比较难受，所以纪录一">
+<meta name="keywords" content="C++,vs2017,gdal,zlib,cesium">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cesium-terrain-builder在windows下的编译">
+<meta property="og:url" content="http://eclipsesv.com/2017/06/30/cesium-terrain-builder╘┌windows╧┬╡─▒р╥ы/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用quantized-mesh这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:cesium-terrain-builder，不过该项目在windows下编译让人比较难受，所以纪录一">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_cmake.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_cmake_conf.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_make.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_result.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/mybloggdal_result.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/cesium_tool.png">
+<meta property="og:image" content="https://o3sw4xojp.qnssl.com/ctb-tools.png">
+<meta property="og:updated_time" content="2017-06-30T09:56:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cesium-terrain-builder在windows下的编译">
+<meta name="twitter:description" content="最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用quantized-mesh这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:cesium-terrain-builder，不过该项目在windows下编译让人比较难受，所以纪录一">
+<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_cmake.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> cesium-terrain-builder在windows下的编译 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input">
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          cesium-terrain-builder在windows下的编译
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017年6月30日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#源码和工具下载"><span class="toc-text">源码和工具下载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zlib编译生成"><span class="toc-text">zlib编译生成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gdal编译生成"><span class="toc-text">gdal编译生成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cesium-terrain-builder编译生成"><span class="toc-text">cesium-terrain-builder编译生成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成结果"><span class="toc-text">生成结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用<a href="https://github.com/AnalyticalGraphicsInc/quantized-mesh" target="_blank" rel="noopener">quantized-mesh</a>这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">cesium-terrain-builder</a>，不过该项目在windows下编译让人比较难受，所以纪录一下整个过程。<br><a id="more"></a></p>
+<h1 id="源码和工具下载"><a href="#源码和工具下载" class="headerlink" title="源码和工具下载"></a>源码和工具下载</h1><p>虽然作者在github上说这个项目只依赖gdal，不过在windows上发现它还依赖zlib（并且对这两个库的版本也有所要求），所以要想完整的编译整个项目需要分别下载这些源码：</p>
+<ol>
+<li><a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">cesium-terrain-builder</a></li>
+<li><a href="http://download.osgeo.org/gdal/2.0.2/gdal202.zip" target="_blank" rel="noopener">gdal-2.0.2</a></li>
+<li><a href="https://zlib.net/zlib-1.2.11.tar.gz" target="_blank" rel="noopener">zlib-1.2.11</a></li>
+<li><a href="https://cmake.org/files/v3.9/cmake-3.9.0-rc5-win64-x64.msi" target="_blank" rel="noopener">cmake-3.9.0</a></li>
+<li><a href="">vs2017</a>(这个就看自己需求了，使用cmake生成自己对应的vs版本工程文件即可)</li>
+</ol>
+<h1 id="zlib编译生成"><a href="#zlib编译生成" class="headerlink" title="zlib编译生成"></a>zlib编译生成</h1><p>在完成zlib解压之后，使用cmake配置，生成vs工程：</p>
+<ol>
+<li>zlib cmake配置<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_cmake.png" alt="zlib_cmake_conf"></li>
+<li>zlib vs工程配置<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_cmake_conf.png" alt="zlib_vs"></li>
+<li>zlib 工程编译<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_make.png" alt="zlib_build"></li>
+<li>生成结果<br>在完成debug和release之后，生成内容如下如所示：<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_result.png" alt="zlib_result">，其中include和lib文件夹在后边会有用到。</li>
+</ol>
+<h1 id="gdal编译生成"><a href="#gdal编译生成" class="headerlink" title="gdal编译生成"></a>gdal编译生成</h1><p>gdal通过<a href="">x64 Native Tools Command Prompt for VS 2017</a>工具进行编译：<br>打开这个命令行工具之后，cd进入到gdal源码目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd G:\gdal-2.0.2</span><br><span class="line">g:</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES install</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES devinstall</span><br></pre></td></tr></table></figure></p>
+<p>其中MSVC_VER代表的是VS的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 1910 = 15.0(2017)</span><br><span class="line"># 1900 = 14.0(2015)</span><br><span class="line"># 1800 = 12.0(2013)</span><br><span class="line"># 1700 = 11.0(2012)</span><br><span class="line"># 1600 = 10.0(2010)</span><br><span class="line"># 1500 = 9.0 (2008)</span><br><span class="line"># 1400 = 8.0 (2005) - specific compilation flags, different from older VC++</span><br><span class="line"># 1310 = 7.1 (2003) # is it still supported ?</span><br><span class="line"># 1300 = 7.0 (2002) # is it still supported ?</span><br></pre></td></tr></table></figure></p>
+<p>完成上述操作之后会默认在C盘生成gdal编译好的结果：<br><img src="https://o3sw4xojp.qnssl.com/mybloggdal_result.png" alt=""></p>
+<h1 id="cesium-terrain-builder编译生成"><a href="#cesium-terrain-builder编译生成" class="headerlink" title="cesium-terrain-builder编译生成"></a>cesium-terrain-builder编译生成</h1><p>首先打开cesium-terrain-builder源码文件夹，将CMakeLists.txt拖入cmake，主要配置gdal和zlib的路径：<br><img src="https://o3sw4xojp.qnssl.com/cesium_tool.png" alt=""><br>完成配置之后，生成vs工程，直接编译即可。</p>
+<h1 id="生成结果"><a href="#生成结果" class="headerlink" title="生成结果"></a>生成结果</h1><p>经过上边一番折腾之后，最终生成这些东西：<br><img src="https://o3sw4xojp.qnssl.com/ctb-tools.png" alt=""><br>他们的具体用法可以参考这里：<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">使用方法</a>。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>经过这次折腾学会了使用vs的Native Tools，也知道使用cmake生成vs工程并不是什么复杂的事情，而最终目的就是参考这个开源工具的思路实现要python的切片工具。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden>
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/vs2017/">vs2017</a>
+            
+              <a href="/tags/gdal/">gdal</a>
+            
+              <a href="/tags/zlib/">zlib</a>
+            
+              <a href="/tags/cesium/">cesium</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/07/09/╫ю╜№╣╪╙┌python╡─╥╗╨й╫▄╜с/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">近期的一些总结</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/05/31/╫ю╜№╥╗╢╬╩▒╝ф╡─╫▄╜с/">
+        <span class="next-text nav-default">最近一段时间的总结</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2017/06/30/cesium-terrain-builder╘┌windows╧┬╡─▒р╥ы/';
+        this.page.identifier = '2017/06/30/cesium-terrain-builder╘┌windows╧┬╡─▒р╥ы/';
+        this.page.title = 'cesium-terrain-builder在windows下的编译';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

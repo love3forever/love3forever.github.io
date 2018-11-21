@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="Mongodb副本集在nginx-gridfs中的使用">
+
+
+
+
+  <meta name="keywords" content="Mongodb,Nginx,">
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2015/08/17/Mongodb╕▒▒╛╝п╘┌nginx-gridfs╓╨╡─╩╣╙├/">
+
+
+<meta name="description" content="Mongodb作为一款非常流行的NOSQL数据库，应用范围非常广泛，它和Nginx-gridfs组合可以构建性能非常出色的应用。下边简单介绍一下如何搭建这套应用。">
+<meta name="keywords" content="Mongodb,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb副本集在nginx-gridfs中的使用">
+<meta property="og:url" content="http://eclipsesv.com/2015/08/17/Mongodb╕▒▒╛╝п╘┌nginx-gridfs╓╨╡─╩╣╙├/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="Mongodb作为一款非常流行的NOSQL数据库，应用范围非常广泛，它和Nginx-gridfs组合可以构建性能非常出色的应用。下边简单介绍一下如何搭建这套应用。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://docs.mongodb.org/manual/_images/replica-set-read-write-operations-primary.png">
+<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb副本集在nginx-gridfs中的使用">
+<meta name="twitter:description" content="Mongodb作为一款非常流行的NOSQL数据库，应用范围非常广泛，它和Nginx-gridfs组合可以构建性能非常出色的应用。下边简单介绍一下如何搭建这套应用。">
+<meta name="twitter:image" content="http://docs.mongodb.org/manual/_images/replica-set-read-write-operations-primary.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Mongodb副本集在nginx-gridfs中的使用 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input">
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Mongodb副本集在nginx-gridfs中的使用
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2015年8月17日
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mongodb副本集的搭建"><span class="toc-text">Mongodb副本集的搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载解压Mongodb"><span class="toc-text">下载解压Mongodb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mongod初始化副本集"><span class="toc-text">启动mongod初始化副本集</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-gridfs中副本集的使用"><span class="toc-text">Nginx-gridfs中副本集的使用</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p><a href="https://www.mongodb.org/" target="_blank" rel="noopener">Mongodb</a>作为一款非常流行的NOSQL数据库，应用范围非常广泛，它和<a href="https://github.com/mdirolf/nginx-gridfs" target="_blank" rel="noopener">Nginx-gridfs</a>组合可以构建性能非常出色的应用。下边简单介绍一下如何搭建这套应用。<br><a id="more"></a></p>
+<h1 id="Mongodb副本集的搭建"><a href="#Mongodb副本集的搭建" class="headerlink" title="Mongodb副本集的搭建"></a>Mongodb副本集的搭建</h1><p>在生产环境中，使用单实例的Mongodb显然不能承担重任。<a href="http://docs.mongodb.org/manual/core/replication-introduction/" target="_blank" rel="noopener">Mongodb的副本集</a>是一个mongod进程实例簇，数据在这个簇中相互复制，并且可以自动进行故障切换。这个过程虽然增加了数据冗余，但是确保了高可用性，简化了管理任务。同时，副本集也使分布式存储成为了可能。下面就可是搭建一个简单的副本集：</p>
+<h2 id="下载解压Mongodb"><a href="#下载解压Mongodb" class="headerlink" title="下载解压Mongodb"></a>下载解压Mongodb</h2><p>最新的稳定版本是<a href="https://fastdl.mongodb.org/src/mongodb-src-r3.0.5.tar.gz?_ga=1.74584210.1075743892.1439139049" target="_blank" rel="noopener">3.0.5</a>,将下载下来的安装包解压到指定位置，将解压后的bin文件夹的文件分别复制到/usr/local/Mongorepset/1/、/usr/local/Mongorepset/2/、/usr/local/Mongorepset/3/中，并在这三个文件夹中分别建立data文件夹。</p>
+<h2 id="启动mongod初始化副本集"><a href="#启动mongod初始化副本集" class="headerlink" title="启动mongod初始化副本集"></a>启动mongod初始化副本集</h2><p>分别在上述三个文件夹中启动mongod，端口号和日志文件分别对应各自的文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/Mongorepset/3</span><br><span class="line">./mongod --dbpath=./data --port=33333 --replSet repset --logpath=./data/1.log --fork</span><br></pre></td></tr></table></figure></p>
+<p>启动mongod之后，启动任意一个mongo，初始化副本集：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/Mongorepset/3</span><br><span class="line">./mongo --port=33333</span><br><span class="line"></span><br><span class="line">&gt; use admin</span><br><span class="line">switched to db admin</span><br><span class="line">&gt; config=&#123; _id:&quot;repset&quot;,members:[</span><br><span class="line">... &#123;_id:0,host:&quot;127.0.0.1:11111&quot;&#125;,</span><br><span class="line">... &#123;_id:1,host:&quot;127.0.0.1:22222&quot;&#125;,</span><br><span class="line">... &#123;_id:2,host:&quot;127.0.0.1:33333&quot;&#125;]</span><br><span class="line">... &#125;</span><br><span class="line">&gt; rs.initiate(config);</span><br></pre></td></tr></table></figure></p>
+<p>这样，Mongodb副本集就算搭建完成，我们可以看一下现在副本集的状态：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">repset:SECONDARY&gt; rs.status();</span><br><span class="line">&#123;</span><br><span class="line">	&quot;set&quot; : &quot;repset&quot;,</span><br><span class="line">	&quot;date&quot; : ISODate(&quot;2015-08-17T12:59:59.910Z&quot;),</span><br><span class="line">	&quot;myState&quot; : 2,</span><br><span class="line">	&quot;members&quot; : [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;_id&quot; : 0,</span><br><span class="line">			&quot;name&quot; : &quot;127.0.0.1:11111&quot;,</span><br><span class="line">			&quot;health&quot; : 1,</span><br><span class="line">			&quot;state&quot; : 2,</span><br><span class="line">			&quot;stateStr&quot; : &quot;SECONDARY&quot;,</span><br><span class="line">			&quot;uptime&quot; : 693,</span><br><span class="line">			&quot;optime&quot; : Timestamp(1439816203, 1),</span><br><span class="line">			&quot;optimeDate&quot; : ISODate(&quot;2015-08-17T12:56:43Z&quot;),</span><br><span class="line">			&quot;configVersion&quot; : 1,</span><br><span class="line">			&quot;self&quot; : true</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;_id&quot; : 1,</span><br><span class="line">			&quot;name&quot; : &quot;127.0.0.1:22222&quot;,</span><br><span class="line">			&quot;health&quot; : 1,</span><br><span class="line">			&quot;state&quot; : 2,</span><br><span class="line">			&quot;stateStr&quot; : &quot;SECONDARY&quot;,</span><br><span class="line">			&quot;uptime&quot; : 196,</span><br><span class="line">			&quot;optime&quot; : Timestamp(1439816203, 1),</span><br><span class="line">			&quot;optimeDate&quot; : ISODate(&quot;2015-08-17T12:56:43Z&quot;),</span><br><span class="line">			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-08-17T12:59:59.561Z&quot;),</span><br><span class="line">			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-08-17T12:59:59.561Z&quot;),</span><br><span class="line">			&quot;pingMs&quot; : 0,</span><br><span class="line">			&quot;configVersion&quot; : 1</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;_id&quot; : 2,</span><br><span class="line">			&quot;name&quot; : &quot;127.0.0.1:33333&quot;,</span><br><span class="line">			&quot;health&quot; : 1,</span><br><span class="line">			&quot;state&quot; : 1,</span><br><span class="line">			&quot;stateStr&quot; : &quot;PRIMARY&quot;,</span><br><span class="line">			&quot;uptime&quot; : 196,</span><br><span class="line">			&quot;optime&quot; : Timestamp(1439816203, 1),</span><br><span class="line">			&quot;optimeDate&quot; : ISODate(&quot;2015-08-17T12:56:43Z&quot;),</span><br><span class="line">			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-08-17T12:59:59.562Z&quot;),</span><br><span class="line">			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-08-17T12:59:59.362Z&quot;),</span><br><span class="line">			&quot;pingMs&quot; : 0,</span><br><span class="line">			&quot;electionTime&quot; : Timestamp(1439816205, 1),</span><br><span class="line">			&quot;electionDate&quot; : ISODate(&quot;2015-08-17T12:56:45Z&quot;),</span><br><span class="line">			&quot;configVersion&quot; : 1</span><br><span class="line">		&#125;</span><br><span class="line">	],</span><br><span class="line">	&quot;ok&quot; : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有一个PRIMARY和两个SECONDARY节点，他们的工作方式如下：<br><img src="http://docs.mongodb.org/manual/_images/replica-set-read-write-operations-primary.png" alt="">，在应用中，PRIMARY节点负责写入和读取数据，SECONDARY节点负责备份PRIMARY中数据，它们之间通过心跳包来检测彼此的运行状态，如果主节点挂掉，它们在很短的时间内就可以重新推选出一个新的PRIMARY，保证数据库的高可用性。</p>
+<h1 id="Nginx-gridfs中副本集的使用"><a href="#Nginx-gridfs中副本集的使用" class="headerlink" title="Nginx-gridfs中副本集的使用"></a>Nginx-gridfs中副本集的使用</h1><p>Nginx-gridfs为Nginx提供了直接访问Mongodb的能力，配置Mongodb的副本集也十分简单，只需要在nginx配置文件中对应的location增加字段就可以了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /gridfs/ &#123;</span><br><span class="line">    gridfs my_app field=filename type=string;</span><br><span class="line">    mongo &quot;repset&quot;</span><br><span class="line">          127.0.0.1:11111</span><br><span class="line">          127.0.0.1:22222</span><br><span class="line">          127.0.0.1:33333;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中Location中的字段gridfs 对应的是数据库名；filed对应的是检索字段，nginx-gridfs提供了对_id和filename的支持；mongo对应的”foo”是副本集的名称；下边则是这个副本集的节点。<br>保存更新之后的nginx配置文件，重启nginx，就可以愉快地通过Nginx访问Mongodb副本集啦。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden>
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://o3sw4xojp.qnssl.com/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Mongodb/">Mongodb</a>
+            
+              <a href="/tags/Nginx/">Nginx</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2015/08/27/╫ю╜№╡─╥╗╨й╧ы╖и/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">最近的一些想法</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2015/08/14/php╓┤╨╨╖■╬ё╞ў╢╦╜┼▒╛/">
+        <span class="next-text nav-default">php执行服务器端脚本</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2015/08/17/Mongodb╕▒▒╛╝п╘┌nginx-gridfs╓╨╡─╩╣╙├/';
+        this.page.identifier = '2015/08/17/Mongodb╕▒▒╛╝п╘┌nginx-gridfs╓╨╡─╩╣╙├/';
+        this.page.title = 'Mongodb副本集在nginx-gridfs中的使用';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
     
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="description" content="Hyper Interface(1)"/>
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
+  <meta name="description" content="Hyper Interface(1)">
 
-  <meta name="keywords" content="HTTP2," />
+
+
+
+  <meta name="keywords" content="HTTP2,">
 
 
 
@@ -27,11 +27,11 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
 
 
 
-<link rel="canonical" href="http://eclipsesv.com/2016/03/16/Hyper Interface1/"/>
+<link rel="canonical" href="http://eclipsesv.com/2016/03/16/Hyper Interface1/">
 
 
 <meta name="description" content="在接下来的一段时间，我会在学习Hyper的过程中，翻译官方接口文档，目标是在仔细阅读文档的同时提高Python技艺，同时会做一些实验测试HTTP2在性能上的提升到底有多少。由于是第一次进行这样的翻译，有很多错误或者纰漏，我会在以后不断的更新。">
@@ -48,11 +48,11 @@
 <meta name="twitter:description" content="在接下来的一段时间，我会在学习Hyper的过程中，翻译官方接口文档，目标是在仔细阅读文档的同时提高Python技艺，同时会做一些实验测试HTTP2在性能上的提升到底有多少。由于是第一次进行这样的翻译，有很多错误或者纰漏，我会在以后不断的更新。">
 
 
-<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
 
 
 
-  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
 
 
 
@@ -179,7 +179,7 @@
         <li class="menu-search">
           <form>
             <i class="iconfont icon-search" id="open-search"></i>
-            <input type="text" class="search-input" id="search-input" />
+            <input type="text" class="search-input" id="search-input">
             <i class="iconfont icon-close" id="close-search"></i>
           </form>
         </li>
@@ -246,7 +246,7 @@
 </blockquote>
 </li>
 <li>request(method,url,body=Node,headers={})-使用method指定的方法，如’GET’或者’POST’和制定的URL来向服务器发送请求。<br>参数–method，指明请求的方法，如’GET’、’POST’等；url，指明要访问的路径，格式像这样：’/path/to/segement’；body（可选参数），必须是一个file-like对象（Python内置函数open()返回的有个read()方法的对象，除了file之外，还可以是内存的字节流、网络流、自定义流等）或者bytestring；headers(可选参数)-用以发送请求的headers。<br>返回值–返回一个StreamID，如果该条请求基于HTTP/1.1返回Node。</li>
-<li>get_response(<em>args,*</em>kwargs)-用以返回一个请求对象。</li>
+<li>get_response(*args,**kwargs)-用以返回一个请求对象。</li>
 </ul>
 <h1 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h1><h2 id="HTTP20Connection"><a href="#HTTP20Connection" class="headerlink" title="HTTP20Connection"></a>HTTP20Connection</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class hyper.HTTP20Connection(host,port=None,secure=None,window_manager=None,</span><br><span class="line">	enable_push=False,ssl_context=None,proxy_host=None,proxy_port=None,**kwargs)</span><br></pre></td></tr></table></figure>
 <p>这个类表示的是一个向服务器发起的HTTP2连接，它的参数与HTTPConnection一致，参数的设置也类似，这里不再多说。</p>
@@ -318,7 +318,7 @@
       
       
   <div class="post-reward">
-    <input type="checkbox" name="reward" id="reward" hidden />
+    <input type="checkbox" name="reward" id="reward" hidden>
     <label class="reward-button" for="reward">赞赏支持</label>
     <div class="qr-code">
       
