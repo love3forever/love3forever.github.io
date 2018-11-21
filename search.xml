@@ -112,9 +112,9 @@
             
             <tag> 自动化 </tag>
             
-            <tag> react </tag>
-            
             <tag> jenkins </tag>
+            
+            <tag> react </tag>
             
             <tag> gitlab </tag>
             
@@ -291,9 +291,9 @@
             
             <tag> python </tag>
             
-            <tag> oop </tag>
-            
             <tag> 魔术方法 </tag>
+            
+            <tag> oop </tag>
             
         </tags>
       
@@ -442,11 +442,11 @@
             
             <tag> python </tag>
             
+            <tag> oop </tag>
+            
             <tag> classmethod </tag>
             
             <tag> staticmethod </tag>
-            
-            <tag> oop </tag>
             
         </tags>
       
@@ -590,9 +590,9 @@
       
         <tags>
             
-            <tag> ubuntu </tag>
-            
             <tag> nginx </tag>
+            
+            <tag> ubuntu </tag>
             
             <tag> http2.0 </tag>
             
@@ -851,9 +851,9 @@
             
             <tag> mongodb </tag>
             
-            <tag> nginx </tag>
-            
             <tag> krpano </tag>
+            
+            <tag> nginx </tag>
             
         </tags>
       
