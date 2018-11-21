@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="react+cesium开发小结">
+
+
+
+
+  <meta name="keywords" content="cesium,react,redux,">
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2018/02/23/react+cesium开发小结/">
+
+
+<meta name="description" content="从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄">
+<meta name="keywords" content="cesium,react,redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react+cesium开发小结">
+<meta property="og:url" content="http://eclipsesv.com/2018/02/23/react+cesium开发小结/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://eclipsesv.com/pics/cesium_preview.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/redux_export.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/data_list.png">
+<meta property="og:updated_time" content="2018-11-21T10:00:39.378Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react+cesium开发小结">
+<meta name="twitter:description" content="从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/cesium_preview.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> react+cesium开发小结 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input">
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          react+cesium开发小结
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Feb 23, 2018
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用webpack打包cesium"><span class="toc-text">使用webpack打包cesium</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在项目中引用cesium"><span class="toc-text">在项目中引用cesium</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cesium在react框架中的状态管理和控制"><span class="toc-text">cesium在react框架中的状态管理和控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cesium影像图层的添加或移除"><span class="toc-text">cesium影像图层的添加或移除</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#遇到的问题和困难"><span class="toc-text">遇到的问题和困难</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄<br><a id="more"></a><br>先上一张现在开发内容的截图：<img src="https://eclipsesv.com/pics/cesium_preview.png" style="margin:auto;width: 700px;display: block"><br>外网可访问地址：<a href="https://service.eclipsesv.com/cesium/" target="_blank" rel="noopener">https://service.eclipsesv.com/cesium/</a>，限于服务器带宽和cesium打包之后的体积，访问速度确实很慢。<br>下边记录一下开发过程中一些不错的经验和思路：</p>
+<h1 id="使用webpack打包cesium"><a href="#使用webpack打包cesium" class="headerlink" title="使用webpack打包cesium"></a>使用webpack打包cesium</h1><p>以往的开发过程中，cesium一般直接是用<code>&lt;srcipt&gt;</code>标签引入并使用的。但是如果想在react框架下很方便的开发，用webpack打包我们用到的第三方库会更可取。<br>cesium官网给出的连接也很明确的告诉用户如何使用webpack打包cesium：<a href="https://cesiumjs.org/tutorials/cesium-and-webpack/" target="_blank" rel="noopener">链接地址</a>。<br>我们只需要在新建的react项目的<code>webpack.config.js</code>中按照上边链接中的方法做即可。现在我们就可以通过<code>npm install cesium</code>或者<code>yarn add cesium</code>就可以把cesium引入项目开始使用啦。🍺🍺🍺</p>
+<h1 id="在项目中引用cesium"><a href="#在项目中引用cesium" class="headerlink" title="在项目中引用cesium"></a>在项目中引用cesium</h1><p>目前主要有两种方法引入cesium中的对象：</p>
+<ol>
+<li><code>import Cesium from &#39;cesium/Cesium&#39;</code>，这种方法引入的<code>Cesium</code>能够涵盖大部分cesium内置的对象</li>
+<li><code>import CesiumMath from &#39;cesium/Core/Math&#39;</code>，这种方法引入部分无法直接通过<code>Cesium</code>就能获取的内容<br>原理其实很简单：这两种不同的引入方式利用上边<code>webpack.config.js</code>中的配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const cesiumSource = &apos;node_modules/cesium/Source&apos;</span><br><span class="line">resolve: &#123;</span><br><span class="line">        alias: &#123;</span><br><span class="line">            // Cesium module name</span><br><span class="line">            cesium: path.resolve(__dirname, cesiumSource)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们在代码中<code>import</code>的时候，<strong>cesium</strong>其实代表的是<code>node_modules/cesium/Source</code>，这样的话，上边两种引入方式其实还是通过相对文件路径引入想要的内容。<br>如何区分该在什么时候用哪种引入方式？我现在的做法是通过查看<a href="https://cesiumjs.org/refdoc/" target="_blank" rel="noopener">cesium官方文档</a>来区分：<br>以最常用的<code>Viewer</code>在文档中是这样的<code>new Cesium.Viewer(container, options)</code>，这样看来只需要通过上边的第一种引入方法引入<code>Cesium</code>即可;<br>涉及数学运算的<code>CesiumMath    源码存在于：Core/Math.js 18</code>在文档中直接是这样的<code>CesiumMath()</code>，所以通过第二种方法引入<code>cesium/Core/Math</code>。</p>
+<h1 id="cesium在react框架中的状态管理和控制"><a href="#cesium在react框架中的状态管理和控制" class="headerlink" title="cesium在react框架中的状态管理和控制"></a>cesium在react框架中的状态管理和控制</h1><p>cesium相关的开发主要集中在cesium图层控制管理和相关鼠标事件而核心的对象则是<code>Cesium.Viewer</code>。在react框架下，如果在某个react组件中实例化<code>Cesium.Viewer</code>对象之后，大部分操作都要围绕这个<code>Viewer</code>对象开展。<br>现在开发过程中，主要通过两种方式在组件间传递<code>Viewer</code>相关的内容：</p>
+<ol>
+<li>加入redux进行全局状态管理，主要针对cesium的各类图层状态</li>
+<li>组件之间通过<code>props</code>传递鼠标事件或cesium状态</li>
+</ol>
+<h2 id="cesium影像图层的添加或移除"><a href="#cesium影像图层的添加或移除" class="headerlink" title="cesium影像图层的添加或移除"></a>cesium影像图层的添加或移除</h2><p>以影像图层控制为例，图层增删控制主要通过下边这个流程：<img src="https://eclipsesv.com/pics/redux_export.png" style="margin:auto;width: 700px;display: block"><br>我在viewerContainer.js中完成了<code>Cesium.Viewer</code>的实例化，在<code>componentDidMount()</code>中完成了一系列的初始化，并从配置文件中获取到所有可用的图层列表，将它们的信息存储在<code>imageryProviders</code>数组中。<code>imageryProviders</code>中的每个元素分别描述一个可用以加载的影像图层，包括图层编号、图层名称、图层对应的缩略图、用以解析此项配置的驱动等相关内容。<br>经过解析，在页面上用以展示图层信息通常只需要图层编号(id)，图层名称(name)，图层缩略图(thumbnail)，如图所示：<img src="https://eclipsesv.com/pics/data_list.png" style="margin:auto;width: 500;display: block"><br>所以将<code>imageryProviders</code>转变为<code>imageProviderProfile</code>，然后把<code>imageProviderProfile</code>以<strong>props</strong>的形式传递给用以展示数据列表的控件即可。<br>现在虽然能够完成数据列表的展示，可是如何才能控制<code>Viewer</code>上图层的变化呢？我在这里创建了一个<code>selectedImageryProviders</code>数组并使用redux在全局store中维护，这个数组用以保存当前三维球上到底是哪些图层在显示，数组中存储图层的编号(id)即可。<br>按照上边的思路，我在imageLayerManger.js中，通过<code>connect()</code>监听并控制<code>store.selectedImageryProviders</code>：通过界面按钮选择添加或移除图层的时候通过<code>selectProviderById()</code>触发reducer从而修改<code>selectedImageryProviders</code>。这样同样监听<code>store.selectedImageryProviders</code>的<code>viewerContainer.js</code>可以在生命周期函数<code>componentWillReceiveProps</code>中获取<code>selectedImageryProviders</code>的改变从而影响<code>Viewer</code>上图层的添加或者移除。<br>上边啰嗦这么多，也只是提供一个思路，按照这样的方法不仅能够完成影像图层的添加和移除，对于其他类型的数据：地形、矢量或者模型数据都可以按照这样的套路。</p>
+<h1 id="遇到的问题和困难"><a href="#遇到的问题和困难" class="headerlink" title="遇到的问题和困难"></a>遇到的问题和困难</h1><p>在开发过程中遇到的问题和困难中要有以下几点:</p>
+<ol>
+<li>不熟悉webpack配置，开发前期遇到很多缺少webpack plugin的问题</li>
+<li>不能准确拆分组件，组件之间的关系不清晰</li>
+<li>在加入redux之后，全局store设计不够完善</li>
+<li>用以页面展示的组件和处理逻辑的组件拆分不够</li>
+<li>异步reducer使用不够熟练</li>
+<li>webpack打包生产环境文件过大导致外网访问速度很慢</li>
+</ol>
+<p>通过这次项目的开发，react相关的内容也确实得到了锻炼，里边的很多思路和理念理解也都有进步，可以继续这个开发🍻🍻🍻</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden>
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/cesium/">cesium</a>
+            
+              <a href="/tags/react/">react</a>
+            
+              <a href="/tags/redux/">redux</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2018/03/01/开发常用各种源设置/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">开发常用各种源设置</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2018/01/09/2017技术成长小结/">
+        <span class="next-text nav-default">2017小结</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2018/02/23/react+cesium开发小结/';
+        this.page.identifier = '2018/02/23/react+cesium开发小结/';
+        this.page.title = 'react+cesium开发小结';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            Read more..
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

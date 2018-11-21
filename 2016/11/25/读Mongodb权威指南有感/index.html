@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="读Mongodb权威指南有感">
+
+
+
+
+  <meta name="keywords" content="读书,mongodb,">
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2016/11/25/读Mongodb权威指南有感/">
+
+
+<meta name="description" content="由于之前从图书馆借的书已经到期了，前天下午趁着好天气去图书馆了一趟，顺便借回来两本《Mongodb权威指南》和《Web性能权威指南》。没想到两天时间就把前边那本看完了。总体感觉还不错，这本书写的比较细致，很适合入门学习，同时在看书的过程中，我发现了之前没有主要到的一些知识点，并且改变了我之前的一些错误认识，所以还是很有必要记录一下的。">
+<meta name="keywords" content="读书,mongodb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读Mongodb权威指南有感">
+<meta property="og:url" content="http://eclipsesv.com/2016/11/25/读Mongodb权威指南有感/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="由于之前从图书馆借的书已经到期了，前天下午趁着好天气去图书馆了一趟，顺便借回来两本《Mongodb权威指南》和《Web性能权威指南》。没想到两天时间就把前边那本看完了。总体感觉还不错，这本书写的比较细致，很适合入门学习，同时在看书的过程中，我发现了之前没有主要到的一些知识点，并且改变了我之前的一些错误认识，所以还是很有必要记录一下的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-21T09:57:35.783Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="读Mongodb权威指南有感">
+<meta name="twitter:description" content="由于之前从图书馆借的书已经到期了，前天下午趁着好天气去图书馆了一趟，顺便借回来两本《Mongodb权威指南》和《Web性能权威指南》。没想到两天时间就把前边那本看完了。总体感觉还不错，这本书写的比较细致，很适合入门学习，同时在看书的过程中，我发现了之前没有主要到的一些知识点，并且改变了我之前的一些错误认识，所以还是很有必要记录一下的。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> 读Mongodb权威指南有感 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input">
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          读Mongodb权威指南有感
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Nov 25, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#没注意到的点"><span class="toc-text">没注意到的点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TTL索引"><span class="toc-text">TTL索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#explain"><span class="toc-text">explain()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何用索引"><span class="toc-text">如何用索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongodb自带工具"><span class="toc-text">mongodb自带工具</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#错误的认识"><span class="toc-text">错误的认识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于副本集"><span class="toc-text">关于副本集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于分片"><span class="toc-text">关于分片</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一些其他的想法"><span class="toc-text">一些其他的想法</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>由于之前从图书馆借的书已经到期了，前天下午趁着好天气去图书馆了一趟，顺便借回来两本<a href="https://book.douban.com/subject/25798102/" target="_blank" rel="noopener">《Mongodb权威指南》</a>和<a href="https://book.douban.com/subject/25856314/" target="_blank" rel="noopener">《Web性能权威指南》</a>。没想到两天时间就把前边那本看完了。总体感觉还不错，这本书写的比较细致，很适合入门学习，同时在看书的过程中，我发现了之前没有主要到的一些知识点，并且改变了我之前的一些错误认识，所以还是很有必要记录一下的。<br><a id="more"></a></p>
+<h1 id="没注意到的点"><a href="#没注意到的点" class="headerlink" title="没注意到的点"></a>没注意到的点</h1><h2 id="TTL索引"><a href="#TTL索引" class="headerlink" title="TTL索引"></a>TTL索引</h2><p>TTL(time-to-live)索引在mongodb中主要起到的作用就是在指定时间里，如果一条记录都没有发生变化就会被自动移除，可以起到类似redis中EXPIRE命令的作用。它的用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 在表col中为lastOp字段建立TTL索引，过期时间是60*60，单位为秒</span><br><span class="line">db.col.ensuerIndex(&#123;&apos;lastOp&apos;:1&#125;,&#123;&apos;expireAfterSecs&apos;:60*60&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>注意点：</p>
+<ol>
+<li>TTL索引必须建立在日期类型的字段上</li>
+<li>TTL索引不能够是复合索引，但是如果建立了TTL索引，它可以在排序和查询中对检索速度有优化</li>
+<li>在实际应用中，如果建立了这种索引，为防止删除正在进行的会话，可以在进行操作的过程中update这个字段</li>
+</ol>
+<h2 id="explain"><a href="#explain" class="headerlink" title="explain()"></a>explain()</h2><p>数据入了库，如何能够在最短的时间内检索出来是一个很重要的问题。在mongodb中，有各式各样的索引：最为普通的单字段索引、多个字段联合起来的复合索引、上边刚说到的TTL索引还有针对地理空间的地理空间索引。索引往往会对检索效率有质的提升，但是如何才能够知道自己建立的索引有没有起作用？explain()和hint()这两个方法可以给你一个答复。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"># 未建立索引</span><br><span class="line">&gt; db.Position.find(&#123;&apos;company&apos;:&apos;拉勾网&apos;&#125;).explain()</span><br><span class="line">&#123;</span><br><span class="line">	&quot;queryPlanner&quot; : &#123;</span><br><span class="line">		&quot;plannerVersion&quot; : 1,</span><br><span class="line">		&quot;namespace&quot; : &quot;lagou.Position&quot;,</span><br><span class="line">		&quot;indexFilterSet&quot; : false,</span><br><span class="line">		&quot;parsedQuery&quot; : &#123;</span><br><span class="line">			&quot;company&quot; : &#123;</span><br><span class="line">				&quot;$eq&quot; : &quot;拉勾网&quot;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;winningPlan&quot; : &#123;</span><br><span class="line">			&quot;stage&quot; : &quot;COLLSCAN&quot;,</span><br><span class="line">			&quot;filter&quot; : &#123;</span><br><span class="line">				&quot;company&quot; : &#123;</span><br><span class="line">					&quot;$eq&quot; : &quot;拉勾网&quot;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;,</span><br><span class="line">			&quot;direction&quot; : &quot;forward&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;rejectedPlans&quot; : [ ]</span><br><span class="line">	&#125;,</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"># 索引之后</span><br><span class="line">&gt; db.Position.find(&#123;&apos;company&apos;:&apos;拉勾网&apos;&#125;).explain()</span><br><span class="line">&#123;</span><br><span class="line">	&quot;queryPlanner&quot; : &#123;</span><br><span class="line">		&quot;plannerVersion&quot; : 1,</span><br><span class="line">		&quot;namespace&quot; : &quot;lagou.Position&quot;,</span><br><span class="line">		&quot;indexFilterSet&quot; : false,</span><br><span class="line">		&quot;parsedQuery&quot; : &#123;</span><br><span class="line">			&quot;company&quot; : &#123;</span><br><span class="line">				&quot;$eq&quot; : &quot;拉勾网&quot;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;winningPlan&quot; : &#123;</span><br><span class="line">			&quot;stage&quot; : &quot;FETCH&quot;,</span><br><span class="line">			&quot;inputStage&quot; : &#123;</span><br><span class="line">				&quot;stage&quot; : &quot;IXSCAN&quot;,</span><br><span class="line">				&quot;keyPattern&quot; : &#123;</span><br><span class="line">					&quot;company&quot; : 1</span><br><span class="line">				&#125;,</span><br><span class="line">				&quot;indexName&quot; : &quot;company_1&quot;,</span><br><span class="line">				&quot;isMultiKey&quot; : false,</span><br><span class="line">				&quot;multiKeyPaths&quot; : &#123;</span><br><span class="line">					&quot;company&quot; : [ ]</span><br><span class="line">				&#125;,</span><br><span class="line">				&quot;isUnique&quot; : false,</span><br><span class="line">				&quot;isSparse&quot; : false,</span><br><span class="line">				&quot;isPartial&quot; : false,</span><br><span class="line">				&quot;indexVersion&quot; : 2,</span><br><span class="line">				&quot;direction&quot; : &quot;forward&quot;,</span><br><span class="line">				&quot;indexBounds&quot; : &#123;</span><br><span class="line">					&quot;company&quot; : [</span><br><span class="line">						&quot;[\&quot;拉勾网\&quot;, \&quot;拉勾网\&quot;]&quot;</span><br><span class="line">					]</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;rejectedPlans&quot; : [ ]</span><br><span class="line">	&#125;,</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，在建立索引前后，explain()的结果在”winningPlan”字段中有明显不同，未建立索引的时候：<code>&quot;stage&quot; : &quot;COLLSCAN&quot;</code>建立索引之后：<code>&quot;stage&quot; : &quot;IXSCAN&quot;</code>。前者的COLLSCAN表示的意思是通过全表扫描的方式检索，后边的则是通过已经建立的索引进行检索。<br>再来一例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># 未建立索引</span><br><span class="line">&gt; db.Position.find(&#123;&apos;loc&apos;:&#123;$near:&#123;$geometry:&#123;type:&apos;Point&apos;,coordinates:[113,40]&#125;&#125;&#125;&#125;).explain()</span><br><span class="line">2016-11-25T14:13:23.421+0800 E QUERY    [main] Error: explain failed: &#123;</span><br><span class="line">	&quot;ok&quot; : 0,</span><br><span class="line">	&quot;errmsg&quot; : &quot;error processing query: ns=lagou.PositionTree: GEONEAR  field=loc maxdist=1.79769e+308 isNearSphere=0\nSort: &#123;&#125;\nProj: &#123;&#125;\n planner returned error: unable to find index for $geoNear query&quot;,</span><br><span class="line">	&quot;code&quot; : 2,</span><br><span class="line">	&quot;codeName&quot; : &quot;BadValue&quot;</span><br><span class="line">&#125;</span><br><span class="line"># 建立索引</span><br><span class="line">&gt; db.Position.ensureIndex(&#123;loc:&apos;2dsphere&apos;&#125;)</span><br><span class="line">&#123;</span><br><span class="line">	&quot;createdCollectionAutomatically&quot; : false,</span><br><span class="line">	&quot;numIndexesBefore&quot; : 2,</span><br><span class="line">	&quot;numIndexesAfter&quot; : 3,</span><br><span class="line">	&quot;ok&quot; : 1</span><br><span class="line">&#125;</span><br><span class="line"># 索引之后</span><br><span class="line">&gt; db.Position.find(&#123;&apos;loc&apos;:&#123;$near:&#123;$geometry:&#123;type:&apos;Point&apos;,coordinates:[113,40]&#125;&#125;&#125;&#125;).explain()</span><br><span class="line">&#123;</span><br><span class="line">	&quot;queryPlanner&quot; : &#123;</span><br><span class="line">		...,</span><br><span class="line">		&quot;winningPlan&quot; : &#123;</span><br><span class="line">			&quot;stage&quot; : &quot;GEO_NEAR_2DSPHERE&quot;,</span><br><span class="line">			&quot;keyPattern&quot; : &#123;</span><br><span class="line">				&quot;loc&quot; : &quot;2dsphere&quot;</span><br><span class="line">			&#125;,</span><br><span class="line">			&quot;indexName&quot; : &quot;loc_2dsphere&quot;,</span><br><span class="line">			&quot;indexVersion&quot; : 2</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;rejectedPlans&quot; : [ ]</span><br><span class="line">	&#125;,</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于之前一直只是停留在会用mongodb的阶段，像类似explain()这样的数据库调优的方法会用的比较少。现在的话感觉还是仔细研究关于mongodb的各个方面还是很有必要的。不能在使用的过程中只会有“啊！好特么快呀！”或者是“沃艸，怎么这么慢”的感性认识，知道如何让它变快才是重点。</p>
+<h2 id="如何用索引"><a href="#如何用索引" class="headerlink" title="如何用索引"></a>如何用索引</h2><p>还记得当初曾经去南通封闭开发，遇到一个问题，由于在mongodb中一个集合存的数据过多，造成在检索的时候出现超时的情况。如果没有记错的话，我记得造成检索失败的原因是由于那个集合的大小超出了我笔记本的物理内存大小，通过普通的“全表扫描”的方法已经无法完成正常的检索。在建立了索引之后，数据量增大10倍检索速度也是杠杠的。<br>所以说，索引对于数据库来说是极其重要的，当然，这个东西我会在以后深入研究它的原理。在平常的使用过程中，对于一个集合，该不该建立索引，如何建立索引，都是很应该考虑的事情。</p>
+<blockquote>
+<p>索引通常适用的情况：在集合数据量较大的时候，同时经常需要查询的字段索引基数较大的情况。这里所说的索引基数指的是集合中某个字段拥有不同值的数量，一个字段的索引基数越高，在这个键上建立索引就越有用，这是因为索引能够快速地讲搜索范围缩小。另外，如果你需要进行地理空间方面的检索，2dsphere或者2d索引是必须的。</p>
+</blockquote>
+<h2 id="mongodb自带工具"><a href="#mongodb自带工具" class="headerlink" title="mongodb自带工具"></a>mongodb自带工具</h2><p>在各个版本的mongodb发行版中，bin目录下除了mongo和mongod其他几个工具也都很好用：<br>使用mongostat可以实时看到当前mongod实例的运行和负载情况，mongotop则类似linux系统中的top工具，mongofiles则可以很方便的操作数据库的gridfs。其他的各个工具相信在以后的使用中都会有接触。</p>
+<h1 id="错误的认识"><a href="#错误的认识" class="headerlink" title="错误的认识"></a>错误的认识</h1><p>由于之前的实践比较少，也没有耐着性子仔细系统的学习mongodb，直到看了这本书才发现之前有很多理解是错的（并且我在用的时候还真的是这样干的），这部分错误认识主要集中在mongodb的副本集合分片那部分。</p>
+<h2 id="关于副本集"><a href="#关于副本集" class="headerlink" title="关于副本集"></a>关于副本集</h2><p>之前总是想着副本集是用以缓解mongodb读写压力，进行读写分离用的，primary节点负责数据写入，各个secondary节点则从primary实时获取最新数据，并提供给应用程序读取数据的能力。仔细看了这本书之后，感觉之前真是很傻很天真，而且深切觉得这种分布式存储在实现过程中要考虑的东西是那么多。</p>
+<blockquote>
+<p>使用副本集可以将数据保存到多台服务器上，建议在所有的生产环境中都要使用。使用mongodb的副本集，即使一台或者多台服务器出错，也可以保证应用程序正常运行和数据安全。副本集是一组服务器，其中有一个主服务器primary，用于处理来自客户端的请求（当然是包括读和写），还有多个备份服务器secondary，用以保存主服务器的数据副本。如果主服务器崩溃，备份服务器会选举出一个成员将其升级为主服务器。</p>
+</blockquote>
+<p>其中最大的误解在与副本集成员数据同步的原理。如上边所说，我一直以为从节点的数据都是实时从主节点上读取到的，所以主节点负责写入数据，在写入的同时从节点复制数据（这样会给主节点造成较大的负载），所以从节点就来负责数据的读取吧。我完全都没意识到数据一致性的问题（对于数据时效性要求较高的情况）还有如果在写入负载大的时候，从节点还从主节点读取数据，主节点不就崩了吗。<br>而实际上副本集实现数据同步是这样的：</p>
+<blockquote>
+<p>副本集用以在多台服务器之间备份数据，mongodb的复制功能是通过操作日志oplog实现的，操作日志包含了主节点的每一次写操作。oplog是主节点的local数据库中的一个固定集合。备份节点通过查询这个集合就可以知道需要进行复制的操作。每个从节点都维护自己的oplog，记录每一次从主节点复制数据的操作，并且每个副本集成员都可以作为同步源提供给其他成员。</p>
+</blockquote>
+<h2 id="关于分片"><a href="#关于分片" class="headerlink" title="关于分片"></a>关于分片</h2><p>由于之前用到的数据量还没有大到必须使用分片的程度，这次看书也是对分片有了重新的认识。<br>分片主要用于将数据拆分，将数据分散存放到不同的机器上，mongodb支持自动分片，可以使数据库架构对应用程序不可见，简化系统管理。mongodb的分片允许你创建一个包含许多台机器的集群，也就是说上边所说的副本集可以作为分片的一个节点，每个分片用于维护一个数据集的子集。<br>分片可以带来的优势：</p>
+<ul>
+<li>增加可用RAM</li>
+<li>增加可用磁盘空间</li>
+<li>减轻单台服务器的负载</li>
+<li>提升整个系统的吞吐量</li>
+</ul>
+<h1 id="一些其他的想法"><a href="#一些其他的想法" class="headerlink" title="一些其他的想法"></a>一些其他的想法</h1><p>到目前为止，最新的mongodb版本已经推出到3.4。mongodb的发展不能说不快，这款对开发者极其友好的数据库真的可以下功夫仔细学习、研究和使用。一些好的特性：除了相对高效的读写之外，Aggregation、map-reduce都可以应用在大数据处理上，官方提供的主流开发语言的驱动，和spark结合的connector在数据实时分析上也会有不错的效果。<br>而上边说到的这些东西，我想只有通过自己不断的实践练习才能在实际应用中游刃有余。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden>
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/读书/">读书</a>
+            
+              <a href="/tags/mongodb/">mongodb</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/11/28/如何让你的代码更加pythonic/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">如何让你的代码更加pythonic</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/11/23/mongodb_Aggregation/">
+        <span class="next-text nav-default">Mongodb Aggregation Pipleline</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2016/11/25/读Mongodb权威指南有感/';
+        this.page.identifier = '2016/11/25/读Mongodb权威指南有感/';
+        this.page.title = '读Mongodb权威指南有感';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            Read more..
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

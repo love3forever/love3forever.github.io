@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="proxy在爬虫中的使用姿势">
+
+
+
+
+  <meta name="keywords" content="python,requests,http proxy,pip,proxyhunter,">
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2017/08/28/proxy在爬虫中的使用姿势/">
+
+
+<meta name="description" content="通过爬虫获取数据会经常被服务器ban掉ip，所以有个有效的proxy pool十分必要。这几天在爬网易云音乐的用户数据，顺便搞了个proxyhunter，并且尝试发布成pip包：proxyhunter，方便以后的使用。下面主要说下requests在进行请求的时候，proxy如何设置，以及我这个proxyhunter如何使用。">
+<meta name="keywords" content="python,requests,http proxy,pip,proxyhunter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="proxy在爬虫中的使用姿势">
+<meta property="og:url" content="http://eclipsesv.com/2017/08/28/proxy在爬虫中的使用姿势/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="通过爬虫获取数据会经常被服务器ban掉ip，所以有个有效的proxy pool十分必要。这几天在爬网易云音乐的用户数据，顺便搞了个proxyhunter，并且尝试发布成pip包：proxyhunter，方便以后的使用。下面主要说下requests在进行请求的时候，proxy如何设置，以及我这个proxyhunter如何使用。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-21T09:57:35.779Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="proxy在爬虫中的使用姿势">
+<meta name="twitter:description" content="通过爬虫获取数据会经常被服务器ban掉ip，所以有个有效的proxy pool十分必要。这几天在爬网易云音乐的用户数据，顺便搞了个proxyhunter，并且尝试发布成pip包：proxyhunter，方便以后的使用。下面主要说下requests在进行请求的时候，proxy如何设置，以及我这个proxyhunter如何使用。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> proxy在爬虫中的使用姿势 · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input">
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          proxy在爬虫中的使用姿势
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Aug 28, 2017
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#request的proxy"><span class="toc-text">request的proxy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#proxyhunter"><span class="toc-text">proxyhunter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#proxyhunter用法"><span class="toc-text">proxyhunter用法</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>通过爬虫获取数据会经常被服务器ban掉ip，所以有个有效的proxy pool十分必要。这几天在爬网易云音乐的用户数据，顺便搞了个<a href="https://github.com/love3forever/proxyHunter" target="_blank" rel="noopener">proxyhunter</a>，并且尝试发布成pip包：<a href="https://pypi.python.org/pypi/proxyhunter/0.0.1" target="_blank" rel="noopener">proxyhunter</a>，方便以后的使用。下面主要说下<strong>requests</strong>在进行请求的时候，proxy如何设置，以及我这个proxyhunter如何使用。<br><a id="more"></a><br>这里获取的proxy都是免费的，来自<a href="http://www.kuaidaili.com/" target="_blank" rel="noopener">http://www.kuaidaili.com/</a>。如果对proxy有比较高的要求，可以使用付费版的，我买了一周的开放代理，和免费的比起来，返回的代理列表中可用的比例相对来说还是挺高的。</p>
+<h1 id="request的proxy"><a href="#request的proxy" class="headerlink" title="request的proxy"></a>request的proxy</h1><p>在利用requests进行数据请求的时候，可以通过设置proxy来指定请求的proxy，当然，如果proxy不可用，请求是无法返回所需要的数据的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def test_proxy(current_proxy):</span><br><span class="line">    # param: current_proxy是一个由host和port构成的tuple</span><br><span class="line">    # 将获得的proxy通过&apos;http://ip.cn/&apos;测试，如果可用返回True</span><br><span class="line">    proxies = dict()</span><br><span class="line">    if current_proxy:</span><br><span class="line">        proxies[&apos;http&apos;] = &quot;http://&#123;&#125;:&#123;&#125;&quot;.format(*current_proxy)</span><br><span class="line">        proxies[&apos;https&apos;] = &quot;http://&#123;&#125;:&#123;&#125;&quot;.format(*current_proxy)</span><br><span class="line">        try:</span><br><span class="line">            test_response = requests.get(</span><br><span class="line">                &apos;http://ip.cn/&apos;, timeout=5, proxies=proxies)</span><br><span class="line">        except Exception:</span><br><span class="line">            return False</span><br><span class="line">        else:</span><br><span class="line">            if test_response.status_code == 200:</span><br><span class="line">                test_soup = BeautifulSoup(test_response.content, &apos;lxml&apos;)</span><br><span class="line">                ip_info = test_soup.select(&apos;.well&apos;)</span><br><span class="line">                if ip_info:</span><br><span class="line">                    print(ip_info)</span><br><span class="line">                    return True</span><br><span class="line">            else:</span><br><span class="line">                return False</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，在通过request调用get的时候，设置<code>proxies=proxies</code>即可。<br>通过请求<code>http://ip.cn/</code>可以查询到当前的ip和port，前提是当前的proxy可用。</p>
+<h1 id="proxyhunter"><a href="#proxyhunter" class="headerlink" title="proxyhunter"></a>proxyhunter</h1><p>由于是第一次向pypi提交python包，还是有必要记录一下过程：</p>
+<ol>
+<li>第一步当然是<a href="https://pypi.python.org/pypi?%3Aaction=register_form" target="_blank" rel="noopener">注册用户</a></li>
+<li>在完成注册和邮箱验证之后，可以安装一个<a href="https://pypi.python.org/pypi/twine" target="_blank" rel="noopener">twine</a>，稍后上传包会用到这个工具</li>
+<li><p>打包代码：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── proxyhunter</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   └── huntingOn.py</span><br><span class="line">├── requirements.txt</span><br><span class="line">└── setup.py</span><br></pre></td></tr></table></figure>
+<p> 初始情况下，自己的代码放在proxyhunter目录中，编写打包相关代码，在<code>setup.py</code>中：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">from setuptools import setup, find_packages</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=&quot;proxyhunter&quot;,</span><br><span class="line">    version=&quot;0.0.1&quot;,</span><br><span class="line">    keywords=(&quot;pip&quot;, &quot;http&quot;, &quot;http proxy&quot;),</span><br><span class="line">    description=&quot;free available http proxy from web&quot;,</span><br><span class="line">    long_description=&quot;proxy hunter&quot;,</span><br><span class="line">    license=&quot;MIT Licence&quot;,</span><br><span class="line"></span><br><span class="line">    url=&quot;https://eclipsesv.com&quot;,</span><br><span class="line">    author=&quot;wangmengcn&quot;,</span><br><span class="line">    author_email=&quot;eclipse_sv@163.com&quot;,</span><br><span class="line"></span><br><span class="line">    packages=find_packages(),</span><br><span class="line">    include_package_data=True,</span><br><span class="line">    platforms=&quot;any&quot;,</span><br><span class="line">    install_requires=[&quot;requests&quot;, &quot;lxml&quot;, &quot;bs4&quot;]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p> 这里边的配置根据自己要发布包的具体情况而定。<br> 然后就可以通过</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python setup.py bdist_egg   # easy_install</span><br><span class="line">python setup.py sdist       # pip</span><br></pre></td></tr></table></figure>
+<p> 在dist目录中生成对应文件：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">├── proxyhunter-0.0.1-py2.7.egg</span><br><span class="line">└── proxyhunter-0.0.1.tar.gz</span><br></pre></td></tr></table></figure>
+<p> 这样就完成了代码的打包。🍺🍺🍺</p>
+</li>
+<li>发布代码<br>使用刚才安装的工具<strong>twine</strong>:<code>twine upload dist/*</code><br>在命令行中输入对应内容即可。<br>这时候，目录结构应该是这样的:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── build</span><br><span class="line">│   ├── bdist.macosx-10.12-intel</span><br><span class="line">│   └── lib</span><br><span class="line">│       └── proxyhunter</span><br><span class="line">│           ├── __init__.py</span><br><span class="line">│           └── huntingOn.py</span><br><span class="line">├── dist</span><br><span class="line">│   ├── proxyhunter-0.0.1-py2.7.egg</span><br><span class="line">│   └── proxyhunter-0.0.1.tar.gz</span><br><span class="line">├── proxyhunter</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   └── huntingOn.py</span><br><span class="line">├── proxyhunter.egg-info</span><br><span class="line">│   ├── PKG-INFO</span><br><span class="line">│   ├── SOURCES.txt</span><br><span class="line">│   ├── dependency_links.txt</span><br><span class="line">│   ├── requires.txt</span><br><span class="line">│   └── top_level.txt</span><br><span class="line">├── requirements.txt</span><br><span class="line">└── setup.py</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>并且，网站上可以看到<a href="https://pypi.python.org/pypi/proxyhunter/0.0.1" target="_blank" rel="noopener">相关的内容</a>。</p>
+<h2 id="proxyhunter用法"><a href="#proxyhunter用法" class="headerlink" title="proxyhunter用法"></a>proxyhunter用法</h2><p>由于现在已经打包了，用的时候也会十分简单：</p>
+<ol>
+<li>安装<br><code>pip install proxyhunter</code></li>
+<li>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">In [1]: from proxyhunter.huntingOn import Hunter</span><br><span class="line"></span><br><span class="line">In [2]: hunter = Hunter()</span><br><span class="line"></span><br><span class="line">In [3]: for proxy in hunter:</span><br><span class="line">   ...:     print proxy</span><br><span class="line">   ...:</span><br><span class="line">wating for new proxy</span><br><span class="line">wating for new proxy</span><br><span class="line">[&lt;div class=&quot;well&quot;&gt;&lt;p&gt;\u60a8\u73b0\u5728\u7684 IP\uff1a&lt;code&gt;60.174.237.43&lt;/code&gt;&lt;/p&gt;&lt;p&gt;\u6240\u5728\u5730\u7406\u4f4d\u7f6e\uff1a&lt;code&gt;\u5b89\u5fbd\u7701\u5de2\u6e56\u5e02 \u7535\u4fe1&lt;/code&gt;&lt;/p&gt;&lt;p&gt;GeoIP: Hefei, Anhui, China&lt;/p&gt;&lt;/div&gt;]</span><br><span class="line">(u&apos;60.174.237.43&apos;, u&apos;9999&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden>
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/python/">python</a>
+            
+              <a href="/tags/requests/">requests</a>
+            
+              <a href="/tags/http-proxy/">http proxy</a>
+            
+              <a href="/tags/pip/">pip</a>
+            
+              <a href="/tags/proxyhunter/">proxyhunter</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/09/18/mongodb使用总结/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">mongodb使用总结</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/08/22/python魔术方法指南/">
+        <span class="next-text nav-default">python魔术方法指南[转]</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2017/08/28/proxy在爬虫中的使用姿势/';
+        this.page.identifier = '2017/08/28/proxy在爬虫中的使用姿势/';
+        this.page.title = 'proxy在爬虫中的使用姿势';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            Read more..
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

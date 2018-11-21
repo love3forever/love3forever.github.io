@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="Redis设计与实现笔记（复制）">
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="搬砖工的日常">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+
+
+
+<link rel="canonical" href="http://eclipsesv.com/2016/08/08/redis设计与实现笔记/">
+
+
+<meta name="description" content="复制使用命令slaveof   来实现一个redis-server复制另一个redis-server，其中发出此命令的server为从服务器另一个成为主服务器。另外，可以通过配置文件redis.conf来实现上述命令的功能： 1# slaveof &amp;lt;masterip&amp;gt; &amp;lt;masterport&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis设计与实现笔记（复制）">
+<meta property="og:url" content="http://eclipsesv.com/2016/08/08/redis设计与实现笔记/index.html">
+<meta property="og:site_name" content="搬砖工的日常">
+<meta property="og:description" content="复制使用命令slaveof   来实现一个redis-server复制另一个redis-server，其中发出此命令的server为从服务器另一个成为主服务器。另外，可以通过配置文件redis.conf来实现上述命令的功能： 1# slaveof &amp;lt;masterip&amp;gt; &amp;lt;masterport&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-21T09:57:35.779Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis设计与实现笔记（复制）">
+<meta name="twitter:description" content="复制使用命令slaveof   来实现一个redis-server复制另一个redis-server，其中发出此命令的server为从服务器另一个成为主服务器。另外，可以通过配置文件redis.conf来实现上述命令的功能： 1# slaveof &amp;lt;masterip&amp;gt; &amp;lt;masterport&amp;gt;">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> Redis设计与实现笔记（复制） · 搬砖工的日常 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">搬砖工的日常</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">搬砖工的日常</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input">
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Redis设计与实现笔记（复制）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Aug 8, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#复制"><span class="toc-text">复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现步骤"><span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完全同步和部分同步"><span class="toc-text">完全同步和部分同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现细节"><span class="toc-text">实现细节</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><p>使用命令slaveof <host> <port> 来实现一个redis-server复制另一个redis-server，其中发出此命令的server为从服务器另一个成为主服务器。<br>另外，可以通过配置文件redis.conf来实现上述命令的功能：</port></host></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<hr>
+<h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><p>在redis中，复制的实现主要通过两个步骤：同步和命令传播。</p>
+<ol>
+<li><p>同步(sync)</p>
+<p> 同步的过程细分为一下几个过程：</p>
+<ul>
+<li>从服务器(slave)向主服务器(master)发送SYNC命令；</li>
+<li>master接收到SYNC命令之后，执行BGSAVE，后台生成RDB文件；</li>
+<li>BGSAVE完成后，master将RDB文件发送给slave，slave接收到RDB文件之后，将自身状态同步至master执行BGSAVE时候的状态；</li>
+<li>master将纪录在缓存区中的命令发送给slave，slave执行那些命令，完成主从状态同步。</li>
+</ul>
+</li>
+<li><p>命令传播(command propagate)</p>
+<p> 在同步操作完成之后，主从达到一致，后续阶段主从之间的一致状态通过命令传播来完成。</p>
+</li>
+</ol>
+<hr>
+<h2 id="完全同步和部分同步"><a href="#完全同步和部分同步" class="headerlink" title="完全同步和部分同步"></a>完全同步和部分同步</h2><p>我们知道，master在执行BGSAVE命令之后，会消耗大量的服务器资源用以生成RDB文件，如果服务器中已经有较多的键值，不仅完成BGSAVE命令耗时长，生成的RDB文件也会相对较大，通过网络将RDB文件发送给slave也会占用大量的网络资源。</p>
+<p>如果说一个slave之前没有进行过复制操作，它完全的同步master数据还情有可原，但如果一个slave在复制过程中由于各种原因中断了和master的连接，明明已经复制了很多内容在完成重连之后还要从头开始，于情于理都说不过去。</p>
+<p>于是，在Redis2.8版本之后，同步操作由PSYNC替代之前的SYNC，同步操作细分为完全同步(full resynchronization)和部分同步(partial resynchronization)。部分同步的出现就是为了避免重复同步大量slave已经同步过了的数据。为了实现部分同步，Redis设计了三个变量来进行控制：</p>
+<ol>
+<li>复制偏移量(replication offset)</li>
+</ol>
+<pre><code>复制偏移量是master和slave都会维护的一个量，当master向slave传播n个字节数据时，master的复制偏移量会增加n，相应的，slave在接到来自master的n个字节之后，slave的复制偏移量也会增加n，通过对比master和slave的复制偏移量可以很容易得知主从是否达到一致状态；
+</code></pre><ol start="2">
+<li><p>复制积压缓冲区(replication backlog)</p>
+<p> 复制积压缓冲区是master维护的一个定长的先进先出队列，默认大小为1mb，可以通过配置文件中repl-backlog-size来修改。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Set the replication backlog size. The backlog is a buffer that accumulates</span><br><span class="line"># slave data when slaves are disconnected for some time, so that when a slave</span><br><span class="line"># wants to reconnect again, often a full resync is not needed, but a partial</span><br><span class="line"># resync is enough, just passing the portion of data the slave missed while</span><br><span class="line"># disconnected.</span><br><span class="line">#</span><br><span class="line"># The bigger the replication backlog, the longer the time the slave can be</span><br><span class="line"># disconnected and later be able to perform a partial resynchronization.</span><br><span class="line">#</span><br><span class="line"># The backlog is only allocated once there is at least a slave connected.</span><br><span class="line">#</span><br><span class="line"># repl-backlog-size 1mb</span><br></pre></td></tr></table></figure>
+<p> 复制积压缓冲区的运行机理是这样的：</p>
+<p> master在将命令传播给slave的时候，也会将这些命令写入到复制积压缓冲区中，并记录每个字节在复制偏移量，在断线重连的slave向master发出PSYNC进行同步的时候，slave会将自身的复制偏移量offset一并发出，master则将slave的offset在复制积压缓冲区中查找，看看它是否存在，如果存在的话则执行部分同步，否则执行完全同步。</p>
+</li>
+<li><p>服务器运行ID(run ID)</p>
+<p> 每个Redis服务器，无论是master还是slave它们在启动的时候都会有一个由40个随机十六进制字符组成的运行ID。在进行初次复制的时候，master会将自身的run ID发送给slave，slave保存此值，在断线重连的时候，通过对比当前master的run ID是否和之前的相同来选择尝试部分同步还是完全同步。</p>
+</li>
+</ol>
+<hr>
+<h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><p>以host同为127.0.0.1端口号分别为6379、6380的两个Redis实例的复制过程为例：<br>其中6379为master、6380为slave。</p>
+<ol>
+<li><p>使用redis-cli连接slave：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-cli -p 6380</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>在slave的客户端上执行命令：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SLAVEOF 127.0.0.1 6379</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>slave将127.0.0.1和6379分别保存到服务器状态masterhost和masterport属性里边，master向slave的客户端返回OK，表示复制命令已经接收，真正的复制操作开始</p>
+</li>
+<li><p>建立套接字：</p>
+<p> 在SLAVEOF 命令执行之后slave根据masterhost和masterport创建连向master的套接字，完成套接字创建之后，slave为这个套接字关联一个专门用于复制工作的文件事件处理器，负责后续的复制工作(包括接收RDB文件、后续master传来的写命令等)；</p>
+<p> 在master一端，接收到slave的套接字连接之后，master讲其看作是一个连接到主服务器的客户端看待。</p>
+</li>
+<li><p>slave成为master之后，首先向master发送PING命令，用以检测slave和master之间的套接字读写状态是否正常，同时也可以监测master能否正常响应命令。如果master正常返回PONG作为响应，则可以进行下一步的操作，否则slave将会断开与master的连接并重新连接。</p>
+</li>
+<li><p>身份认证：在slave接收到master的PONG返回之后，下一步要尽心的则是完成身份认证。</p>
+<ul>
+<li>如果master没有设置requirepass选项，并且slave也没有设置masterauth选项，那么master讲继续执行slave发送的命令，复制工作可以正常进行</li>
+<li>如果从服务器设置的masterauth与master的requirepass一致，复制工作可以正常进行，否则，master会返回invalid password错误</li>
+<li>如果master设置了requirepass，而slave未设置masterauth，master会返回一个NOAUTH错误，反之，master未设置requirepass而slave设置了masterauth，master会返回no password is set 错误</li>
+</ul>
+</li>
+<li><p>发送端口信息：身份认证通过之后，slave将执行REPLCONF listening-port <port>，向master发送从服务器的监听端口号，master接到此命令之后，设置slave-listening-port属性，slave-listening-port 可以通过在master的客户端上执行INFO REPLICATION 命令看到。</port></p>
+</li>
+<li><p>同步：slave向master发送PSYNC命令，进行同步操作，将自己的状态更新至master的状态</p>
+</li>
+<li><p>命令传播：完成同步之后，进入命令传播的阶段，这时候master在执行写操作以后，都会将其传给slave，slave接收之后执行命令达到和master一致的状态</p>
+</li>
+<li><p>心跳检测：在命令传播的过程中，slave默认会每秒向master发送命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REPLCONF ACK &lt;replication offset&gt;</span><br></pre></td></tr></table></figure>
+<p>发送此命令有三个作用：</p>
+<ul>
+<li>检测主从服务器的网络连接状态</li>
+<li>辅助实现min-slave选项</li>
+<li>检测命令丢失</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden>
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/wpay.jpg" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="https://eclipsesv.com/pics/apay.jpg" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/08/25/springboot/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">使用IDEA和maven快速搭建SpringBoot项目</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/08/02/multiprocessing.dummy/">
+        <span class="next-text nav-default">最简便的爬虫效率提升方法</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://eclipse-sv.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:eclipse_sv@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/love3forever" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">eclipsesv</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  <script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://eclipsesv.com/2016/08/08/redis设计与实现笔记/';
+        this.page.identifier = '2016/08/08/redis设计与实现笔记/';
+        this.page.title = 'Redis设计与实现笔记（复制）';
+    };
+    (function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//eclipse-sv.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();  
+  </script>
+
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            Read more..
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

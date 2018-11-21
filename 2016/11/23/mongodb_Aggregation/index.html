@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-Hans">
   <head><meta name="generator" content="Hexo 3.8.0">
     
 <meta charset="UTF-8">
@@ -17,7 +17,7 @@
 
 
 
-  <meta name="keywords" content="aggregation,mongodb,">
+  <meta name="keywords" content="mongodb,aggregation,">
 
 
 
@@ -35,14 +35,14 @@
 
 
 <meta name="description" content="Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。">
-<meta name="keywords" content="aggregation,mongodb">
+<meta name="keywords" content="mongodb,aggregation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mongodb Aggregation Pipleline">
 <meta property="og:url" content="http://eclipsesv.com/2016/11/23/mongodb_Aggregation/index.html">
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。">
-<meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2017-06-15T06:38:30.000Z">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-21T09:57:35.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mongodb Aggregation Pipleline">
 <meta name="twitter:description" content="Mongodb作为目前最流行的nosql数据库之一，它给我们提供了海量数据的管理能力。而现在正处于大数据最为火热的时代，如何将海量的数据转化为可用的信息，这一步至关重要，面向应用而设计的mongodb在基础的数据分析上提供了aggregation这一功能，足以满足很多日常需求。">
@@ -143,7 +143,7 @@
           <a class="menu-item-link" href="/">
             
             
-              首页
+              Home
             
           </a>
         </li>
@@ -152,7 +152,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              归档
+              Archives
             
           </a>
         </li>
@@ -161,7 +161,7 @@
           <a class="menu-item-link" href="/tags">
             
             
-              标签
+              Tags
             
           </a>
         </li>
@@ -170,7 +170,7 @@
           <a class="menu-item-link" href="/categories">
             
             
-              分类
+              Categories
             
           </a>
         </li>
@@ -205,7 +205,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          2016年11月23日
+          Nov 23, 2016
         </span>
       </div>
     </header>
@@ -213,7 +213,7 @@
     
     
   <div class="post-toc" id="post-toc">
-    <h2 class="post-toc-title">文章目录</h2>
+    <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#管道（Aggregation-Pipeline）"><span class="toc-text">管道（Aggregation Pipeline）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管道操作符"><span class="toc-text">管道操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#project"><span class="toc-text">$project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#match"><span class="toc-text">$match</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#limit"><span class="toc-text">$limit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skip"><span class="toc-text">$skip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lookup"><span class="toc-text">$lookup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#group"><span class="toc-text">$group</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他的操作符"><span class="toc-text">其他的操作符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管道表达式"><span class="toc-text">管道表达式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mongodb-campass"><span class="toc-text">mongodb campass</span></a></li></ol>
     </div>
@@ -301,9 +301,9 @@
         
           <div class="post-tags">
             
-              <a href="/tags/aggregation/">aggregation</a>
-            
               <a href="/tags/mongodb/">mongodb</a>
+            
+              <a href="/tags/aggregation/">aggregation</a>
             
           </div>
         
@@ -311,16 +311,16 @@
         
   <nav class="post-nav">
     
-      <a class="prev" href="/2016/11/25/╢┴Mongodb╚и═■╓╕─╧╙╨╕╨/">
+      <a class="prev" href="/2016/11/25/读Mongodb权威指南有感/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text nav-default">读Mongodb权威指南有感</span>
-        <span class="prev-text nav-mobile">上一篇</span>
+        <span class="prev-text nav-mobile">Prev</span>
       </a>
     
     
-      <a class="next" href="/2016/11/16/python╗∙┤б/">
+      <a class="next" href="/2016/11/16/python基础/">
         <span class="next-text nav-default">Python基础知识</span>
-        <span class="prev-text nav-mobile">下一篇</span>
+        <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -405,11 +405,11 @@ s.setAttribute('data-timestamp', +new Date());
 
 <div class="copyright">
   <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
   </span>
   
   <span class="theme-info">
-    主题 - 
+    Theme - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
@@ -496,7 +496,7 @@ s.setAttribute('data-timestamp', +new Date());
         $content$
         <div class="read-more">
           <a href="$url$" class="read-more-link">
-            阅读更多
+            Read more..
           </a>
         </div>
       </div>
