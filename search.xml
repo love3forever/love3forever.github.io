@@ -770,9 +770,9 @@
       
         <tags>
             
-            <tag> mongodb </tag>
-            
             <tag> aggregation </tag>
+            
+            <tag> mongodb </tag>
             
         </tags>
       
@@ -851,9 +851,9 @@
             
             <tag> mongodb </tag>
             
-            <tag> krpano </tag>
-            
             <tag> nginx </tag>
+            
+            <tag> krpano </tag>
             
         </tags>
       
@@ -1422,9 +1422,9 @@
             
             <tag> Redis </tag>
             
-            <tag> Lua </tag>
-            
             <tag> PHP </tag>
+            
+            <tag> Lua </tag>
             
         </tags>
       
@@ -1453,9 +1453,9 @@
             
             <tag> Redis </tag>
             
-            <tag> Lua </tag>
-            
             <tag> PHP </tag>
+            
+            <tag> Lua </tag>
             
         </tags>
       
