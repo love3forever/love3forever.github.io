@@ -42,14 +42,14 @@
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/cesium_preview.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/redux_export.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/data_list.png">
-<meta property="og:updated_time" content="2018-02-24T07:57:36.000Z">
+<meta property="og:image" content="https://eclipsesv.com/pics/cesium_preview.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/redux_export.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/data_list.png">
+<meta property="og:updated_time" content="2018-11-21T05:39:47.364Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react+cesium开发小结">
 <meta name="twitter:description" content="从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/cesium_preview.png">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/cesium_preview.png">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
@@ -226,7 +226,7 @@
 
     <div class="post-content">
       
-        <p>从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄<br><a id="more"></a><br>先上一张现在开发内容的截图：<img src="https://o3sw4xojp.qnssl.com/cesium_preview.png" style="margin:auto;width: 700px;display: block"><br>外网可访问地址：<a href="https://service.eclipsesv.com/cesium/" target="_blank" rel="noopener">https://service.eclipsesv.com/cesium/</a>，限于服务器带宽和cesium打包之后的体积，访问速度确实很慢。<br>下边记录一下开发过程中一些不错的经验和思路：</p>
+        <p>从一月份开始，主要在做cesium的开发，和之前不同的是这次是在react框架的基础上进行开发的😄<br><a id="more"></a><br>先上一张现在开发内容的截图：<img src="https://eclipsesv.com/pics/cesium_preview.png" style="margin:auto;width: 700px;display: block"><br>外网可访问地址：<a href="https://service.eclipsesv.com/cesium/" target="_blank" rel="noopener">https://service.eclipsesv.com/cesium/</a>，限于服务器带宽和cesium打包之后的体积，访问速度确实很慢。<br>下边记录一下开发过程中一些不错的经验和思路：</p>
 <h1 id="使用webpack打包cesium"><a href="#使用webpack打包cesium" class="headerlink" title="使用webpack打包cesium"></a>使用webpack打包cesium</h1><p>以往的开发过程中，cesium一般直接是用<code>&lt;srcipt&gt;</code>标签引入并使用的。但是如果想在react框架下很方便的开发，用webpack打包我们用到的第三方库会更可取。<br>cesium官网给出的连接也很明确的告诉用户如何使用webpack打包cesium：<a href="https://cesiumjs.org/tutorials/cesium-and-webpack/" target="_blank" rel="noopener">链接地址</a>。<br>我们只需要在新建的react项目的<code>webpack.config.js</code>中按照上边链接中的方法做即可。现在我们就可以通过<code>npm install cesium</code>或者<code>yarn add cesium</code>就可以把cesium引入项目开始使用啦。🍺🍺🍺</p>
 <h1 id="在项目中引用cesium"><a href="#在项目中引用cesium" class="headerlink" title="在项目中引用cesium"></a>在项目中引用cesium</h1><p>目前主要有两种方法引入cesium中的对象：</p>
 <ol>
@@ -240,7 +240,7 @@
 <li>加入redux进行全局状态管理，主要针对cesium的各类图层状态</li>
 <li>组件之间通过<code>props</code>传递鼠标事件或cesium状态</li>
 </ol>
-<h2 id="cesium影像图层的添加或移除"><a href="#cesium影像图层的添加或移除" class="headerlink" title="cesium影像图层的添加或移除"></a>cesium影像图层的添加或移除</h2><p>以影像图层控制为例，图层增删控制主要通过下边这个流程：<img src="https://o3sw4xojp.qnssl.com/redux_export.png" style="margin:auto;width: 700px;display: block"><br>我在viewerContainer.js中完成了<code>Cesium.Viewer</code>的实例化，在<code>componentDidMount()</code>中完成了一系列的初始化，并从配置文件中获取到所有可用的图层列表，将它们的信息存储在<code>imageryProviders</code>数组中。<code>imageryProviders</code>中的每个元素分别描述一个可用以加载的影像图层，包括图层编号、图层名称、图层对应的缩略图、用以解析此项配置的驱动等相关内容。<br>经过解析，在页面上用以展示图层信息通常只需要图层编号(id)，图层名称(name)，图层缩略图(thumbnail)，如图所示：<img src="https://o3sw4xojp.qnssl.com/data_list.png" style="margin:auto;width: 500;display: block"><br>所以将<code>imageryProviders</code>转变为<code>imageProviderProfile</code>，然后把<code>imageProviderProfile</code>以<strong>props</strong>的形式传递给用以展示数据列表的控件即可。<br>现在虽然能够完成数据列表的展示，可是如何才能控制<code>Viewer</code>上图层的变化呢？我在这里创建了一个<code>selectedImageryProviders</code>数组并使用redux在全局store中维护，这个数组用以保存当前三维球上到底是哪些图层在显示，数组中存储图层的编号(id)即可。<br>按照上边的思路，我在imageLayerManger.js中，通过<code>connect()</code>监听并控制<code>store.selectedImageryProviders</code>：通过界面按钮选择添加或移除图层的时候通过<code>selectProviderById()</code>触发reducer从而修改<code>selectedImageryProviders</code>。这样同样监听<code>store.selectedImageryProviders</code>的<code>viewerContainer.js</code>可以在生命周期函数<code>componentWillReceiveProps</code>中获取<code>selectedImageryProviders</code>的改变从而影响<code>Viewer</code>上图层的添加或者移除。<br>上边啰嗦这么多，也只是提供一个思路，按照这样的方法不仅能够完成影像图层的添加和移除，对于其他类型的数据：地形、矢量或者模型数据都可以按照这样的套路。</p>
+<h2 id="cesium影像图层的添加或移除"><a href="#cesium影像图层的添加或移除" class="headerlink" title="cesium影像图层的添加或移除"></a>cesium影像图层的添加或移除</h2><p>以影像图层控制为例，图层增删控制主要通过下边这个流程：<img src="https://eclipsesv.com/pics/redux_export.png" style="margin:auto;width: 700px;display: block"><br>我在viewerContainer.js中完成了<code>Cesium.Viewer</code>的实例化，在<code>componentDidMount()</code>中完成了一系列的初始化，并从配置文件中获取到所有可用的图层列表，将它们的信息存储在<code>imageryProviders</code>数组中。<code>imageryProviders</code>中的每个元素分别描述一个可用以加载的影像图层，包括图层编号、图层名称、图层对应的缩略图、用以解析此项配置的驱动等相关内容。<br>经过解析，在页面上用以展示图层信息通常只需要图层编号(id)，图层名称(name)，图层缩略图(thumbnail)，如图所示：<img src="https://eclipsesv.com/pics/data_list.png" style="margin:auto;width: 500;display: block"><br>所以将<code>imageryProviders</code>转变为<code>imageProviderProfile</code>，然后把<code>imageProviderProfile</code>以<strong>props</strong>的形式传递给用以展示数据列表的控件即可。<br>现在虽然能够完成数据列表的展示，可是如何才能控制<code>Viewer</code>上图层的变化呢？我在这里创建了一个<code>selectedImageryProviders</code>数组并使用redux在全局store中维护，这个数组用以保存当前三维球上到底是哪些图层在显示，数组中存储图层的编号(id)即可。<br>按照上边的思路，我在imageLayerManger.js中，通过<code>connect()</code>监听并控制<code>store.selectedImageryProviders</code>：通过界面按钮选择添加或移除图层的时候通过<code>selectProviderById()</code>触发reducer从而修改<code>selectedImageryProviders</code>。这样同样监听<code>store.selectedImageryProviders</code>的<code>viewerContainer.js</code>可以在生命周期函数<code>componentWillReceiveProps</code>中获取<code>selectedImageryProviders</code>的改变从而影响<code>Viewer</code>上图层的添加或者移除。<br>上边啰嗦这么多，也只是提供一个思路，按照这样的方法不仅能够完成影像图层的添加和移除，对于其他类型的数据：地形、矢量或者模型数据都可以按照这样的套路。</p>
 <h1 id="遇到的问题和困难"><a href="#遇到的问题和困难" class="headerlink" title="遇到的问题和困难"></a>遇到的问题和困难</h1><p>在开发过程中遇到的问题和困难中要有以下几点:</p>
 <ol>
 <li>不熟悉webpack配置，开发前期遇到很多缺少webpack plugin的问题</li>

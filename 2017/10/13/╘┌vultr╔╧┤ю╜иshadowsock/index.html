@@ -42,13 +42,13 @@
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/lantern.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/conf.png">
-<meta property="og:updated_time" content="2017-10-13T08:00:44.000Z">
+<meta property="og:image" content="https://eclipsesv.com/pics/lantern.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/conf.png">
+<meta property="og:updated_time" content="2018-11-21T05:39:44.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在vultr上搭建shadowsocks">
 <meta name="twitter:description" content="为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：蓝灯这个项目在git trending上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的netfits，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/lantern.png">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/lantern.png">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
@@ -225,7 +225,7 @@
 
     <div class="post-content">
       
-        <p>为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：<a href="https://github.com/getlantern/forum" target="_blank" rel="noopener">蓝灯</a>这个项目在<a href="https://github.com/trending" target="_blank" rel="noopener">git trending</a>上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的<a href="https://netfits.net.cn/" target="_blank" rel="noopener">netfits</a>，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点事情，搭一个自己的ss服务器。<br><img src="https://o3sw4xojp.qnssl.com/lantern.png" alt="lantern.png"><br><a id="more"></a><br>经过一番对比，我最终选择使用<a href="https://www.vultr.com/" target="_blank" rel="noopener">vultr</a>的主机(主要是因为价格不贵还可以用支付宝支付😂)，本来想用日本的节点，搭完之后发现ping不到主机，最终选择了新加坡的节点，搭配1000GB/5$/月的套餐(一个月30多块，netfits怕是只有10GB吧)。<br><img src="https://o3sw4xojp.qnssl.com/conf.png" alt="conf.png"></p>
+        <p>为啥突然想要自己搭一个shadowsocks呢，事情的起因是这样的：<a href="https://github.com/getlantern/forum" target="_blank" rel="noopener">蓝灯</a>这个项目在<a href="https://github.com/trending" target="_blank" rel="noopener">git trending</a>上连续上榜多日，看了评论发现原来这个东西是个vpn，很多人用来当梯子。因为最近种种原因这个梯子现在用不成了，所以很多用户跑来吐槽。我一直比较懒，都是直接买的现成的vpn，现在一直在用这个官网经常上不去的<a href="https://netfits.net.cn/" target="_blank" rel="noopener">netfits</a>，总体感觉还行，就是价格有点贵，所以趁着这个十一长假之后的第一个周五下午来搞点事情，搭一个自己的ss服务器。<br><img src="https://eclipsesv.com/pics/lantern.png" alt="lantern.png"><br><a id="more"></a><br>经过一番对比，我最终选择使用<a href="https://www.vultr.com/" target="_blank" rel="noopener">vultr</a>的主机(主要是因为价格不贵还可以用支付宝支付😂)，本来想用日本的节点，搭完之后发现ping不到主机，最终选择了新加坡的节点，搭配1000GB/5$/月的套餐(一个月30多块，netfits怕是只有10GB吧)。<br><img src="https://eclipsesv.com/pics/conf.png" alt="conf.png"></p>
 <h1 id="shadowsocks服务安装"><a href="#shadowsocks服务安装" class="headerlink" title="shadowsocks服务安装"></a>shadowsocks服务安装</h1><p>安装过程十分简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</span><br><span class="line">&gt; chmod +x shadowsocks.sh</span><br><span class="line">&gt; ./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</span><br></pre></td></tr></table></figure></p>
 <p>三条命令，外加配置密码、开放端口、加密方式这些就行。<br>如果后期需要修改配置，去修改<code>/etc/shadowsocks.json</code>这个文件即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;server_port&quot;:33333,</span><br><span class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;password&quot;:&quot;abc@123&quot;,</span><br><span class="line">    &quot;timeout&quot;:300,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">    &quot;fast_open&quot;:true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h1 id="shadowsocks客户端配置"><a href="#shadowsocks客户端配置" class="headerlink" title="shadowsocks客户端配置"></a>shadowsocks客户端配置</h1><p>服务配好之后，下载自己需要的客户端就行：<a href="https://github.com/shadowsocks/shadowsocks-windows" target="_blank" rel="noopener">windows版本</a>、<a href="https://github.com/shadowsocks/ShadowsocksX-NG" target="_blank" rel="noopener">mac版本</a>。<br>手机的话，我在app store里边找了个一个18块钱的shadoWingy应用，也是需要简单的配置一下就行了。</p>

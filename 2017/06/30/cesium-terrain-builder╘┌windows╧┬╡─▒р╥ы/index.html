@@ -42,18 +42,18 @@
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用quantized-mesh这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:cesium-terrain-builder，不过该项目在windows下编译让人比较难受，所以纪录一">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_cmake.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_cmake_conf.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_make.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_result.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/mybloggdal_result.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/cesium_tool.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/ctb-tools.png">
-<meta property="og:updated_time" content="2017-06-30T09:56:48.000Z">
+<meta property="og:image" content="https://eclipsesv.com/pics/myblogzlib_cmake.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/myblogzlib_cmake_conf.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/myblogzlib_make.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/myblogzlib_result.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/mybloggdal_result.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/cesium_tool.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/ctb-tools.png">
+<meta property="og:updated_time" content="2018-11-21T05:39:54.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cesium-terrain-builder在windows下的编译">
 <meta name="twitter:description" content="最近在研究cesium，发现cesium 用的地形数据跟osgEarth的还不太一样，他们采用quantized-mesh这个数据格式，之前在osgEarth上用的地形瓦片在cesium上用不了，让人比较恼火。好在github上有人已经实现了从tif格式的dem数据转到.terrain格式的工具:cesium-terrain-builder，不过该项目在windows下编译让人比较难受，所以纪录一">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/myblogzlib_cmake.png">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/myblogzlib_cmake.png">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
@@ -241,16 +241,16 @@
 </ol>
 <h1 id="zlib编译生成"><a href="#zlib编译生成" class="headerlink" title="zlib编译生成"></a>zlib编译生成</h1><p>在完成zlib解压之后，使用cmake配置，生成vs工程：</p>
 <ol>
-<li>zlib cmake配置<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_cmake.png" alt="zlib_cmake_conf"></li>
-<li>zlib vs工程配置<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_cmake_conf.png" alt="zlib_vs"></li>
-<li>zlib 工程编译<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_make.png" alt="zlib_build"></li>
-<li>生成结果<br>在完成debug和release之后，生成内容如下如所示：<br><img src="https://o3sw4xojp.qnssl.com/myblogzlib_result.png" alt="zlib_result">，其中include和lib文件夹在后边会有用到。</li>
+<li>zlib cmake配置<br><img src="https://eclipsesv.com/pics/myblogzlib_cmake.png" alt="zlib_cmake_conf"></li>
+<li>zlib vs工程配置<br><img src="https://eclipsesv.com/pics/myblogzlib_cmake_conf.png" alt="zlib_vs"></li>
+<li>zlib 工程编译<br><img src="https://eclipsesv.com/pics/myblogzlib_make.png" alt="zlib_build"></li>
+<li>生成结果<br>在完成debug和release之后，生成内容如下如所示：<br><img src="https://eclipsesv.com/pics/myblogzlib_result.png" alt="zlib_result">，其中include和lib文件夹在后边会有用到。</li>
 </ol>
 <h1 id="gdal编译生成"><a href="#gdal编译生成" class="headerlink" title="gdal编译生成"></a>gdal编译生成</h1><p>gdal通过<a href="">x64 Native Tools Command Prompt for VS 2017</a>工具进行编译：<br>打开这个命令行工具之后，cd进入到gdal源码目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd G:\gdal-2.0.2</span><br><span class="line">g:</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES install</span><br><span class="line">nmake /f makefile.vc MSVC_VER=1910 WIN64=YES devinstall</span><br></pre></td></tr></table></figure></p>
 <p>其中MSVC_VER代表的是VS的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 1910 = 15.0(2017)</span><br><span class="line"># 1900 = 14.0(2015)</span><br><span class="line"># 1800 = 12.0(2013)</span><br><span class="line"># 1700 = 11.0(2012)</span><br><span class="line"># 1600 = 10.0(2010)</span><br><span class="line"># 1500 = 9.0 (2008)</span><br><span class="line"># 1400 = 8.0 (2005) - specific compilation flags, different from older VC++</span><br><span class="line"># 1310 = 7.1 (2003) # is it still supported ?</span><br><span class="line"># 1300 = 7.0 (2002) # is it still supported ?</span><br></pre></td></tr></table></figure></p>
-<p>完成上述操作之后会默认在C盘生成gdal编译好的结果：<br><img src="https://o3sw4xojp.qnssl.com/mybloggdal_result.png" alt=""></p>
-<h1 id="cesium-terrain-builder编译生成"><a href="#cesium-terrain-builder编译生成" class="headerlink" title="cesium-terrain-builder编译生成"></a>cesium-terrain-builder编译生成</h1><p>首先打开cesium-terrain-builder源码文件夹，将CMakeLists.txt拖入cmake，主要配置gdal和zlib的路径：<br><img src="https://o3sw4xojp.qnssl.com/cesium_tool.png" alt=""><br>完成配置之后，生成vs工程，直接编译即可。</p>
-<h1 id="生成结果"><a href="#生成结果" class="headerlink" title="生成结果"></a>生成结果</h1><p>经过上边一番折腾之后，最终生成这些东西：<br><img src="https://o3sw4xojp.qnssl.com/ctb-tools.png" alt=""><br>他们的具体用法可以参考这里：<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">使用方法</a>。</p>
+<p>完成上述操作之后会默认在C盘生成gdal编译好的结果：<br><img src="https://eclipsesv.com/pics/mybloggdal_result.png" alt=""></p>
+<h1 id="cesium-terrain-builder编译生成"><a href="#cesium-terrain-builder编译生成" class="headerlink" title="cesium-terrain-builder编译生成"></a>cesium-terrain-builder编译生成</h1><p>首先打开cesium-terrain-builder源码文件夹，将CMakeLists.txt拖入cmake，主要配置gdal和zlib的路径：<br><img src="https://eclipsesv.com/pics/cesium_tool.png" alt=""><br>完成配置之后，生成vs工程，直接编译即可。</p>
+<h1 id="生成结果"><a href="#生成结果" class="headerlink" title="生成结果"></a>生成结果</h1><p>经过上边一番折腾之后，最终生成这些东西：<br><img src="https://eclipsesv.com/pics/ctb-tools.png" alt=""><br>他们的具体用法可以参考这里：<a href="https://github.com/homme/cesium-terrain-builder" target="_blank" rel="noopener">使用方法</a>。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>经过这次折腾学会了使用vs的Native Tools，也知道使用cmake生成vs工程并不是什么复杂的事情，而最终目的就是参考这个开源工具的思路实现要python的切片工具。</p>
 
       

@@ -39,19 +39,19 @@
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="今天写完年度工作总结之后，才想起快有两个多月没有更新博客了，主要是因为从十月末开始，我的生活和工作环境都有比较大的变动，索性来一篇所谓的年度小结来概括一下2017这一整年值得纪念的点点滴滴。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/bf.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/cf.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/c.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/nx.PNG">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/jh.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/gzi.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/djdl.JPG">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/yxt.JPG">
-<meta property="og:updated_time" content="2018-01-09T12:55:50.000Z">
+<meta property="og:image" content="https://eclipsesv.com/pics/bf.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/cf.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/c.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/nx.PNG">
+<meta property="og:image" content="https://eclipsesv.com/pics/jh.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/gzi.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/djdl.JPG">
+<meta property="og:image" content="https://eclipsesv.com/pics/yxt.JPG">
+<meta property="og:updated_time" content="2018-11-21T05:39:55.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2017小结">
 <meta name="twitter:description" content="今天写完年度工作总结之后，才想起快有两个多月没有更新博客了，主要是因为从十月末开始，我的生活和工作环境都有比较大的变动，索性来一篇所谓的年度小结来概括一下2017这一整年值得纪念的点点滴滴。">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/bf.png">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/bf.png">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
@@ -231,7 +231,7 @@
         <p>今天写完年度工作总结之后，才想起快有两个多月没有更新博客了，主要是因为从十月末开始，我的生活和工作环境都有比较大的变动，索性来一篇所谓的年度小结来概括一下2017这一整年值得纪念的点点滴滴。<br><a id="more"></a></p>
 <h1 id="python相关"><a href="#python相关" class="headerlink" title="python相关"></a>python相关</h1><p>其实说来也巧，在学校的时候，从来没想过以后会用python来作为主要的开发语言，但是在接触python之后，就逐渐明白了<code>人生苦短，我用python</code>这句话的含义。在我看来，python之所以优秀，很大程度上还是整个python社区环境相对来说比较优秀。从科学计算、网络爬虫、web开发、界面开发再到2017年炒的火热的机器学习，哪里都有python身影的出现。而在这些背后，那些默默为整个社区无私奉献的开发者们的功劳不可磨灭。<br>2017年，python相关的内容，我又有哪些成长呢？</p>
 <h2 id="夯实python-web技术栈"><a href="#夯实python-web技术栈" class="headerlink" title="夯实python web技术栈"></a>夯实python web技术栈</h2><p>在实际工作中，我主要的开发任务是做web开发。而python的web框架，我比较擅长的是flask。常用的技术如下图所示：</p>
-<p><img src="https://o3sw4xojp.qnssl.com/bf.png" style="margin:auto;width: 450px;display: block"></p>
+<p><img src="https://eclipsesv.com/pics/bf.png" style="margin:auto;width: 450px;display: block"></p>
 <ol>
 <li>我会选择使用mongodb作为数据存储，因为通常情况下使用mongodb就可以满足我的需求，并且在开发过程中会有比较流畅的感觉。</li>
 <li>redis可以作为数据缓存，而我更多的是使用它作为消息队列的一环，利用它的pub/sub来广播和接收消息，结合celery可以完成很多<a href="https://eclipsesv.com/2017/09/26/%E4%B8%80%E6%AC%A1%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/">需要异步执行的任务</a>。</li>
@@ -254,7 +254,7 @@
 <li>数据库方面：如果系统采用的都是关系型数据库，直接使用django可能开发效率会高一点，因为自带的orm比较好用；如果使用nosql，那么就没有必要使用django，flask+nosql扩展会更加灵活好用，同样，如果项目结构不是很大，完全可以通过flask+SQLAlchemy进行数据库操作；</li>
 <li>业务需求：如果业务需求仅仅是restful api，那么使用flask可能会是个更好的选择，如果项目需要一个比较完善的后台管理模块，django自带的admin模块应该能够满足需求。</li>
 </ol>
-<h2 id="python爬虫"><a href="#python爬虫" class="headerlink" title="python爬虫"></a>python爬虫</h2><p>和很多人一样，最开始接触python是从爬虫开始，由于我都是比较小型的爬取数据，所以<code>requests+bs4+mongodb</code>就可以满足需求：<br><img src="https://o3sw4xojp.qnssl.com/cf.png" style="margin:auto;width: 450px;display: block"></p>
+<h2 id="python爬虫"><a href="#python爬虫" class="headerlink" title="python爬虫"></a>python爬虫</h2><p>和很多人一样，最开始接触python是从爬虫开始，由于我都是比较小型的爬取数据，所以<code>requests+bs4+mongodb</code>就可以满足需求：<br><img src="https://eclipsesv.com/pics/cf.png" style="margin:auto;width: 450px;display: block"></p>
 <p>目前爬取的时候可能会遇到两种情况：</p>
 <ol>
 <li>网站后端渲染好html：这种情况可以使用requests爬取网页，交由bs4提取目标内容；</li>
@@ -288,14 +288,14 @@
 </ol>
 <p><i>总之，作为技术人，我希望在2018年投入更多的时间来夯实现有技术栈，多读书、读好书，拓阔视野，多与人交流分享想法。</i></p>
 <p>相对于技术方面的成长，2017年我在其他方面的成长可能更大。</p>
-<h1 id="西安之旅"><a href="#西安之旅" class="headerlink" title="西安之旅"></a>西安之旅</h1><p>2017年是在西安开始的。我和三哥相约来西安开始了吃吃吃之旅。看看我们都去过哪就知道啦：<br><img src="https://o3sw4xojp.qnssl.com/c.png" style="margin:auto;width: 450px;display: block"><br>那几天可以说是非常开心啦。一起去去大雁塔，上明城墙骑行，看钟楼夜景。假期很短，相见有点难。</p>
-<h1 id="南下求职"><a href="#南下求职" class="headerlink" title="南下求职"></a>南下求职</h1><p>在完成出差任务后，一天从承德来到武汉找工作：<br><img src="https://o3sw4xojp.qnssl.com/nx.PNG" style="margin:auto;width: 450px;display: block"><br>面试过程比较顺利，顺便和之前的同学、师弟师妹聚餐，感叹时光匆匆。</p>
-<h1 id="好友结婚"><a href="#好友结婚" class="headerlink" title="好友结婚"></a>好友结婚</h1><p>从之前的单位辞职之后，回家参加从小到大的好朋友婚礼。<br><img src="https://o3sw4xojp.qnssl.com/jh.png" style="margin:auto;width: 450px;display: block"><br>第一次当伴郎，衷心祝愿他们能够幸福。</p>
-<h1 id="领养二狗"><a href="#领养二狗" class="headerlink" title="领养二狗"></a>领养二狗</h1><p>在微博上领养的二狗：<br><img src="https://o3sw4xojp.qnssl.com/gzi.png" style="margin:auto;width: 450px;display: block"><br>这个名字没白起，二狗真的是像狗一样的猫。</p>
+<h1 id="西安之旅"><a href="#西安之旅" class="headerlink" title="西安之旅"></a>西安之旅</h1><p>2017年是在西安开始的。我和三哥相约来西安开始了吃吃吃之旅。看看我们都去过哪就知道啦：<br><img src="https://eclipsesv.com/pics/c.png" style="margin:auto;width: 450px;display: block"><br>那几天可以说是非常开心啦。一起去去大雁塔，上明城墙骑行，看钟楼夜景。假期很短，相见有点难。</p>
+<h1 id="南下求职"><a href="#南下求职" class="headerlink" title="南下求职"></a>南下求职</h1><p>在完成出差任务后，一天从承德来到武汉找工作：<br><img src="https://eclipsesv.com/pics/nx.PNG" style="margin:auto;width: 450px;display: block"><br>面试过程比较顺利，顺便和之前的同学、师弟师妹聚餐，感叹时光匆匆。</p>
+<h1 id="好友结婚"><a href="#好友结婚" class="headerlink" title="好友结婚"></a>好友结婚</h1><p>从之前的单位辞职之后，回家参加从小到大的好朋友婚礼。<br><img src="https://eclipsesv.com/pics/jh.png" style="margin:auto;width: 450px;display: block"><br>第一次当伴郎，衷心祝愿他们能够幸福。</p>
+<h1 id="领养二狗"><a href="#领养二狗" class="headerlink" title="领养二狗"></a>领养二狗</h1><p>在微博上领养的二狗：<br><img src="https://eclipsesv.com/pics/gzi.png" style="margin:auto;width: 450px;display: block"><br>这个名字没白起，二狗真的是像狗一样的猫。</p>
 <h1 id="见家长"><a href="#见家长" class="headerlink" title="见家长"></a>见家长</h1><p>幸亏可爱的女朋友的渗透工作，这次见家长可以用“大吉大利，今晚吃鸡”来总结啦：</p>
-<p><img src="https://o3sw4xojp.qnssl.com/djdl.JPG" style="margin:0 auto;width: 450px;display: block"></p>
+<p><img src="https://eclipsesv.com/pics/djdl.JPG" style="margin:0 auto;width: 450px;display: block"></p>
 <h1 id="来我家"><a href="#来我家" class="headerlink" title="来我家"></a>来我家</h1><p>哈哈哈<br>用一句话总结“王叁很优秀，我们很满意“<br>由于恰好是十一假期，还跑洛阳玩了一趟。</p>
-<h1 id="王炸"><a href="#王炸" class="headerlink" title="王炸"></a>王炸</h1><p>盼星星盼月亮，三哥也来武汉工作了，一起度过了艰难的找工作阶段、辛苦的学习阶段，现在算是相对稳定了，我们还一起布置了我们所谓的”工作间“(游戏厅？)：<br><img src="https://o3sw4xojp.qnssl.com/yxt.JPG" style="margin:auto;width: 450px;display: block"><br>希望可以在里面读更多的书，学更多的知识，看更多的好片儿还有玩更多的游戏。</p>
+<h1 id="王炸"><a href="#王炸" class="headerlink" title="王炸"></a>王炸</h1><p>盼星星盼月亮，三哥也来武汉工作了，一起度过了艰难的找工作阶段、辛苦的学习阶段，现在算是相对稳定了，我们还一起布置了我们所谓的”工作间“(游戏厅？)：<br><img src="https://eclipsesv.com/pics/yxt.JPG" style="margin:auto;width: 450px;display: block"><br>希望可以在里面读更多的书，学更多的知识，看更多的好片儿还有玩更多的游戏。</p>
 <p><strong><br>    最后，希望在2018年自己的工作能够更加满意，生活可以往自己理想的方向更近一步，希望家人健康平安。<br></strong></p>
 
       

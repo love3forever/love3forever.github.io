@@ -42,13 +42,13 @@
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="最近一段时间都在研究python里边的一些概念:iterator,iterable和generator.看到这篇文章写的十分不错,基本上讲清楚了这三个东西都是什么以及他们之间的关系.这当然值得记录一下😊.所谓一图胜千言,这篇文章中的这个关系图让人一目了然.">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/relationships.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/iterable-vs-iterator.png">
-<meta property="og:updated_time" content="2018-03-13T03:36:56.000Z">
+<meta property="og:image" content="https://eclipsesv.com/pics/relationships.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/iterable-vs-iterator.png">
+<meta property="og:updated_time" content="2018-11-21T05:39:48.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Iterables,Iterators和Generators">
 <meta name="twitter:description" content="最近一段时间都在研究python里边的一些概念:iterator,iterable和generator.看到这篇文章写的十分不错,基本上讲清楚了这三个东西都是什么以及他们之间的关系.这当然值得记录一下😊.所谓一图胜千言,这篇文章中的这个关系图让人一目了然.">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/relationships.png">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/relationships.png">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
@@ -225,7 +225,7 @@
 
     <div class="post-content">
       
-        <p>最近一段时间都在研究python里边的一些概念:<strong>iterator,iterable和generator</strong>.看到<a href="http://nvie.com/posts/iterators-vs-generators/" target="_blank" rel="noopener">这篇文章</a>写的十分不错,基本上讲清楚了这三个东西都是什么以及他们之间的关系.这当然值得记录一下😊.<br>所谓一图胜千言,这篇文章中的这个关系图让人一目了然.<br><img src="https://o3sw4xojp.qnssl.com/relationships.png" alt="relationships.png"><br><a id="more"></a></p>
+        <p>最近一段时间都在研究python里边的一些概念:<strong>iterator,iterable和generator</strong>.看到<a href="http://nvie.com/posts/iterators-vs-generators/" target="_blank" rel="noopener">这篇文章</a>写的十分不错,基本上讲清楚了这三个东西都是什么以及他们之间的关系.这当然值得记录一下😊.<br>所谓一图胜千言,这篇文章中的这个关系图让人一目了然.<br><img src="https://eclipsesv.com/pics/relationships.png" alt="relationships.png"><br><a id="more"></a></p>
 <h1 id="纠结所在"><a href="#纠结所在" class="headerlink" title="纠结所在"></a>纠结所在</h1><p>如果对<strong>iterator,iterable和generator</strong>的概念比较纠结,一般主要是没有区分清楚:</p>
 <ul>
 <li>container</li>
@@ -267,7 +267,7 @@
 <blockquote>
 <p>通常情况下,一个iterable class会在内部实现<code>__iter__()</code>和<code>__next()__</code>方法,这个过程也可以成为实现了迭代器协议,其中<code>__iter__()</code>方法返回迭代器对象iterator,<code>__next()__</code>实现逐一返回元素的过程.</p>
 </blockquote>
-<p>所以,在使用<code>for item in iterator</code>这样的语句进行遍历的时候,其实执行过程类似于下图:<br><img src="https://o3sw4xojp.qnssl.com/iterable-vs-iterator.png" alt="iterable-vs-iterator.png"></p>
+<p>所以,在使用<code>for item in iterator</code>这样的语句进行遍历的时候,其实执行过程类似于下图:<br><img src="https://eclipsesv.com/pics/iterable-vs-iterator.png" alt="iterable-vs-iterator.png"></p>
 <h1 id="iterator"><a href="#iterator" class="headerlink" title="iterator"></a>iterator</h1><p>所以说,到底iterator是个什么东西？🐍</p>
 <blockquote>
 <p>一个iterator对象可以当作是一个工厂,每次使用next()方法,都会产生一个来自iterator内部的值,并且它能够维护于此相关的内部状态.</p>

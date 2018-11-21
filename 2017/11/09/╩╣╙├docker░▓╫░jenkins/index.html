@@ -42,13 +42,13 @@
 <meta property="og:site_name" content="搬砖工的日常">
 <meta property="og:description" content="最近在学习jenkins相关的东西，想在自己电脑上安装一套jenkins环境，发现可以通过docker来完成这个任务，下面主要记录一下安装过程。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/docker_login.png">
-<meta property="og:image" content="https://o3sw4xojp.qnssl.com/docker_source.png">
-<meta property="og:updated_time" content="2018-02-23T05:54:42.000Z">
+<meta property="og:image" content="https://eclipsesv.com/pics/docker_login.png">
+<meta property="og:image" content="https://eclipsesv.com/pics/docker_source.png">
+<meta property="og:updated_time" content="2018-11-21T05:39:28.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用docker安装jenkins">
 <meta name="twitter:description" content="最近在学习jenkins相关的东西，想在自己电脑上安装一套jenkins环境，发现可以通过docker来完成这个任务，下面主要记录一下安装过程。">
-<meta name="twitter:image" content="https://o3sw4xojp.qnssl.com/docker_login.png">
+<meta name="twitter:image" content="https://eclipsesv.com/pics/docker_login.png">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
@@ -228,13 +228,13 @@
         <p>最近在学习jenkins相关的东西，想在自己电脑上安装一套jenkins环境，发现可以通过docker来完成这个任务，下面主要记录一下安装过程。<br><a id="more"></a></p>
 <h1 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h1><ol>
 <li>到docker官网上找到适配自己操作系统的安装包：<a href="https://store.docker.com/search?offering=community&amp;type=edition" target="_blank" rel="noopener">网站地址</a>，我用的是mac，可以直接下载dmg文件然后安装。</li>
-<li>到<a href="https://cloud.docker.com/" target="_blank" rel="noopener">docker官网</a>完成用户注册并进行登录：<img src="https://o3sw4xojp.qnssl.com/docker_login.png" style="margin:auto;width: 500px;display: block"></li>
+<li>到<a href="https://cloud.docker.com/" target="_blank" rel="noopener">docker官网</a>完成用户注册并进行登录：<img src="https://eclipsesv.com/pics/docker_login.png" style="margin:auto;width: 500px;display: block"></li>
 </ol>
 <h1 id="jenkins镜像下载安装"><a href="#jenkins镜像下载安装" class="headerlink" title="jenkins镜像下载安装"></a>jenkins镜像下载安装</h1><ol>
 <li><p>在命令行中登录docker:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ docker login</span><br><span class="line">Login with your Docker ID to push and pull images from Docker Hub. </span><br><span class="line">If you don&apos;t have a Docker ID, head over to https://hub.docker.com to create one.</span><br><span class="line">Username: ******</span><br><span class="line">Password:</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>拉取jenkins的docker镜像:<br> 这里需要注意，如果需要拉取像jenkins这样的公共镜像的时候，默认的docker镜像源国内访问速度是很慢的，只需要简单配置一下即可，可以<a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">参考这里</a>，我是直接在docker客户端中设置：<img src="https://o3sw4xojp.qnssl.com/docker_source.png" style="margin:auto;width: 500px;display: block"><br> 然后执行下边这条命令：</p>
+<li><p>拉取jenkins的docker镜像:<br> 这里需要注意，如果需要拉取像jenkins这样的公共镜像的时候，默认的docker镜像源国内访问速度是很慢的，只需要简单配置一下即可，可以<a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">参考这里</a>，我是直接在docker客户端中设置：<img src="https://eclipsesv.com/pics/docker_source.png" style="margin:auto;width: 500px;display: block"><br> 然后执行下边这条命令：</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">  --rm \</span><br><span class="line">  -u root \</span><br><span class="line">  -p 8080:8080 \</span><br><span class="line">  -v jenkins-data:/var/jenkins_home \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  -v &quot;$HOME&quot;:/home \</span><br><span class="line">  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
 <p> 等待即可：</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Unable to find image &apos;jenkinsci/blueocean:latest&apos; locally</span><br><span class="line">latest: Pulling from jenkinsci/blueocean</span><br><span class="line">ff3a5c916c92: Pull complete</span><br><span class="line">5de5f69f42d7: Pull complete</span><br><span class="line">fd869c8b9b59: Downloading  4.865MB/70.23MB</span><br><span class="line">97056f636d5a: Downloading  6.481MB</span><br><span class="line">b8735f69f698: Download complete</span><br><span class="line">fd869c8b9b59: Downloading  5.947MB/70.23MB</span><br><span class="line">569dbe3bfcf5: Download complete</span><br><span class="line">28a1b4b2f3f2: Downloading  3.784MB/74.1MB</span><br><span class="line">bc956c71de07: Waiting</span><br><span class="line">bbf22d011438: Waiting</span><br><span class="line">f3870509cbc0: Waiting</span><br><span class="line">60946888fa2b: Waiting</span><br><span class="line">1fa1da5a0b03: Waiting</span><br><span class="line">bd3e69432b5e: Waiting</span><br><span class="line">b65024d480a6: Waiting</span><br></pre></td></tr></table></figure>
